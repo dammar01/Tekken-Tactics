@@ -4,6 +4,10 @@
  */
 package home;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.*;
 
 /**
@@ -11,10 +15,11 @@ import javax.swing.*;
  * @author Dammar
  */
 public class Home extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Home
      */
+    
     public Home() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
@@ -30,10 +35,20 @@ public class Home extends javax.swing.JFrame {
     private void initComponents() {
 
         main = new javax.swing.JPanel();
-        home = new javax.swing.JPanel();
+        menu = new javax.swing.JPanel();
+        guide = new utils.helper.RoundedPanel();
+        ropaLabel3 = new utils.helper.RopaLabel();
+        jLabel2 = new javax.swing.JLabel();
+        combo_list = new utils.helper.RoundedPanel();
+        ropaLabel4 = new utils.helper.RopaLabel();
+        jLabel3 = new javax.swing.JLabel();
+        combo_list1 = new utils.helper.RoundedPanel();
+        ropaLabel5 = new utils.helper.RopaLabel();
+        jLabel4 = new javax.swing.JLabel();
+        ropaLabel1 = new utils.helper.RopaLabel();
         jLabel1 = new javax.swing.JLabel();
+        ropaLabel2 = new utils.helper.RopaLabel();
         bg = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1440, 1024));
@@ -42,67 +57,94 @@ public class Home extends javax.swing.JFrame {
 
         main.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        home.setBackground(new java.awt.Color(123, 15, 58));
-        home.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                homeMousePressed(evt);
-            }
-        });
+        menu.setOpaque(false);
+        menu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Guide");
+        guide.setBackground(new java.awt.Color(123, 15, 58));
+        guide.setPreferredSize(new java.awt.Dimension(280, 280));
+        guide.setRoundBottomLeft(50);
+        guide.setRoundBottomRight(50);
+        guide.setRoundTopLeft(50);
+        guide.setRoundTopRight(50);
+        guide.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout homeLayout = new javax.swing.GroupLayout(home);
-        home.setLayout(homeLayout);
-        homeLayout.setHorizontalGroup(
-            homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeLayout.createSequentialGroup()
-                .addContainerGap(126, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(123, 123, 123))
-        );
-        homeLayout.setVerticalGroup(
-            homeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homeLayout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(jLabel1)
-                .addContainerGap(133, Short.MAX_VALUE))
-        );
+        ropaLabel3.setText("Guide");
+        ropaLabel3.setFontSize(38.0F);
+        guide.add(ropaLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
 
-        main.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 280, 280));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/guide.png"))); // NOI18N
+        guide.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        menu.add(guide, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, -1, -1));
+
+        combo_list.setBackground(new java.awt.Color(123, 15, 58));
+        combo_list.setPreferredSize(new java.awt.Dimension(280, 280));
+        combo_list.setRoundBottomLeft(50);
+        combo_list.setRoundBottomRight(50);
+        combo_list.setRoundTopLeft(50);
+        combo_list.setRoundTopRight(50);
+        combo_list.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ropaLabel4.setText("Combo List");
+        ropaLabel4.setFontSize(38.0F);
+        combo_list.add(ropaLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/combo_list.png"))); // NOI18N
+        combo_list.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        menu.add(combo_list, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 230, -1, -1));
+
+        combo_list1.setBackground(new java.awt.Color(123, 15, 58));
+        combo_list1.setPreferredSize(new java.awt.Dimension(280, 280));
+        combo_list1.setRoundBottomLeft(50);
+        combo_list1.setRoundBottomRight(50);
+        combo_list1.setRoundTopLeft(50);
+        combo_list1.setRoundTopRight(50);
+        combo_list1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ropaLabel5.setText("My Combo");
+        ropaLabel5.setFontSize(38.0F);
+        combo_list1.add(ropaLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/my_combo.png"))); // NOI18N
+        combo_list1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        menu.add(combo_list1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 230, -1, -1));
+
+        ropaLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        ropaLabel1.setText("Tactic's");
+        ropaLabel1.setFontSize(24.0F);
+        menu.add(ropaLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 170, -1, -1));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/logo.png"))); // NOI18N
+        menu.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 160, -1, 40));
+
+        ropaLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        ropaLabel2.setText("Welcome to");
+        ropaLabel2.setFontSize(24.0F);
+        menu.add(ropaLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, -1, -1));
+
+        main.add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1390, 780));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/bg.png"))); // NOI18N
         bg.setMaximumSize(new java.awt.Dimension(0, 0));
         bg.setMinimumSize(new java.awt.Dimension(0, 0));
-        main.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, -30, -1, 1020));
-
-        jButton1.setText("jButton1");
-        main.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, -1, -1));
+        main.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, -1, 1020));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(main, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(main, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(main, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void homeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMousePressed
-        // TODO add your handling code here:
-        System.out.println("awokwoawk");
-    }//GEN-LAST:event_homeMousePressed
 
     /**
      * @param args the command line arguments
@@ -141,9 +183,19 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
-    private javax.swing.JPanel home;
-    private javax.swing.JButton jButton1;
+    private utils.helper.RoundedPanel combo_list;
+    private utils.helper.RoundedPanel combo_list1;
+    private utils.helper.RoundedPanel guide;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel main;
+    private javax.swing.JPanel menu;
+    private utils.helper.RopaLabel ropaLabel1;
+    private utils.helper.RopaLabel ropaLabel2;
+    private utils.helper.RopaLabel ropaLabel3;
+    private utils.helper.RopaLabel ropaLabel4;
+    private utils.helper.RopaLabel ropaLabel5;
     // End of variables declaration//GEN-END:variables
 }
