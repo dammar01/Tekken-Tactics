@@ -4,6 +4,7 @@
  */
 package home;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
@@ -42,13 +43,18 @@ public class Home extends javax.swing.JFrame {
         combo_list = new utils.helper.RoundedPanel();
         ropaLabel4 = new utils.helper.RopaLabel();
         jLabel3 = new javax.swing.JLabel();
-        combo_list1 = new utils.helper.RoundedPanel();
+        my_combo = new utils.helper.RoundedPanel();
         ropaLabel5 = new utils.helper.RopaLabel();
         jLabel4 = new javax.swing.JLabel();
         ropaLabel1 = new utils.helper.RopaLabel();
         jLabel1 = new javax.swing.JLabel();
         ropaLabel2 = new utils.helper.RopaLabel();
         bg = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1440, 1024));
@@ -66,6 +72,11 @@ public class Home extends javax.swing.JFrame {
         guide.setRoundBottomRight(50);
         guide.setRoundTopLeft(50);
         guide.setRoundTopRight(50);
+        guide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                guideMouseEntered(evt);
+            }
+        });
         guide.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ropaLabel3.setText("Guide");
@@ -83,6 +94,11 @@ public class Home extends javax.swing.JFrame {
         combo_list.setRoundBottomRight(50);
         combo_list.setRoundTopLeft(50);
         combo_list.setRoundTopRight(50);
+        combo_list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                combo_listMouseEntered(evt);
+            }
+        });
         combo_list.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ropaLabel4.setText("Combo List");
@@ -94,24 +110,28 @@ public class Home extends javax.swing.JFrame {
 
         menu.add(combo_list, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 230, -1, -1));
 
-        combo_list1.setBackground(new java.awt.Color(123, 15, 58));
-        combo_list1.setPreferredSize(new java.awt.Dimension(280, 280));
-        combo_list1.setRoundBottomLeft(50);
-        combo_list1.setRoundBottomRight(50);
-        combo_list1.setRoundTopLeft(50);
-        combo_list1.setRoundTopRight(50);
-        combo_list1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        my_combo.setBackground(new java.awt.Color(123, 15, 58));
+        my_combo.setPreferredSize(new java.awt.Dimension(280, 280));
+        my_combo.setRoundBottomLeft(50);
+        my_combo.setRoundBottomRight(50);
+        my_combo.setRoundTopLeft(50);
+        my_combo.setRoundTopRight(50);
+        my_combo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                my_comboMouseEntered(evt);
+            }
+        });
+        my_combo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ropaLabel5.setText("My Combo");
         ropaLabel5.setFontSize(38.0F);
-        combo_list1.add(ropaLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
+        my_combo.add(ropaLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/my_combo.png"))); // NOI18N
-        combo_list1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        my_combo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
-        menu.add(combo_list1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 230, -1, -1));
+        menu.add(my_combo, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 230, -1, -1));
 
-        ropaLabel1.setForeground(new java.awt.Color(255, 255, 255));
         ropaLabel1.setText("Tactic's");
         ropaLabel1.setFontSize(24.0F);
         menu.add(ropaLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 170, -1, -1));
@@ -119,7 +139,6 @@ public class Home extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/logo.png"))); // NOI18N
         menu.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 160, -1, 40));
 
-        ropaLabel2.setForeground(new java.awt.Color(255, 255, 255));
         ropaLabel2.setText("Welcome to");
         ropaLabel2.setFontSize(24.0F);
         menu.add(ropaLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 130, -1, -1));
@@ -130,6 +149,26 @@ public class Home extends javax.swing.JFrame {
         bg.setMaximumSize(new java.awt.Dimension(0, 0));
         bg.setMinimumSize(new java.awt.Dimension(0, 0));
         main.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, -1, 1020));
+
+        jMenu2.setText("Account");
+
+        jMenuItem1.setText("Login");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setText("Exit");
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Help");
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,6 +184,25 @@ public class Home extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void guideMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guideMouseEntered
+        // TODO add your handling code here:
+        guide.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_guideMouseEntered
+
+    private void combo_listMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combo_listMouseEntered
+        // TODO add your handling code here:
+        combo_list.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_combo_listMouseEntered
+
+    private void my_comboMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_comboMouseEntered
+        // TODO add your handling code here:
+        my_combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_my_comboMouseEntered
 
     /**
      * @param args the command line arguments
@@ -184,14 +242,19 @@ public class Home extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
     private utils.helper.RoundedPanel combo_list;
-    private utils.helper.RoundedPanel combo_list1;
     private utils.helper.RoundedPanel guide;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel main;
     private javax.swing.JPanel menu;
+    private utils.helper.RoundedPanel my_combo;
     private utils.helper.RopaLabel ropaLabel1;
     private utils.helper.RopaLabel ropaLabel2;
     private utils.helper.RopaLabel ropaLabel3;
