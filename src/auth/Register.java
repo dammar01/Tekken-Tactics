@@ -46,6 +46,11 @@ public class Register extends javax.swing.JFrame {
         title = new javax.swing.JLabel();
         loginPromptLabel = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1440, 1024));
@@ -182,7 +187,27 @@ public class Register extends javax.swing.JFrame {
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/bg.png"))); // NOI18N
         bg.setMaximumSize(new java.awt.Dimension(0, 0));
         bg.setMinimumSize(new java.awt.Dimension(0, 0));
-        main.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, -30, -1, 1020));
+        main.add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, -1, 1020));
+
+        jMenu2.setText("Account");
+
+        jMenuItem1.setText("Login");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setText("Exit");
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Help");
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -219,6 +244,10 @@ public class Register extends javax.swing.JFrame {
     private void tfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfPasswordActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,6 +291,11 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JLabel bg;
     private javax.swing.JButton btnRegister;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JLabel loginLinkLabel;
     private javax.swing.JLabel loginPromptLabel;
     private javax.swing.JPanel main;
