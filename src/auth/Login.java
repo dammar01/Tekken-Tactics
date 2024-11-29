@@ -4,7 +4,6 @@
  */
 package auth;
 
-import home.*;
 import javax.swing.*;
 
 /**
@@ -31,12 +30,129 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         main = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        ropaLabel1 = new utils.helper.RopaLabel();
+        pLogin = new utils.helper.RoundedPanel();
+        pBtn = new utils.helper.RoundedPanel();
+        btnLogin = new javax.swing.JButton();
+        pUsername = new utils.helper.RoundedPanel();
+        tfUsername = new javax.swing.JTextField();
+        pPassword = new utils.helper.RoundedPanel();
+        tfPassword = new javax.swing.JTextField();
+        registerLinkLabel = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
+        registerPromptLabel = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1440, 1024));
 
         main.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/logo.png"))); // NOI18N
+        main.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 200, -1));
+
+        ropaLabel1.setText("Tactic's");
+        ropaLabel1.setFontSize(24.0F);
+        main.add(ropaLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 190, -1, -1));
+
+        pLogin.setBackground(new java.awt.Color(123, 15, 58));
+        pLogin.setPreferredSize(new java.awt.Dimension(280, 280));
+        pLogin.setRoundBottomLeft(50);
+        pLogin.setRoundBottomRight(50);
+        pLogin.setRoundTopLeft(50);
+        pLogin.setRoundTopRight(50);
+        pLogin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pBtn.setBackground(new java.awt.Color(202, 28, 77));
+        pBtn.setPreferredSize(new java.awt.Dimension(280, 280));
+        pBtn.setRoundBottomLeft(50);
+        pBtn.setRoundBottomRight(50);
+        pBtn.setRoundTopLeft(50);
+        pBtn.setRoundTopRight(50);
+        pBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnLogin.setBackground(new java.awt.Color(202, 28, 77));
+        btnLogin.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogin.setText("Login");
+        btnLogin.setBorder(null);
+        btnLogin.setBorderPainted(false);
+        btnLogin.setContentAreaFilled(false);
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        pBtn.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 240, 50));
+
+        pLogin.add(pBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, 50));
+
+        pUsername.setBackground(new java.awt.Color(217, 217, 217));
+        pUsername.setPreferredSize(new java.awt.Dimension(280, 280));
+        pUsername.setRoundBottomLeft(50);
+        pUsername.setRoundBottomRight(50);
+        pUsername.setRoundTopLeft(50);
+        pUsername.setRoundTopRight(50);
+        pUsername.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tfUsername.setBackground(new java.awt.Color(217, 217, 217));
+        tfUsername.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        tfUsername.setForeground(new java.awt.Color(123, 15, 58));
+        tfUsername.setText("Username");
+        tfUsername.setBorder(null);
+        tfUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfUsernameActionPerformed(evt);
+            }
+        });
+        pUsername.add(tfUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 240, 30));
+
+        pLogin.add(pUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, -1, 50));
+
+        pPassword.setBackground(new java.awt.Color(217, 217, 217));
+        pPassword.setPreferredSize(new java.awt.Dimension(280, 280));
+        pPassword.setRoundBottomLeft(50);
+        pPassword.setRoundBottomRight(50);
+        pPassword.setRoundTopLeft(50);
+        pPassword.setRoundTopRight(50);
+        pPassword.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tfPassword.setBackground(new java.awt.Color(217, 217, 217));
+        tfPassword.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        tfPassword.setForeground(new java.awt.Color(123, 15, 58));
+        tfPassword.setText("Password");
+        tfPassword.setBorder(null);
+        tfPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPasswordActionPerformed(evt);
+            }
+        });
+        pPassword.add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 240, 30));
+
+        pLogin.add(pPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, -1, 50));
+
+        registerLinkLabel.setBackground(new java.awt.Color(240, 148, 11));
+        registerLinkLabel.setFont(new java.awt.Font("Yu Gothic UI", 1, 13)); // NOI18N
+        registerLinkLabel.setForeground(new java.awt.Color(240, 148, 11));
+        registerLinkLabel.setText("Register here!");
+        registerLinkLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pLogin.add(registerLinkLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, -1, -1));
+
+        title.setBackground(new java.awt.Color(217, 217, 217));
+        title.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        title.setForeground(new java.awt.Color(217, 217, 217));
+        title.setText("Login to your account");
+        pLogin.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, -1, -1));
+
+        registerPromptLabel.setBackground(new java.awt.Color(217, 217, 217));
+        registerPromptLabel.setFont(new java.awt.Font("Yu Gothic UI", 1, 13)); // NOI18N
+        registerPromptLabel.setForeground(new java.awt.Color(217, 217, 217));
+        registerPromptLabel.setText("Don't have an account?");
+        pLogin.add(registerPromptLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, -1, -1));
+
+        main.add(pLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, 400, 400));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/bg.png"))); // NOI18N
         bg.setMaximumSize(new java.awt.Dimension(0, 0));
@@ -62,6 +178,18 @@ public class Login extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfUsernameActionPerformed
+
+    private void tfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -90,6 +218,12 @@ public class Login extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -101,6 +235,18 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel main;
+    private utils.helper.RoundedPanel pBtn;
+    private utils.helper.RoundedPanel pLogin;
+    private utils.helper.RoundedPanel pPassword;
+    private utils.helper.RoundedPanel pUsername;
+    private javax.swing.JLabel registerLinkLabel;
+    private javax.swing.JLabel registerPromptLabel;
+    private utils.helper.RopaLabel ropaLabel1;
+    private javax.swing.JTextField tfPassword;
+    private javax.swing.JTextField tfUsername;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

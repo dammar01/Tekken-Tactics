@@ -4,19 +4,18 @@
  */
 package auth;
 
-import home.*;
 import javax.swing.*;
 
 /**
  *
  * @author Dammar
  */
-public class Login extends javax.swing.JFrame {
+public class Register extends javax.swing.JFrame {
 
     /**
      * Creates new form Home
      */
-    public Login() {
+    public Register() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
     }
@@ -31,12 +30,153 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         main = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        ropaLabel1 = new utils.helper.RopaLabel();
+        pRegister = new utils.helper.RoundedPanel();
+        pBtn = new utils.helper.RoundedPanel();
+        btnRegister = new javax.swing.JButton();
+        pEmail = new utils.helper.RoundedPanel();
+        tfEmail = new javax.swing.JTextField();
+        pUsername = new utils.helper.RoundedPanel();
+        tfUsername = new javax.swing.JTextField();
+        pPassword = new utils.helper.RoundedPanel();
+        tfPassword = new javax.swing.JTextField();
+        loginLinkLabel = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
+        loginPromptLabel = new javax.swing.JLabel();
         bg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1440, 1024));
 
         main.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/logo.png"))); // NOI18N
+        main.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 200, -1));
+
+        ropaLabel1.setText("Tactic's");
+        ropaLabel1.setFontSize(24.0F);
+        main.add(ropaLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 190, -1, -1));
+
+        pRegister.setBackground(new java.awt.Color(123, 15, 58));
+        pRegister.setPreferredSize(new java.awt.Dimension(280, 280));
+        pRegister.setRoundBottomLeft(50);
+        pRegister.setRoundBottomRight(50);
+        pRegister.setRoundTopLeft(50);
+        pRegister.setRoundTopRight(50);
+        pRegister.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pBtn.setBackground(new java.awt.Color(202, 28, 77));
+        pBtn.setPreferredSize(new java.awt.Dimension(280, 280));
+        pBtn.setRoundBottomLeft(50);
+        pBtn.setRoundBottomRight(50);
+        pBtn.setRoundTopLeft(50);
+        pBtn.setRoundTopRight(50);
+        pBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnRegister.setBackground(new java.awt.Color(202, 28, 77));
+        btnRegister.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        btnRegister.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegister.setText("Sign Up");
+        btnRegister.setBorder(null);
+        btnRegister.setBorderPainted(false);
+        btnRegister.setContentAreaFilled(false);
+        btnRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterActionPerformed(evt);
+            }
+        });
+        pBtn.add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 240, 50));
+
+        pRegister.add(pBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, 50));
+
+        pEmail.setBackground(new java.awt.Color(217, 217, 217));
+        pEmail.setPreferredSize(new java.awt.Dimension(280, 280));
+        pEmail.setRoundBottomLeft(50);
+        pEmail.setRoundBottomRight(50);
+        pEmail.setRoundTopLeft(50);
+        pEmail.setRoundTopRight(50);
+        pEmail.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tfEmail.setBackground(new java.awt.Color(217, 217, 217));
+        tfEmail.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        tfEmail.setForeground(new java.awt.Color(123, 15, 58));
+        tfEmail.setText("Email");
+        tfEmail.setBorder(null);
+        tfEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfEmailActionPerformed(evt);
+            }
+        });
+        pEmail.add(tfEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 240, 30));
+
+        pRegister.add(pEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, -1, 50));
+
+        pUsername.setBackground(new java.awt.Color(217, 217, 217));
+        pUsername.setPreferredSize(new java.awt.Dimension(280, 280));
+        pUsername.setRoundBottomLeft(50);
+        pUsername.setRoundBottomRight(50);
+        pUsername.setRoundTopLeft(50);
+        pUsername.setRoundTopRight(50);
+        pUsername.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tfUsername.setBackground(new java.awt.Color(217, 217, 217));
+        tfUsername.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        tfUsername.setForeground(new java.awt.Color(123, 15, 58));
+        tfUsername.setText("Username");
+        tfUsername.setBorder(null);
+        tfUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfUsernameActionPerformed(evt);
+            }
+        });
+        pUsername.add(tfUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 240, 30));
+
+        pRegister.add(pUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 140, -1, 50));
+
+        pPassword.setBackground(new java.awt.Color(217, 217, 217));
+        pPassword.setPreferredSize(new java.awt.Dimension(280, 280));
+        pPassword.setRoundBottomLeft(50);
+        pPassword.setRoundBottomRight(50);
+        pPassword.setRoundTopLeft(50);
+        pPassword.setRoundTopRight(50);
+        pPassword.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tfPassword.setBackground(new java.awt.Color(217, 217, 217));
+        tfPassword.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        tfPassword.setForeground(new java.awt.Color(123, 15, 58));
+        tfPassword.setText("Password");
+        tfPassword.setBorder(null);
+        tfPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPasswordActionPerformed(evt);
+            }
+        });
+        pPassword.add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 240, 30));
+
+        pRegister.add(pPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, -1, 50));
+
+        loginLinkLabel.setBackground(new java.awt.Color(240, 148, 11));
+        loginLinkLabel.setFont(new java.awt.Font("Yu Gothic UI", 1, 13)); // NOI18N
+        loginLinkLabel.setForeground(new java.awt.Color(240, 148, 11));
+        loginLinkLabel.setText("Login here!");
+        loginLinkLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pRegister.add(loginLinkLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, -1, -1));
+
+        title.setBackground(new java.awt.Color(217, 217, 217));
+        title.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        title.setForeground(new java.awt.Color(217, 217, 217));
+        title.setText("Create an account ");
+        pRegister.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, -1, -1));
+
+        loginPromptLabel.setBackground(new java.awt.Color(217, 217, 217));
+        loginPromptLabel.setFont(new java.awt.Font("Yu Gothic UI", 1, 13)); // NOI18N
+        loginPromptLabel.setForeground(new java.awt.Color(217, 217, 217));
+        loginPromptLabel.setText("Already have an anccount?");
+        pRegister.add(loginPromptLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, -1, -1));
+
+        main.add(pRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, 400, 400));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/bg.png"))); // NOI18N
         bg.setMaximumSize(new java.awt.Dimension(0, 0));
@@ -63,6 +203,22 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegisterActionPerformed
+
+    private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfEmailActionPerformed
+
+    private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfUsernameActionPerformed
+
+    private void tfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPasswordActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -80,27 +236,43 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Register().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bg;
+    private javax.swing.JButton btnRegister;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel loginLinkLabel;
+    private javax.swing.JLabel loginPromptLabel;
     private javax.swing.JPanel main;
+    private utils.helper.RoundedPanel pBtn;
+    private utils.helper.RoundedPanel pEmail;
+    private utils.helper.RoundedPanel pPassword;
+    private utils.helper.RoundedPanel pRegister;
+    private utils.helper.RoundedPanel pUsername;
+    private utils.helper.RopaLabel ropaLabel1;
+    private javax.swing.JTextField tfEmail;
+    private javax.swing.JTextField tfPassword;
+    private javax.swing.JTextField tfUsername;
+    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }
