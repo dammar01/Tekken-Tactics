@@ -305,7 +305,6 @@ public class Guide extends javax.swing.JFrame {
         last_update.setBounds(1030, 50, 201, 22);
 
         root.add(main);
-        main.getAccessibleContext().setAccessibleParent(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
