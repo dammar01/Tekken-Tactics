@@ -20,7 +20,6 @@ public class Register extends javax.swing.JFrame {
         initComponents();
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,11 +36,14 @@ public class Register extends javax.swing.JFrame {
         pBtn = new utils.helper.RoundedPanel();
         btnRegister = new javax.swing.JButton();
         pEmail = new utils.helper.RoundedPanel();
+        phEmail = new utils.helper.RopaLabel();
         tfEmail = new javax.swing.JTextField();
         pUsername = new utils.helper.RoundedPanel();
+        phUsername = new utils.helper.RopaLabel();
         tfUsername = new javax.swing.JTextField();
         pPassword = new utils.helper.RoundedPanel();
-        tfPassword = new javax.swing.JTextField();
+        phPassword = new utils.helper.RopaLabel();
+        tfPassword = new javax.swing.JPasswordField();
         loginLinkLabel = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         loginPromptLabel = new javax.swing.JLabel();
@@ -58,11 +60,11 @@ public class Register extends javax.swing.JFrame {
         main.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/logo.png"))); // NOI18N
-        main.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 200, -1));
+        main.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 200, -1));
 
         ropaLabel1.setText("Tactic's");
         ropaLabel1.setFontSize(24.0F);
-        main.add(ropaLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 190, -1, -1));
+        main.add(ropaLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 140, -1, -1));
 
         pRegister.setBackground(new java.awt.Color(123, 15, 58));
         pRegister.setPreferredSize(new java.awt.Dimension(280, 280));
@@ -105,11 +107,23 @@ public class Register extends javax.swing.JFrame {
         pEmail.setRoundTopRight(50);
         pEmail.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        phEmail.setForeground(new java.awt.Color(123, 15, 58));
+        phEmail.setText("Email");
+        phEmail.setFontSize(18.0F);
+        pEmail.add(phEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 16, -1, -1));
+
         tfEmail.setBackground(new java.awt.Color(217, 217, 217));
         tfEmail.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
         tfEmail.setForeground(new java.awt.Color(123, 15, 58));
-        tfEmail.setText("Email");
         tfEmail.setBorder(null);
+        tfEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfEmailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfEmailFocusLost(evt);
+            }
+        });
         tfEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfEmailActionPerformed(evt);
@@ -127,11 +141,23 @@ public class Register extends javax.swing.JFrame {
         pUsername.setRoundTopRight(50);
         pUsername.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        phUsername.setForeground(new java.awt.Color(123, 15, 58));
+        phUsername.setText("Username");
+        phUsername.setFontSize(18.0F);
+        pUsername.add(phUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 16, -1, -1));
+
         tfUsername.setBackground(new java.awt.Color(217, 217, 217));
         tfUsername.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
         tfUsername.setForeground(new java.awt.Color(123, 15, 58));
-        tfUsername.setText("Username");
         tfUsername.setBorder(null);
+        tfUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfUsernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfUsernameFocusLost(evt);
+            }
+        });
         tfUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfUsernameActionPerformed(evt);
@@ -149,14 +175,21 @@ public class Register extends javax.swing.JFrame {
         pPassword.setRoundTopRight(50);
         pPassword.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        phPassword.setForeground(new java.awt.Color(123, 15, 58));
+        phPassword.setText("Password");
+        phPassword.setFontSize(18.0F);
+        pPassword.add(phPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 16, -1, -1));
+
         tfPassword.setBackground(new java.awt.Color(217, 217, 217));
         tfPassword.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
         tfPassword.setForeground(new java.awt.Color(123, 15, 58));
-        tfPassword.setText("Password");
         tfPassword.setBorder(null);
-        tfPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfPasswordActionPerformed(evt);
+        tfPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfPasswordFocusLost(evt);
             }
         });
         pPassword.add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 240, 30));
@@ -182,7 +215,7 @@ public class Register extends javax.swing.JFrame {
         loginPromptLabel.setText("Already have an anccount?");
         pRegister.add(loginPromptLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, -1, -1));
 
-        main.add(pRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, 400, 400));
+        main.add(pRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 400, 400));
 
         bg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/bg.png"))); // NOI18N
         bg.setMaximumSize(new java.awt.Dimension(0, 0));
@@ -241,13 +274,42 @@ public class Register extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfUsernameActionPerformed
 
-    private void tfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfPasswordActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void tfEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusGained
+        // TODO add your handling code here:
+        phEmail.setVisible(false);
+    }//GEN-LAST:event_tfEmailFocusGained
+
+    private void tfEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusLost
+        // TODO add your handling code here:
+        if (tfEmail.getText().isEmpty())
+            phEmail.setVisible(true);
+    }//GEN-LAST:event_tfEmailFocusLost
+
+    private void tfUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusGained
+        // TODO add your handling code here:
+        phUsername.setVisible(false);
+    }//GEN-LAST:event_tfUsernameFocusGained
+
+    private void tfUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusLost
+        // TODO add your handling code here:
+        if (tfUsername.getText().isEmpty())
+            phUsername.setVisible(true);
+    }//GEN-LAST:event_tfUsernameFocusLost
+
+    private void tfPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusGained
+        // TODO add your handling code here:
+        phPassword.setVisible(false);
+    }//GEN-LAST:event_tfPasswordFocusGained
+
+    private void tfPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusLost
+        // TODO add your handling code here:
+        if (tfPassword.getPassword() == null || tfPassword.getPassword().length == 0)
+            phPassword.setVisible(true);
+    }//GEN-LAST:event_tfPasswordFocusLost
 
     /**
      * @param args the command line arguments
@@ -304,9 +366,12 @@ public class Register extends javax.swing.JFrame {
     private utils.helper.RoundedPanel pPassword;
     private utils.helper.RoundedPanel pRegister;
     private utils.helper.RoundedPanel pUsername;
+    private utils.helper.RopaLabel phEmail;
+    private utils.helper.RopaLabel phPassword;
+    private utils.helper.RopaLabel phUsername;
     private utils.helper.RopaLabel ropaLabel1;
     private javax.swing.JTextField tfEmail;
-    private javax.swing.JTextField tfPassword;
+    private javax.swing.JPasswordField tfPassword;
     private javax.swing.JTextField tfUsername;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
