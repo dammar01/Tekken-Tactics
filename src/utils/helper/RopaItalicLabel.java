@@ -4,26 +4,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
 
-public class RopaLabel extends JLabel {
+public class RopaItalicLabel extends JLabel {
 
     // Properti font kustom
     private Font customFont;
 
     // Konstruktor dengan teks
-    public RopaLabel(String text) {
+    public RopaItalicLabel(String text) {
         super(text);
         initFont();
     }
 
     // Konstruktor tanpa teks
-    public RopaLabel() {
+    public RopaItalicLabel() {
         super();
         initFont();
     }
 
     private void initFont() {
         try {
-            InputStream fontStream = getClass().getResourceAsStream("/utils/font/RopaSans-Regular.ttf");
+            InputStream fontStream = getClass().getResourceAsStream("/utils/font/RopaSans-Italic.ttf");
             if (fontStream == null) {
                 throw new RuntimeException("Font file not found");
             }

@@ -4,7 +4,10 @@
  */
 package guide;
 
+import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import utils.helper.ScrollBar;
 
 /**
  *
@@ -15,9 +18,49 @@ public class Guide extends javax.swing.JFrame {
     /**
      * Creates new form Guide
      */
+    private int characterPanelHeight = 180 + 10;
+    private int characterPanelWidth = 1125;
+    private int currentYOffset = 120;
+
+    private void reloadPanel(JPanel panel) {
+        panel.revalidate();
+        panel.repaint();
+    }
+
+    private void updatePanel(JPanel panel, int x, int y, int w, int h) {
+        panel.setPreferredSize(new java.awt.Dimension(w, h));
+        panel.setBounds(x, y, w, h);
+        reloadPanel(panel);
+    }
+
+    private void drawCharacter(JPanel tier_panel, JPanel character_panel, int data) {
+        int row = (int) Math.ceil(data / 8.0);
+        characterPanelHeight = 180 * row + (row * 10);
+        for (int i = 1; i <= data; i++) {
+            utils.helper.CharacterItem item = new utils.helper.CharacterItem();
+            character_panel.add(item);
+        }
+        updatePanel(character_panel, character_panel.getX(), character_panel.getY(), characterPanelWidth, characterPanelHeight);
+        updatePanel(tier_panel, tier_panel.getX(), currentYOffset, characterPanelWidth, characterPanelHeight + 70);
+        currentYOffset += characterPanelHeight + 70 + 20;
+    }
+
     public Guide() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
+        drawCharacter(this.s_tier, this.s_tier_character, 12);
+        drawCharacter(this.a_tier, this.a_tier_character, 8);
+        drawCharacter(this.b_tier, this.b_tier_character, 12);
+        drawCharacter(this.c_tier, this.c_tier_character, 4);
+        drawCharacter(this.d_tier, this.d_tier_character, 2);
+        updatePanel(main, 0, 0, 1281, currentYOffset);
+        updatePanel(root, 0, 0, 1281, currentYOffset);
+        ScrollBar scrollPane = new ScrollBar(root);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBar(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.setBounds(0, 0, main.getWidth(), 650);
+        add(scrollPane);
     }
 
     /**
@@ -29,51 +72,254 @@ public class Guide extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        root = new javax.swing.JPanel();
         main = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        s_tier = new javax.swing.JPanel();
+        red_box = new javax.swing.JPanel();
+        s_tier_title = new utils.helper.RopaItalicLabel();
+        s_tier_character = new javax.swing.JPanel();
+        a_tier = new javax.swing.JPanel();
+        orange_box = new javax.swing.JPanel();
+        a_tier_title = new utils.helper.RopaItalicLabel();
+        a_tier_character = new javax.swing.JPanel();
+        b_tier = new javax.swing.JPanel();
+        yellow_box = new javax.swing.JPanel();
+        b_tier_title = new utils.helper.RopaItalicLabel();
+        b_tier_character = new javax.swing.JPanel();
+        c_tier = new javax.swing.JPanel();
+        green_box = new javax.swing.JPanel();
+        c_tier_title = new utils.helper.RopaItalicLabel();
+        c_tier_character = new javax.swing.JPanel();
+        d_tier = new javax.swing.JPanel();
+        gray_box = new javax.swing.JPanel();
+        d_tier_title = new utils.helper.RopaItalicLabel();
+        d_tier_character = new javax.swing.JPanel();
+        home_path = new utils.helper.RopaLabel();
+        ropaLabel1 = new utils.helper.RopaLabel();
+        last_update = new utils.helper.RopaLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(0, 0));
+        setMaximumSize(new java.awt.Dimension(1280, 1602));
+        setPreferredSize(new java.awt.Dimension(1281, 1468));
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane1.setHorizontalScrollBar(null);
+        root.setMinimumSize(new java.awt.Dimension(1281, 100));
+        root.setPreferredSize(new java.awt.Dimension(1281, 1480));
+        root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        main.setPreferredSize(new java.awt.Dimension(1920, 1084));
+        main.setMinimumSize(new java.awt.Dimension(1281, 650));
+        main.setPreferredSize(new java.awt.Dimension(1281, 1480));
+        main.setLayout(null);
 
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("jLabel1");
+        s_tier.setBackground(new java.awt.Color(8, 18, 38));
+        s_tier.setPreferredSize(new java.awt.Dimension(1125, 261));
+        s_tier.setLayout(null);
 
-        javax.swing.GroupLayout mainLayout = new javax.swing.GroupLayout(main);
-        main.setLayout(mainLayout);
-        mainLayout.setHorizontalGroup(
-            mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainLayout.createSequentialGroup()
-                .addContainerGap(1174, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(709, 709, 709))
+        red_box.setBackground(new java.awt.Color(221, 10, 0));
+        red_box.setPreferredSize(new java.awt.Dimension(24, 24));
+
+        javax.swing.GroupLayout red_boxLayout = new javax.swing.GroupLayout(red_box);
+        red_box.setLayout(red_boxLayout);
+        red_boxLayout.setHorizontalGroup(
+            red_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
-        mainLayout.setVerticalGroup(
-            mainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainLayout.createSequentialGroup()
-                .addGap(114, 114, 114)
-                .addComponent(jLabel1)
-                .addContainerGap(954, Short.MAX_VALUE))
+        red_boxLayout.setVerticalGroup(
+            red_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
         );
 
-        jScrollPane1.setViewportView(main);
+        s_tier.add(red_box);
+        red_box.setBounds(14, 14, 24, 24);
+
+        s_tier_title.setText("S TIER");
+        s_tier_title.setFontSize(48.0F);
+        s_tier.add(s_tier_title);
+        s_tier_title.setBounds(50, 0, 140, 53);
+
+        s_tier_character.setBackground(new java.awt.Color(8, 18, 38));
+        s_tier_character.setPreferredSize(new java.awt.Dimension(1125, 190));
+        s_tier_character.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
+        s_tier.add(s_tier_character);
+        s_tier_character.setBounds(0, 65, 1125, 190);
+        s_tier_character.getAccessibleContext().setAccessibleDescription("");
+
+        main.add(s_tier);
+        s_tier.setBounds(50, 120, 1125, 261);
+
+        a_tier.setBackground(new java.awt.Color(8, 18, 38));
+        a_tier.setPreferredSize(new java.awt.Dimension(1125, 261));
+        a_tier.setLayout(null);
+
+        orange_box.setBackground(new java.awt.Color(197, 90, 24));
+        orange_box.setPreferredSize(new java.awt.Dimension(24, 24));
+
+        javax.swing.GroupLayout orange_boxLayout = new javax.swing.GroupLayout(orange_box);
+        orange_box.setLayout(orange_boxLayout);
+        orange_boxLayout.setHorizontalGroup(
+            orange_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+        orange_boxLayout.setVerticalGroup(
+            orange_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+
+        a_tier.add(orange_box);
+        orange_box.setBounds(14, 14, 24, 24);
+
+        a_tier_title.setText("A TIER");
+        a_tier_title.setFontSize(48.0F);
+        a_tier.add(a_tier_title);
+        a_tier_title.setBounds(50, 0, 140, 53);
+
+        a_tier_character.setBackground(new java.awt.Color(8, 18, 38));
+        a_tier_character.setPreferredSize(new java.awt.Dimension(1125, 190));
+        a_tier_character.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
+        a_tier.add(a_tier_character);
+        a_tier_character.setBounds(0, 65, 1125, 190);
+
+        main.add(a_tier);
+        a_tier.setBounds(50, 380, 1125, 261);
+
+        b_tier.setBackground(new java.awt.Color(8, 18, 38));
+        b_tier.setPreferredSize(new java.awt.Dimension(1125, 261));
+        b_tier.setLayout(null);
+
+        yellow_box.setBackground(new java.awt.Color(243, 167, 18));
+        yellow_box.setPreferredSize(new java.awt.Dimension(24, 24));
+
+        javax.swing.GroupLayout yellow_boxLayout = new javax.swing.GroupLayout(yellow_box);
+        yellow_box.setLayout(yellow_boxLayout);
+        yellow_boxLayout.setHorizontalGroup(
+            yellow_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+        yellow_boxLayout.setVerticalGroup(
+            yellow_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+
+        b_tier.add(yellow_box);
+        yellow_box.setBounds(14, 14, 24, 24);
+
+        b_tier_title.setText("B TIER");
+        b_tier_title.setFontSize(48.0F);
+        b_tier.add(b_tier_title);
+        b_tier_title.setBounds(50, 0, 140, 53);
+
+        b_tier_character.setBackground(new java.awt.Color(8, 18, 38));
+        b_tier_character.setPreferredSize(new java.awt.Dimension(1125, 190));
+        b_tier_character.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
+        b_tier.add(b_tier_character);
+        b_tier_character.setBounds(0, 65, 1125, 190);
+
+        main.add(b_tier);
+        b_tier.setBounds(50, 640, 1125, 261);
+
+        c_tier.setBackground(new java.awt.Color(8, 18, 38));
+        c_tier.setPreferredSize(new java.awt.Dimension(1125, 261));
+        c_tier.setLayout(null);
+
+        green_box.setBackground(new java.awt.Color(0, 129, 72));
+        green_box.setPreferredSize(new java.awt.Dimension(24, 24));
+
+        javax.swing.GroupLayout green_boxLayout = new javax.swing.GroupLayout(green_box);
+        green_box.setLayout(green_boxLayout);
+        green_boxLayout.setHorizontalGroup(
+            green_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+        green_boxLayout.setVerticalGroup(
+            green_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+
+        c_tier.add(green_box);
+        green_box.setBounds(14, 14, 24, 24);
+
+        c_tier_title.setText("C TIER");
+        c_tier_title.setFontSize(48.0F);
+        c_tier.add(c_tier_title);
+        c_tier_title.setBounds(50, 0, 140, 53);
+
+        c_tier_character.setBackground(new java.awt.Color(8, 18, 38));
+        c_tier_character.setPreferredSize(new java.awt.Dimension(1125, 190));
+        c_tier_character.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
+        c_tier.add(c_tier_character);
+        c_tier_character.setBounds(0, 65, 1125, 190);
+
+        main.add(c_tier);
+        c_tier.setBounds(50, 900, 1125, 261);
+
+        d_tier.setBackground(new java.awt.Color(8, 18, 38));
+        d_tier.setPreferredSize(new java.awt.Dimension(1125, 261));
+        d_tier.setLayout(null);
+
+        gray_box.setBackground(new java.awt.Color(145, 156, 178));
+        gray_box.setPreferredSize(new java.awt.Dimension(24, 24));
+
+        javax.swing.GroupLayout gray_boxLayout = new javax.swing.GroupLayout(gray_box);
+        gray_box.setLayout(gray_boxLayout);
+        gray_boxLayout.setHorizontalGroup(
+            gray_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+        gray_boxLayout.setVerticalGroup(
+            gray_boxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 24, Short.MAX_VALUE)
+        );
+
+        d_tier.add(gray_box);
+        gray_box.setBounds(14, 14, 24, 24);
+
+        d_tier_title.setText("D TIER");
+        d_tier_title.setFontSize(48.0F);
+        d_tier.add(d_tier_title);
+        d_tier_title.setBounds(50, 0, 140, 53);
+
+        d_tier_character.setBackground(new java.awt.Color(8, 18, 38));
+        d_tier_character.setPreferredSize(new java.awt.Dimension(1125, 190));
+        d_tier_character.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 10, 10));
+        d_tier.add(d_tier_character);
+        d_tier_character.setBounds(0, 65, 1125, 190);
+
+        main.add(d_tier);
+        d_tier.setBounds(50, 900, 1125, 261);
+
+        home_path.setText("Home");
+        home_path.setFontSize(20.0F);
+        main.add(home_path);
+        home_path.setBounds(50, 50, 44, 22);
+
+        ropaLabel1.setText(" / Guide");
+        ropaLabel1.setFontSize(20.0F);
+        main.add(ropaLabel1);
+        ropaLabel1.setBounds(95, 50, 55, 22);
+
+        last_update.setText("Last updated:  Nov 29, 2024");
+        last_update.setFontSize(20.0F);
+        main.add(last_update);
+        last_update.setBounds(1030, 50, 201, 22);
+
+        root.add(main);
+        main.getAccessibleContext().setAccessibleParent(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1334, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(root, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(root, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -115,8 +361,30 @@ public class Guide extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel a_tier;
+    private javax.swing.JPanel a_tier_character;
+    private utils.helper.RopaItalicLabel a_tier_title;
+    private javax.swing.JPanel b_tier;
+    private javax.swing.JPanel b_tier_character;
+    private utils.helper.RopaItalicLabel b_tier_title;
+    private javax.swing.JPanel c_tier;
+    private javax.swing.JPanel c_tier_character;
+    private utils.helper.RopaItalicLabel c_tier_title;
+    private javax.swing.JPanel d_tier;
+    private javax.swing.JPanel d_tier_character;
+    private utils.helper.RopaItalicLabel d_tier_title;
+    private javax.swing.JPanel gray_box;
+    private javax.swing.JPanel green_box;
+    private utils.helper.RopaLabel home_path;
+    private utils.helper.RopaLabel last_update;
     private javax.swing.JPanel main;
+    private javax.swing.JPanel orange_box;
+    private javax.swing.JPanel red_box;
+    private javax.swing.JPanel root;
+    private utils.helper.RopaLabel ropaLabel1;
+    private javax.swing.JPanel s_tier;
+    private javax.swing.JPanel s_tier_character;
+    private utils.helper.RopaItalicLabel s_tier_title;
+    private javax.swing.JPanel yellow_box;
     // End of variables declaration//GEN-END:variables
 }
