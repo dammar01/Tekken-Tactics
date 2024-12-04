@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CharacterItem extends RoundedPanel {
-
+    private ImageIcon image = new ImageIcon(getClass().getResource("/image/character/128x128/dragunov.png"));
     private JLabel imageLabel;
     private RopaLabel titleLabel;
 
@@ -15,7 +15,7 @@ public class CharacterItem extends RoundedPanel {
         setRoundBottomLeft(25);
         setRoundBottomRight(25);
         imageLabel = new JLabel();
-        imageLabel.setIcon(new ImageIcon(getClass().getResource("/image/character/128x128/dragunov.png")));
+        imageLabel.setIcon(image);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         imageLabel.setBounds(0, 0, 124, 124);
 
@@ -38,9 +38,11 @@ public class CharacterItem extends RoundedPanel {
 
     public void setImage(ImageIcon image) {
         imageLabel.setIcon(image);
+        this.image = image;
     }
 
     public ImageIcon getImage() {
         return (ImageIcon) imageLabel.getIcon();
     }
+    
 }
