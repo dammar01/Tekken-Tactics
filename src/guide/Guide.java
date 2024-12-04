@@ -292,17 +292,17 @@ public class Guide extends javax.swing.JFrame {
         home_path.setText("Home");
         home_path.setFontSize(20.0F);
         main.add(home_path);
-        home_path.setBounds(50, 50, 44, 22);
+        home_path.setBounds(50, 50, 46, 22);
 
         ropaLabel1.setText(" / Guide");
         ropaLabel1.setFontSize(20.0F);
         main.add(ropaLabel1);
-        ropaLabel1.setBounds(95, 50, 55, 22);
+        ropaLabel1.setBounds(95, 50, 57, 22);
 
         last_update.setText("Last updated:  Nov 29, 2024");
         last_update.setFontSize(20.0F);
         main.add(last_update);
-        last_update.setBounds(1030, 50, 201, 22);
+        last_update.setBounds(1030, 50, 207, 22);
 
         root.add(main);
 
