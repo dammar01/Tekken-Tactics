@@ -91,13 +91,13 @@ public class Character extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
 
         root.setMinimumSize(new java.awt.Dimension(1281, 100));
-        root.setPreferredSize(new java.awt.Dimension(1281, 1480));
+        root.setPreferredSize(new java.awt.Dimension(1281, 979));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
-        main.setPreferredSize(new java.awt.Dimension(1281, 1480));
+        main.setPreferredSize(new java.awt.Dimension(1281, 979));
         main.setLayout(null);
 
         home_path.setText("Home  / ");
@@ -281,7 +281,7 @@ public class Character extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
+            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
