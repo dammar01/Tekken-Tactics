@@ -3,9 +3,29 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/_Tugas%20Kuliah/Special/Tekken%20Tactics/src/utils/helper/CharacterItem.java</file>
-            <file>file:/D:/_Tugas%20Kuliah/Special/Tekken%20Tactics/src/utils/helper/ScrollBar.java</file>
-            <file>file:/D:/_Tugas%20Kuliah/Special/Tekken%20Tactics/src/guide/Guide.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/utils/helper/RoundedPanel.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/utils/helper/RopaLabel.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/auth/Register.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/editProfile/Edit_profile.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/utils/helper/RopaItalicLabel.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/help/Help.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/icon/normal/faq.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/utils/bg.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/utils/helper/ScrollBar.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/utils/logo.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/home/Home.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/character/128x128/dragunov.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/utils/helper/CharacterItem.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/myAccount/MyAccount.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/icon/normal/my_combo.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/character/128x128/dragunov_circle.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/icon/normal/feedback.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/guide/Guide.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/auth/Login.java</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/icon/normal/guide.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/icon/normal/combo_list.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/icon/normal/My_account.png</file>
+            <file>file:/D:/Project/Tekken-Tactics/src/image/icon/normal/about.png</file>
         </group>
     </open-files>
 </project-private>

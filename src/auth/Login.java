@@ -53,7 +53,6 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1281, 650));
-        setPreferredSize(new java.awt.Dimension(1281, 650));
 
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
         main.setPreferredSize(new java.awt.Dimension(1281, 650));
@@ -156,6 +155,11 @@ public class Login extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 tfPasswordFocusLost(evt);
+            }
+        });
+        tfPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPasswordActionPerformed(evt);
             }
         });
         pPassword.add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 240, 30));
@@ -261,6 +265,10 @@ public class Login extends javax.swing.JFrame {
         if (tfPassword.getPassword() == null || tfPassword.getPassword().length == 0)
         phPassword.setVisible(true);
     }//GEN-LAST:event_tfPasswordFocusLost
+
+    private void tfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPasswordActionPerformed
 
     /**
      * @param args the command line arguments
