@@ -34,27 +34,27 @@ public class Help extends javax.swing.JFrame {
         ropaLabel1 = new utils.helper.RopaLabel();
         pHelp = new utils.helper.RoundedPanel();
         faq = new utils.helper.RoundedPanel();
-        jLabel15 = new javax.swing.JLabel();
+        ropaLabel9 = new utils.helper.RopaLabel();
         jLabel2 = new javax.swing.JLabel();
-        title = new javax.swing.JLabel();
         roundedPanel1 = new utils.helper.RoundedPanel();
         phSearch = new utils.helper.RopaLabel();
         tfSearch = new javax.swing.JTextField();
         myAccount = new utils.helper.RoundedPanel();
-        jLabel6 = new javax.swing.JLabel();
+        ropaLabel3 = new utils.helper.RopaLabel();
         jLabel3 = new javax.swing.JLabel();
         about = new utils.helper.RoundedPanel();
-        jLabel7 = new javax.swing.JLabel();
+        ropaLabel4 = new utils.helper.RopaLabel();
         jLabel4 = new javax.swing.JLabel();
         guide = new utils.helper.RoundedPanel();
-        jLabel13 = new javax.swing.JLabel();
+        ropaLabel5 = new utils.helper.RopaLabel();
         jLabel5 = new javax.swing.JLabel();
         announcement = new utils.helper.RoundedPanel();
-        jLabel17 = new javax.swing.JLabel();
+        ropaLabel7 = new utils.helper.RopaLabel();
         jLabel10 = new javax.swing.JLabel();
         feedback = new utils.helper.RoundedPanel();
-        jLabel16 = new javax.swing.JLabel();
+        ropaLabel8 = new utils.helper.RopaLabel();
         jLabel14 = new javax.swing.JLabel();
+        ropaLabel6 = new utils.helper.RopaLabel();
         bg = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -92,22 +92,14 @@ public class Help extends javax.swing.JFrame {
         faq.setRoundTopRight(50);
         faq.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel15.setFont(new java.awt.Font("Yu Gothic UI", 1, 17)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("FAQ");
-        faq.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 60, -1));
+        ropaLabel9.setText("FAQ");
+        ropaLabel9.setFontSize(19.0F);
+        faq.add(ropaLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 50, 40, 50));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/faq.png"))); // NOI18N
         faq.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 110, 110));
 
         pHelp.add(faq, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, 150, 150));
-
-        title.setBackground(new java.awt.Color(255, 255, 255));
-        title.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        title.setForeground(new java.awt.Color(255, 255, 255));
-        title.setText("How can we help?");
-        pHelp.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, 170, 30));
 
         roundedPanel1.setBackground(new java.awt.Color(217, 217, 217));
         roundedPanel1.setRoundBottomLeft(20);
@@ -150,11 +142,9 @@ public class Help extends javax.swing.JFrame {
         myAccount.setRoundTopRight(50);
         myAccount.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 17)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("My Account");
-        myAccount.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 100, -1));
+        ropaLabel3.setText("My Account");
+        ropaLabel3.setFontSize(19.0F);
+        myAccount.add(ropaLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 64, 100, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/My_account.png"))); // NOI18N
         myAccount.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 110, 80));
@@ -169,11 +159,9 @@ public class Help extends javax.swing.JFrame {
         about.setRoundTopRight(50);
         about.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Yu Gothic UI", 1, 17)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("About");
-        about.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 50, -1));
+        ropaLabel4.setText("About");
+        ropaLabel4.setFontSize(19.0F);
+        about.add(ropaLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 50, 30));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/about.png"))); // NOI18N
         about.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 110, 100));
@@ -188,11 +176,9 @@ public class Help extends javax.swing.JFrame {
         guide.setRoundTopRight(50);
         guide.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel13.setFont(new java.awt.Font("Yu Gothic UI", 1, 17)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Guide");
-        guide.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 50, -1));
+        ropaLabel5.setText("Guide");
+        ropaLabel5.setFontSize(19.0F);
+        guide.add(ropaLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 50, 50, 50));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/guild2.png"))); // NOI18N
         guide.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 90, 100));
@@ -207,11 +193,9 @@ public class Help extends javax.swing.JFrame {
         announcement.setRoundTopRight(50);
         announcement.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel17.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel17.setFont(new java.awt.Font("Yu Gothic UI", 1, 17)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("Announcement");
-        announcement.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 120, -1));
+        ropaLabel7.setText("Announcement");
+        ropaLabel7.setFontSize(19.0F);
+        announcement.add(ropaLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 120, 50));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/announcement.png"))); // NOI18N
         announcement.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 110, 120));
@@ -226,16 +210,18 @@ public class Help extends javax.swing.JFrame {
         feedback.setRoundTopRight(50);
         feedback.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 1, 17)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Feedback");
-        feedback.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 80, -1));
+        ropaLabel8.setText("Feedback");
+        ropaLabel8.setFontSize(19.0F);
+        feedback.add(ropaLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 80, 50));
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/feedback.png"))); // NOI18N
         feedback.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 110, 120));
 
         pHelp.add(feedback, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, 150, 150));
+
+        ropaLabel6.setText("How can we help?");
+        ropaLabel6.setFontSize(22.0F);
+        pHelp.add(ropaLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, 160, -1));
 
         main.add(pHelp, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 660, 530));
 
@@ -360,17 +346,11 @@ public class Help extends javax.swing.JFrame {
     private utils.helper.RoundedPanel guide;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -381,8 +361,14 @@ public class Help extends javax.swing.JFrame {
     private utils.helper.RoundedPanel pHelp;
     private utils.helper.RopaLabel phSearch;
     private utils.helper.RopaLabel ropaLabel1;
+    private utils.helper.RopaLabel ropaLabel3;
+    private utils.helper.RopaLabel ropaLabel4;
+    private utils.helper.RopaLabel ropaLabel5;
+    private utils.helper.RopaLabel ropaLabel6;
+    private utils.helper.RopaLabel ropaLabel7;
+    private utils.helper.RopaLabel ropaLabel8;
+    private utils.helper.RopaLabel ropaLabel9;
     private utils.helper.RoundedPanel roundedPanel1;
     private javax.swing.JTextField tfSearch;
-    private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

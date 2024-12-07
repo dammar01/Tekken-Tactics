@@ -4,7 +4,11 @@
  */
 package auth;
 
+import java.sql.ResultSet;
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -201,6 +205,11 @@ public class Register extends javax.swing.JFrame {
         loginLinkLabel.setForeground(new java.awt.Color(240, 148, 11));
         loginLinkLabel.setText("Login here!");
         loginLinkLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        loginLinkLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loginLinkLabelMouseClicked(evt);
+            }
+        });
         pRegister.add(loginLinkLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, -1, -1));
 
         title.setBackground(new java.awt.Color(217, 217, 217));
@@ -264,6 +273,54 @@ public class Register extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         // TODO add your handling code here:
+        String email = tfEmail.getText();
+        String username = tfUsername.getText();
+        String password = new String(tfPassword.getPassword());
+
+        // Validasi input
+        if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Semua field harus diisi!");
+            return;
+        }
+
+        if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            JOptionPane.showMessageDialog(this, "Email tidak valid!");
+            return;
+        }
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            // Validasi unik: periksa apakah email atau username sudah terdaftar
+            String checkQuery = "SELECT * FROM user WHERE email = ? OR username = ?";
+            PreparedStatement checkStmt = conn.prepareStatement(checkQuery);
+            checkStmt.setString(1, email);
+            checkStmt.setString(2, username);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) { // Jika ditemukan hasil, berarti email atau username sudah ada
+                JOptionPane.showMessageDialog(this, "Email atau Username sudah terdaftar!");
+                return;
+            }
+            // Query untuk memasukkan data ke database
+            String query = "INSERT INTO user (email, username, password) VALUES (?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, email);
+            stmt.setString(2, username);
+            stmt.setString(3, password);
+
+            // Eksekusi query
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                JOptionPane.showMessageDialog(this, "Registrasi berhasil!");
+                // Kosongkan field setelah berhasil
+                tfEmail.setText("");
+                tfUsername.setText("");
+                tfPassword.setText("");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
@@ -310,6 +367,13 @@ public class Register extends javax.swing.JFrame {
         if (tfPassword.getPassword() == null || tfPassword.getPassword().length == 0)
             phPassword.setVisible(true);
     }//GEN-LAST:event_tfPasswordFocusLost
+
+    private void loginLinkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkLabelMouseClicked
+        // TODO add your handling code here:
+        Login login = new Login();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_loginLinkLabelMouseClicked
 
     /**
      * @param args the command line arguments

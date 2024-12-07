@@ -30,19 +30,24 @@ public class Edit_profile extends javax.swing.JFrame {
     private void initComponents() {
 
         main = new javax.swing.JPanel();
+        roundedPanel9 = new utils.helper.RoundedPanel();
+        roundedPanel10 = new utils.helper.RoundedPanel();
+        phEmail = new utils.helper.RopaLabel();
+        tfEmail = new javax.swing.JTextField();
+        email = new utils.helper.RopaLabel();
         jLabel1 = new javax.swing.JLabel();
-        nickname = new javax.swing.JLabel();
         roundedPanel5 = new utils.helper.RoundedPanel();
         roundedPanel6 = new utils.helper.RoundedPanel();
         phPassword = new utils.helper.RopaLabel();
         tfPassword = new javax.swing.JPasswordField();
-        char2 = new javax.swing.JLabel();
+        Password = new utils.helper.RopaLabel();
         roundedPanel7 = new utils.helper.RoundedPanel();
         roundedPanel8 = new utils.helper.RoundedPanel();
         phUsername = new utils.helper.RopaLabel();
         tfUsername = new javax.swing.JTextField();
-        char3 = new javax.swing.JLabel();
+        username = new utils.helper.RopaLabel();
         jLabel18 = new javax.swing.JLabel();
+        nickname1 = new utils.helper.RopaLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -57,14 +62,54 @@ public class Edit_profile extends javax.swing.JFrame {
         main.setPreferredSize(new java.awt.Dimension(1281, 650));
         main.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        roundedPanel9.setBackground(new java.awt.Color(123, 15, 58));
+        roundedPanel9.setRoundBottomLeft(20);
+        roundedPanel9.setRoundBottomRight(20);
+        roundedPanel9.setRoundTopLeft(20);
+        roundedPanel9.setRoundTopRight(20);
+        roundedPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        roundedPanel10.setBackground(new java.awt.Color(217, 217, 217));
+        roundedPanel10.setRoundBottomLeft(20);
+        roundedPanel10.setRoundBottomRight(20);
+        roundedPanel10.setRoundTopLeft(20);
+        roundedPanel10.setRoundTopRight(20);
+        roundedPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        phEmail.setForeground(new java.awt.Color(123, 15, 58));
+        phEmail.setText("Example@gmail.com");
+        phEmail.setFontSize(18.0F);
+        roundedPanel10.add(phEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 160, 40));
+
+        tfEmail.setBackground(new java.awt.Color(217, 217, 217));
+        tfEmail.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
+        tfEmail.setForeground(new java.awt.Color(123, 15, 58));
+        tfEmail.setBorder(null);
+        tfEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfEmailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tfEmailFocusLost(evt);
+            }
+        });
+        tfEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfEmailActionPerformed(evt);
+            }
+        });
+        roundedPanel10.add(tfEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 390, -1));
+
+        roundedPanel9.add(roundedPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 449, 40));
+
+        email.setText("Email");
+        email.setFontSize(18.0F);
+        roundedPanel9.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 80, 40));
+
+        main.add(roundedPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 260, 580, 60));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/character/128x128/dragunov_circle.png"))); // NOI18N
         main.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 40, -1, -1));
-
-        nickname.setBackground(new java.awt.Color(255, 255, 255));
-        nickname.setFont(new java.awt.Font("Yu Gothic UI", 1, 20)); // NOI18N
-        nickname.setForeground(new java.awt.Color(255, 255, 255));
-        nickname.setText("Nickname");
-        main.add(nickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 170, 100, 30));
 
         roundedPanel5.setBackground(new java.awt.Color(123, 15, 58));
         roundedPanel5.setRoundBottomLeft(20);
@@ -106,13 +151,11 @@ public class Edit_profile extends javax.swing.JFrame {
 
         roundedPanel5.add(roundedPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 449, 40));
 
-        char2.setBackground(new java.awt.Color(255, 255, 255));
-        char2.setFont(new java.awt.Font("Yu Gothic UI", 1, 17)); // NOI18N
-        char2.setForeground(new java.awt.Color(255, 255, 255));
-        char2.setText("Password");
-        roundedPanel5.add(char2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 100, 40));
+        Password.setText("Password");
+        Password.setFontSize(18.0F);
+        roundedPanel5.add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 80, 40));
 
-        main.add(roundedPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 390, 580, 60));
+        main.add(roundedPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, 580, 60));
 
         roundedPanel7.setBackground(new java.awt.Color(123, 15, 58));
         roundedPanel7.setRoundBottomLeft(20);
@@ -131,7 +174,7 @@ public class Edit_profile extends javax.swing.JFrame {
         phUsername.setForeground(new java.awt.Color(123, 15, 58));
         phUsername.setText("Nickname");
         phUsername.setFontSize(18.0F);
-        roundedPanel8.add(phUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 40));
+        roundedPanel8.add(phUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 80, 40));
 
         tfUsername.setBackground(new java.awt.Color(217, 217, 217));
         tfUsername.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
@@ -154,19 +197,21 @@ public class Edit_profile extends javax.swing.JFrame {
 
         roundedPanel7.add(roundedPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 449, 40));
 
-        char3.setBackground(new java.awt.Color(255, 255, 255));
-        char3.setFont(new java.awt.Font("Yu Gothic UI", 1, 17)); // NOI18N
-        char3.setForeground(new java.awt.Color(255, 255, 255));
-        char3.setText("Username");
-        roundedPanel7.add(char3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 100, 40));
+        username.setText("Username");
+        username.setFontSize(18.0F);
+        roundedPanel7.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 80, 40));
 
-        main.add(roundedPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, 580, 60));
+        main.add(roundedPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 580, 60));
 
         jLabel18.setBackground(new java.awt.Color(255, 255, 255));
         jLabel18.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Home/My Account/Edit Profile");
         main.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 180, 30));
+
+        nickname1.setText("Nickname");
+        nickname1.setFontSize(20.0F);
+        main.add(nickname1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 170, 80, 30));
 
         jMenu2.setText("Account");
 
@@ -238,6 +283,21 @@ public class Edit_profile extends javax.swing.JFrame {
     private void tfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfPasswordActionPerformed
+
+    private void tfEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusGained
+        // TODO add your handling code here:
+        phEmail.setVisible(false);
+    }//GEN-LAST:event_tfEmailFocusGained
+
+    private void tfEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusLost
+        // TODO add your handling code here:
+        if (tfEmail.getText().isEmpty())
+            phEmail.setVisible(true);
+    }//GEN-LAST:event_tfEmailFocusLost
+
+    private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfEmailActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,8 +398,8 @@ public class Edit_profile extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel char2;
-    private javax.swing.JLabel char3;
+    private utils.helper.RopaLabel Password;
+    private utils.helper.RopaLabel email;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JMenu jMenu2;
@@ -348,14 +408,19 @@ public class Edit_profile extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel main;
-    private javax.swing.JLabel nickname;
+    private utils.helper.RopaLabel nickname1;
+    private utils.helper.RopaLabel phEmail;
     private utils.helper.RopaLabel phPassword;
     private utils.helper.RopaLabel phUsername;
+    private utils.helper.RoundedPanel roundedPanel10;
     private utils.helper.RoundedPanel roundedPanel5;
     private utils.helper.RoundedPanel roundedPanel6;
     private utils.helper.RoundedPanel roundedPanel7;
     private utils.helper.RoundedPanel roundedPanel8;
+    private utils.helper.RoundedPanel roundedPanel9;
+    private javax.swing.JTextField tfEmail;
     private javax.swing.JPasswordField tfPassword;
     private javax.swing.JTextField tfUsername;
+    private utils.helper.RopaLabel username;
     // End of variables declaration//GEN-END:variables
 }

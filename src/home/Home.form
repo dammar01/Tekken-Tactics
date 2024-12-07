@@ -110,6 +110,7 @@
                 <Property name="roundTopRight" type="int" value="50"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="guideMouseClicked"/>
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="guideMouseEntered"/>
               </Events>
               <Constraints>

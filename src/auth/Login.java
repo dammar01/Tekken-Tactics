@@ -4,7 +4,12 @@
  */
 package auth;
 
+import home.Home;
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -171,6 +176,11 @@ public class Login extends javax.swing.JFrame {
         registerLinkLabel.setForeground(new java.awt.Color(240, 148, 11));
         registerLinkLabel.setText("Register here!");
         registerLinkLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        registerLinkLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registerLinkLabelMouseClicked(evt);
+            }
+        });
         pLogin.add(registerLinkLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, -1, -1));
 
         title.setBackground(new java.awt.Color(217, 217, 217));
@@ -234,6 +244,30 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
+        String inputUsername = tfUsername.getText();
+        String inputPassword = new String(tfPassword.getPassword());
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM user WHERE username = ? AND password = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, inputUsername);
+            stmt.setString(2, inputPassword);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Login Berhasil!");
+                // Navigasi ke JFrame berikutnya
+                Home home = new Home(); // Ganti dengan nama JFrame Anda
+                home.setVisible(true);
+                this.dispose(); // Tutup JFrame saat ini
+            } else {
+                JOptionPane.showMessageDialog(this, "Username atau Password salah!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
+        }
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -248,7 +282,7 @@ public class Login extends javax.swing.JFrame {
     private void tfUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusLost
         // TODO add your handling code here:
         if (tfUsername.getText().isEmpty())
-        phUsername.setVisible(true);
+            phUsername.setVisible(true);
     }//GEN-LAST:event_tfUsernameFocusLost
 
     private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed
@@ -263,12 +297,19 @@ public class Login extends javax.swing.JFrame {
     private void tfPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusLost
         // TODO add your handling code here:
         if (tfPassword.getPassword() == null || tfPassword.getPassword().length == 0)
-        phPassword.setVisible(true);
+            phPassword.setVisible(true);
     }//GEN-LAST:event_tfPasswordFocusLost
 
     private void tfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfPasswordActionPerformed
+
+    private void registerLinkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerLinkLabelMouseClicked
+        // TODO add your handling code here:
+        Register register = new Register();
+        register.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_registerLinkLabelMouseClicked
 
     /**
      * @param args the command line arguments

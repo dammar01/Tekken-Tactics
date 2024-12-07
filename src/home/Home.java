@@ -4,6 +4,7 @@
  */
 package home;
 
+import guide.Guide;
 import java.awt.Cursor;
 import javax.swing.*;
 
@@ -69,6 +70,9 @@ public class Home extends javax.swing.JFrame {
         guide.setRoundTopLeft(50);
         guide.setRoundTopRight(50);
         guide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                guideMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 guideMouseEntered(evt);
             }
@@ -199,6 +203,13 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         my_combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_my_comboMouseEntered
+
+    private void guideMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guideMouseClicked
+        // TODO add your handling code here:
+        Guide guide = new Guide();
+        guide.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_guideMouseClicked
 
     /**
      * @param args the command line arguments
