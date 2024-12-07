@@ -82,25 +82,14 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="utils.helper.RopaLabel" name="guide_path">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="/ Dragunov"/>
-                <Property name="fontSize" type="float" value="20.0"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="160" y="50" width="140" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
             <Component class="utils.helper.RopaLabel" name="guide_path1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Guide"/>
+                <Property name="text" type="java.lang.String" value="Combo List"/>
                 <Property name="fontSize" type="float" value="20.0"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="110" y="50" width="60" height="-1"/>
+                  <AbsoluteConstraints x="110" y="50" width="110" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>

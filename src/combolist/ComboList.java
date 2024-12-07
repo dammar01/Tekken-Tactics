@@ -68,7 +68,6 @@ public class ComboList extends javax.swing.JFrame {
         root = new javax.swing.JPanel();
         main = new javax.swing.JPanel();
         home_path = new utils.helper.RopaLabel();
-        guide_path = new utils.helper.RopaLabel();
         guide_path1 = new utils.helper.RopaLabel();
         character_list = new javax.swing.JPanel();
 
@@ -90,15 +89,10 @@ public class ComboList extends javax.swing.JFrame {
         main.add(home_path);
         home_path.setBounds(50, 50, 59, 22);
 
-        guide_path.setText("/ Dragunov");
-        guide_path.setFontSize(20.0F);
-        main.add(guide_path);
-        guide_path.setBounds(160, 50, 140, 22);
-
-        guide_path1.setText("Guide");
+        guide_path1.setText("Combo List");
         guide_path1.setFontSize(20.0F);
         main.add(guide_path1);
-        guide_path1.setBounds(110, 50, 60, 22);
+        guide_path1.setBounds(110, 50, 110, 22);
 
         character_list.setBackground(new java.awt.Color(8, 18, 38));
         character_list.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 20));
@@ -163,7 +157,6 @@ public class ComboList extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel character_list;
-    private utils.helper.RopaLabel guide_path;
     private utils.helper.RopaLabel guide_path1;
     private utils.helper.RopaLabel home_path;
     private javax.swing.JPanel main;

@@ -34,7 +34,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="root" alignment="0" max="32767" attributes="0"/>
+          <Component id="root" alignment="0" pref="863" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -93,7 +93,25 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Container class="javax.swing.JPanel" name="character_list">
+            <Component class="utils.helper.RopaLabel" name="guide_path">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="/ Law"/>
+                <Property name="fontSize" type="float" value="20.0"/>
+              </Properties>
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="200" y="50" width="140" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Component class="utils.helper.ComboListHero" name="comboListHero1">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                  <AbsoluteConstraints x="50" y="120" width="-1" height="-1"/>
+                </Constraint>
+              </Constraints>
+            </Component>
+            <Container class="javax.swing.JPanel" name="combolist_data">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="26" green="12" red="8" type="rgb"/>
@@ -101,15 +119,22 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="50" y="100" width="1170" height="220"/>
+                  <AbsoluteConstraints x="50" y="500" width="1170" height="263"/>
                 </Constraint>
               </Constraints>
 
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                <Property name="alignment" type="int" value="0"/>
-                <Property name="horizontalGap" type="int" value="20"/>
-                <Property name="verticalGap" type="int" value="20"/>
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+                <Property name="useNullLayout" type="boolean" value="true"/>
               </Layout>
+              <SubComponents>
+                <Component class="utils.helper.ComboListData" name="comboListData1">
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="0" y="0" width="-1" height="-1"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+              </SubComponents>
             </Container>
           </SubComponents>
         </Container>

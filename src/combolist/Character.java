@@ -35,6 +35,16 @@ public class Character extends javax.swing.JFrame {
     public Character() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
+        
+        java.awt.Dimension dim = getPreferredSize();
+        root.setPreferredSize(dim);
+        reloadPanel(root);
+        ScrollBar scrollPane = new ScrollBar(root);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBar(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.setBounds(0, 0, main.getWidth(), 650);
+        add(scrollPane);
     }
 
     /**
@@ -50,7 +60,10 @@ public class Character extends javax.swing.JFrame {
         main = new javax.swing.JPanel();
         home_path = new utils.helper.RopaLabel();
         guide_path1 = new utils.helper.RopaLabel();
-        character_list = new javax.swing.JPanel();
+        guide_path = new utils.helper.RopaLabel();
+        comboListHero1 = new utils.helper.ComboListHero();
+        combolist_data = new javax.swing.JPanel();
+        comboListData1 = new utils.helper.ComboListData();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -75,10 +88,20 @@ public class Character extends javax.swing.JFrame {
         main.add(guide_path1);
         guide_path1.setBounds(110, 50, 100, 22);
 
-        character_list.setBackground(new java.awt.Color(8, 18, 38));
-        character_list.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 20));
-        main.add(character_list);
-        character_list.setBounds(50, 100, 1170, 220);
+        guide_path.setText("/ Law");
+        guide_path.setFontSize(20.0F);
+        main.add(guide_path);
+        guide_path.setBounds(200, 50, 140, 22);
+        main.add(comboListHero1);
+        comboListHero1.setBounds(50, 120, 1170, 286);
+
+        combolist_data.setBackground(new java.awt.Color(8, 18, 38));
+        combolist_data.setLayout(null);
+        combolist_data.add(comboListData1);
+        comboListData1.setBounds(0, 0, 1170, 236);
+
+        main.add(combolist_data);
+        combolist_data.setBounds(50, 500, 1170, 263);
 
         root.add(main);
 
@@ -92,7 +115,7 @@ public class Character extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE)
         );
 
         pack();
@@ -141,7 +164,10 @@ public class Character extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel character_list;
+    private utils.helper.ComboListData comboListData1;
+    private utils.helper.ComboListHero comboListHero1;
+    private javax.swing.JPanel combolist_data;
+    private utils.helper.RopaLabel guide_path;
     private utils.helper.RopaLabel guide_path1;
     private utils.helper.RopaLabel home_path;
     private javax.swing.JPanel main;
