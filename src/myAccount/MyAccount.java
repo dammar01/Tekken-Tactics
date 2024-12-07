@@ -4,6 +4,7 @@
  */
 package myAccount;
 
+import editProfile.Edit_profile;
 import javax.swing.*;
 
 /**
@@ -92,6 +93,16 @@ public class MyAccount extends javax.swing.JFrame {
         editProfile.setRoundBottomRight(50);
         editProfile.setRoundTopLeft(50);
         editProfile.setRoundTopRight(50);
+        editProfile.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentRemoved(java.awt.event.ContainerEvent evt) {
+                editProfileComponentRemoved(evt);
+            }
+        });
+        editProfile.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editProfileMouseClicked(evt);
+            }
+        });
         editProfile.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel17.setBackground(new java.awt.Color(255, 255, 255));
@@ -316,6 +327,19 @@ public class MyAccount extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void editProfileComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_editProfileComponentRemoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editProfileComponentRemoved
+
+    private void editProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editProfileMouseClicked
+        // TODO add your handling code here:
+        Edit_profile edit_profile = new Edit_profile();
+        edit_profile.setVisible(true);
+        this.dispose();
+                
+                
+    }//GEN-LAST:event_editProfileMouseClicked
 
     /**
      * @param args the command line arguments
