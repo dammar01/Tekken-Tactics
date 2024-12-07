@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import java.util.*;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import utils.helper.ComboListData;
 import utils.helper.ScrollBar;
 
 /**
@@ -24,19 +25,30 @@ public class Character extends javax.swing.JFrame {
         panel.revalidate();
         panel.repaint();
     }
-    
-    private void updatePanel(JPanel panel, int x, int y, int w, int h){
+
+    private void updatePanel(JPanel panel, int x, int y, int w, int h) {
         panel.setPreferredSize(new java.awt.Dimension(w, h));
         panel.setBounds(x, y, w, h);
         reloadPanel(panel);
     }
 
-
     public Character() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
+
+        int h = 0;
+        for (int i = 0; i < 10; i++) {
+            ComboListData data = new ComboListData();
+            h += data.getPreferredSize().height + 20;
+            combolist_data.add(data);
+        }
+        combolist_data.setPreferredSize(new java.awt.Dimension(combolist_data.getWidth(), h));
+        combolist_data.setBounds(combolist_data.getX(), combolist_data.getY(), combolist_data.getWidth(), h);
+        reloadPanel(combolist_data);
         
+        h += combolist_data.getY() + 20;
         java.awt.Dimension dim = getPreferredSize();
+        dim.height = h;
         root.setPreferredSize(dim);
         reloadPanel(root);
         ScrollBar scrollPane = new ScrollBar(root);
@@ -63,7 +75,6 @@ public class Character extends javax.swing.JFrame {
         guide_path = new utils.helper.RopaLabel();
         comboListHero1 = new utils.helper.ComboListHero();
         combolist_data = new javax.swing.JPanel();
-        comboListData1 = new utils.helper.ComboListData();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -96,12 +107,9 @@ public class Character extends javax.swing.JFrame {
         comboListHero1.setBounds(50, 120, 1170, 286);
 
         combolist_data.setBackground(new java.awt.Color(8, 18, 38));
-        combolist_data.setLayout(null);
-        combolist_data.add(comboListData1);
-        comboListData1.setBounds(0, 0, 1170, 236);
-
+        combolist_data.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 10));
         main.add(combolist_data);
-        combolist_data.setBounds(50, 500, 1170, 263);
+        combolist_data.setBounds(50, 450, 1170, 263);
 
         root.add(main);
 
@@ -164,7 +172,6 @@ public class Character extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private utils.helper.ComboListData comboListData1;
     private utils.helper.ComboListHero comboListHero1;
     private javax.swing.JPanel combolist_data;
     private utils.helper.RopaLabel guide_path;
