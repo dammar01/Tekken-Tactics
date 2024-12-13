@@ -75,6 +75,8 @@ public class Character extends javax.swing.JFrame {
         guide_path = new utils.helper.RopaLabel();
         comboListHero1 = new utils.helper.ComboListHero();
         combolist_data = new javax.swing.JPanel();
+        back = new utils.helper.RoundedPanel();
+        ropaLabel1 = new utils.helper.RopaLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -115,6 +117,20 @@ public class Character extends javax.swing.JFrame {
         combolist_data.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 10));
         main.add(combolist_data);
         combolist_data.setBounds(50, 450, 1170, 263);
+
+        back.setBackground(new java.awt.Color(123, 15, 58));
+        back.setRoundBottomLeft(10);
+        back.setRoundBottomRight(10);
+        back.setRoundTopLeft(10);
+        back.setRoundTopRight(10);
+        back.setLayout(new java.awt.GridBagLayout());
+
+        ropaLabel1.setText("<<  Back");
+        ropaLabel1.setFontSize(20.0F);
+        back.add(ropaLabel1, new java.awt.GridBagConstraints());
+
+        main.add(back);
+        back.setBounds(1060, 50, 117, 33);
 
         root.add(main);
 
@@ -178,6 +194,7 @@ public class Character extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private utils.helper.RoundedPanel back;
     private utils.helper.ComboListHero comboListHero1;
     private javax.swing.JPanel combolist_data;
     private utils.helper.RopaLabel guide_path;
@@ -185,5 +202,6 @@ public class Character extends javax.swing.JFrame {
     private utils.helper.RopaLabel home_path;
     private javax.swing.JPanel main;
     private javax.swing.JPanel root;
+    private utils.helper.RopaLabel ropaLabel1;
     // End of variables declaration//GEN-END:variables
 }
