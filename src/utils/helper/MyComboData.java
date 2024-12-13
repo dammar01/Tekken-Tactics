@@ -19,24 +19,29 @@ import javax.swing.text.StyleConstants;
  *
  * @author Dammar
  */
-public class ComboListData extends JPanel {
+public class MyComboData extends JPanel {
 
     private String characterName = "Dragunov";
     private ImageIcon image = new ImageIcon(getClass().getResource("/image/character/128x128/dragunov.png"));
     private CharacterItem character = new CharacterItem();
     private String maker = "Me";
     private String submitedAt = "07/12/2024";
+    private String moveName = "General Combo";
     private boolean favorite = false;
+    private boolean deleteable = false;
     private String[] notation = {"1"};
     private String version = "v1.06";
     private int totalHit = 8;
     private int totalDamage = 67;
-
+    
+    private RopaLabel moveNameLabel;
     private MakerLabel makerLabel;
     private RoundedPanel dataPanel;
     private JPanel notationPanel;
     private JLabel favoriteIcon;
+    private JLabel deleteIcon;
     private RoundedPanel additionalPanel;
+
 
     private void reloadPanel(JPanel panel) {
         panel.revalidate();
@@ -93,13 +98,22 @@ public class ComboListData extends JPanel {
         data.setBackground(new Color(66, 21, 50));
         return data;
     }
+    
+    private RopaLabel setupMoveName(){
+        RopaLabel move = new RopaLabel();
+        move.setText(moveName);
+        move.setFontSize(18);
+        move.setForeground(Color.white);
+        move.setBackground(new Color(66, 21, 50));
+        move.setBounds(10, 10, move.getPreferredSize().width, move.getPreferredSize().height);
+        return move;
+    }
 
     private MakerLabel setupMakerLabel() {
         MakerLabel makerLabel = new MakerLabel();
         makerLabel.setCharacterName(characterName);
         makerLabel.setMaker(maker);
         makerLabel.setSubmitedAt(submitedAt);
-        makerLabel.setBounds(10, 10, makerLabel.getPreferredSize().width, makerLabel.getPreferredSize().height);
         return makerLabel;
     }
 
@@ -113,6 +127,18 @@ public class ComboListData extends JPanel {
         int xPosition = dataPanel.getWidth() - icon.getIconWidth() - 10;
         fav.setBounds(xPosition, 10, icon.getIconWidth(), icon.getIconHeight());
         return fav;
+    }
+    
+    private JLabel deleteCombo(boolean active){
+        JLabel del = new JLabel();
+        String iconPath = active ? "/image/icon/normal/trash_active.png"
+                : "/image/icon/normal/trash_inactive.png";
+        ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
+        del.setIcon(icon);
+        del.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+        int xPosition = dataPanel.getWidth() - (icon.getIconWidth() * 2) - 10;
+        del.setBounds(xPosition, 10, icon.getIconWidth(), icon.getIconHeight());
+        return del;
     }
 
     private void addData(JPanel panel) {
@@ -148,9 +174,9 @@ public class ComboListData extends JPanel {
 
         final int margin = 10;
         int panelWidth = 1170 - (margin * 2);
-        int panelHeight = 263 - makerLabel.getHeight() - (margin * 2);
+        int panelHeight = 263 - moveNameLabel.getHeight() - (margin * 2);
         int panelX = margin;
-        int panelY = makerLabel.getHeight() + margin;
+        int panelY = moveNameLabel.getHeight() + margin;
 
         panel.setPreferredSize(new Dimension(panelWidth, panelHeight));
         panel.setBounds(panelX, panelY, panelWidth, panelHeight);
@@ -158,8 +184,21 @@ public class ComboListData extends JPanel {
         addData(panel);
         return panel;
     }
+    
+    private void refreshAdditionalPanel() {
+        dataPanel.remove(additionalPanel);
+        additionalPanel = setupAdditional(version, totalHit, totalDamage);
 
-    public ComboListData() {
+        Dimension additionalSize = additionalPanel.getPreferredSize();
+        additionalPanel.setBounds(10, dataPanel.getHeight() - additionalSize.height - 10, additionalSize.width, additionalSize.height);
+        dataPanel.add(additionalPanel);
+
+        reloadPanel(dataPanel);
+        revalidate();
+        repaint();
+    }
+
+    public MyComboData() {
         int widthDefault = 1170;
         int heightDefault = 236;
 
@@ -173,28 +212,50 @@ public class ComboListData extends JPanel {
         int dataWidth = widthDefault - x;
 
         dataPanel = setupDataPanel(dataWidth, heightDefault, x);
+        moveNameLabel = setupMoveName();
         makerLabel = setupMakerLabel();
         notationPanel = setupDataNotation();
         favoriteIcon = isFavorite(favorite);
+        deleteIcon = deleteCombo(deleteable);
         additionalPanel = setupAdditional("v1.06", 8, 67);
-
-        int dataPanelHeight = notationPanel.getHeight() + 20 + makerLabel.getHeight() + additionalPanel.getHeight();
+        
+        int dataPanelHeight = notationPanel.getHeight() + 20 + moveNameLabel.getHeight() + additionalPanel.getHeight();
+        dataPanelHeight = Math.max(dataPanelHeight, 180);
+        
         dataPanel.setPreferredSize(new Dimension(dataWidth, Math.max(dataPanelHeight, 180)));
         dataPanel.setBounds(dataPanel.getX(), dataPanel.getY(), dataWidth, Math.max(dataPanelHeight, 180));
         reloadPanel(dataPanel);
 
         Dimension additionalSize = additionalPanel.getPreferredSize();
-        additionalPanel.setBounds(10, Math.max(dataPanelHeight, 180) - additionalSize.height - 10, additionalSize.width, additionalSize.height);
+        additionalPanel.setBounds(10, dataPanelHeight - additionalSize.height - 10, additionalSize.width, additionalSize.height);
         reloadPanel(additionalPanel);
-        setPreferredSize(new Dimension(widthDefault, Math.max(dataPanelHeight, 180)));
-
+        setPreferredSize(new Dimension(widthDefault, dataPanelHeight));
+        
+        int bound[] = {
+            dataPanel.getBounds().width - makerLabel.getPreferredSize().width - 10,
+            dataPanel.getBounds().height - makerLabel.getPreferredSize().height - 10,
+            makerLabel.getPreferredSize().width,
+            makerLabel.getPreferredSize().height
+        };
+        makerLabel.setBounds(bound[0], bound[1], bound[2], bound[3]);
+        
+        dataPanel.add(moveNameLabel);
+        dataPanel.add(favoriteIcon);
+        dataPanel.add(deleteIcon);
         dataPanel.add(makerLabel);
         dataPanel.add(notationPanel);
         dataPanel.add(additionalPanel);
-        dataPanel.add(favoriteIcon);
+        
 
         add(character);
         add(dataPanel);
+    }
+    
+    public void setMovename(String name) {
+        this.moveName = name;
+        moveNameLabel.setText(name);
+        revalidate();
+        repaint();
     }
 
     public void setCharacterName(String name) {
@@ -227,6 +288,17 @@ public class ComboListData extends JPanel {
                 : "/image/icon/normal/not_favorite.png";
         ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
         this.favoriteIcon.setIcon(icon);
+        reloadPanel(this.dataPanel);
+        revalidate();
+        repaint();
+    }
+    
+    public void setDeleteable(boolean val) {
+        this.deleteable = val;
+        String iconPath = this.favorite ? "/image/icon/normal/trash_active.png"
+                : "/image/icon/normal/trash_inactive.png";
+        ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
+        this.deleteIcon.setIcon(icon);
         reloadPanel(this.dataPanel);
         revalidate();
         repaint();
@@ -295,16 +367,17 @@ public class ComboListData extends JPanel {
         refreshAdditionalPanel();
     }
 
-    private void refreshAdditionalPanel() {
-        dataPanel.remove(additionalPanel);
-        additionalPanel = setupAdditional(version, totalHit, totalDamage);
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Test ComboListHero");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Dimension additionalSize = additionalPanel.getPreferredSize();
-        additionalPanel.setBounds(10, dataPanel.getHeight() - additionalSize.height - 10, additionalSize.width, additionalSize.height);
-        dataPanel.add(additionalPanel);
+            MyComboData panel = new MyComboData();
+            frame.add(panel);
 
-        reloadPanel(dataPanel);
-        revalidate();
-        repaint();
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 }

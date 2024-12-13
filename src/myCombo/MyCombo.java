@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package combolist;
+package myCombo;
 
+import combolist.*;
 import guide.*;
 import javax.swing.JFrame;
 import java.util.*;
@@ -16,7 +17,7 @@ import utils.helper.ScrollBar;
  *
  * @author Dammar
  */
-public class Character extends javax.swing.JFrame {
+public class MyCombo extends javax.swing.JFrame {
 
     /**
      * Creates new form Guide
@@ -26,30 +27,9 @@ public class Character extends javax.swing.JFrame {
         panel.repaint();
     }
 
-    private void updatePanel(JPanel panel, int x, int y, int w, int h) {
-        panel.setPreferredSize(new java.awt.Dimension(w, h));
-        panel.setBounds(x, y, w, h);
-        reloadPanel(panel);
-    }
-
-    public Character() {
+    public MyCombo() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
-
-        int h = 0;
-        for (int i = 0; i < 10; i++) {
-            ComboListData data = new ComboListData();
-            h += data.getPreferredSize().height + 20;
-            combolist_data.add(data);
-        }
-        combolist_data.setPreferredSize(new java.awt.Dimension(combolist_data.getWidth(), h));
-        combolist_data.setBounds(combolist_data.getX(), combolist_data.getY(), combolist_data.getWidth(), h);
-        reloadPanel(combolist_data);
-        
-        h += combolist_data.getY() + 20;
-        java.awt.Dimension dim = getPreferredSize();
-        dim.height = h;
-        root.setPreferredSize(dim);
         reloadPanel(root);
         ScrollBar scrollPane = new ScrollBar(root);
         scrollPane.setBorder(null);
@@ -72,9 +52,13 @@ public class Character extends javax.swing.JFrame {
         main = new javax.swing.JPanel();
         home_path = new utils.helper.RopaLabel();
         guide_path1 = new utils.helper.RopaLabel();
-        guide_path = new utils.helper.RopaLabel();
-        comboListHero1 = new utils.helper.ComboListHero();
         combolist_data = new javax.swing.JPanel();
+        add_combo = new utils.helper.RoundedPanel();
+        ropaLabel1 = new utils.helper.RopaLabel();
+        list_character = new javax.swing.JComboBox<>();
+        search = new utils.helper.RoundedPanel();
+        search_placeholder = new utils.helper.RopaLabel();
+        search_input = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -89,27 +73,95 @@ public class Character extends javax.swing.JFrame {
         main.setPreferredSize(new java.awt.Dimension(1281, 1480));
         main.setLayout(null);
 
-        home_path.setText("Home  / ");
+        home_path.setText("Home ");
         home_path.setFontSize(20.0F);
         main.add(home_path);
-        home_path.setBounds(50, 50, 59, 22);
+        home_path.setBounds(50, 50, 50, 22);
 
-        guide_path1.setText("Combo List");
+        guide_path1.setText("/ My Combo");
         guide_path1.setFontSize(20.0F);
         main.add(guide_path1);
-        guide_path1.setBounds(110, 50, 100, 22);
-
-        guide_path.setText("/ Law");
-        guide_path.setFontSize(20.0F);
-        main.add(guide_path);
-        guide_path.setBounds(200, 50, 140, 22);
-        main.add(comboListHero1);
-        comboListHero1.setBounds(50, 120, 1170, 286);
+        guide_path1.setBounds(100, 50, 110, 22);
 
         combolist_data.setBackground(new java.awt.Color(8, 18, 38));
         combolist_data.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 10));
         main.add(combolist_data);
         combolist_data.setBounds(50, 450, 1170, 263);
+
+        add_combo.setBackground(new java.awt.Color(123, 15, 58));
+        add_combo.setRoundBottomLeft(10);
+        add_combo.setRoundBottomRight(10);
+        add_combo.setRoundTopLeft(10);
+        add_combo.setRoundTopRight(10);
+        add_combo.setLayout(new java.awt.GridBagLayout());
+
+        ropaLabel1.setText("+  Add Combo");
+        ropaLabel1.setFontSize(20.0F);
+        add_combo.add(ropaLabel1, new java.awt.GridBagConstraints());
+
+        main.add(add_combo);
+        add_combo.setBounds(1080, 50, 130, 33);
+
+        list_character.setBackground(new java.awt.Color(217, 217, 217));
+        list_character.setFont(ropaLabel1.getFont());
+        list_character.setForeground(new java.awt.Color(0, 0, 0));
+        list_character.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        list_character.setBorder(null);
+        list_character.setFocusable(false);
+        list_character.setPreferredSize(new java.awt.Dimension(140, 30));
+        list_character.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                list_characterActionPerformed(evt);
+            }
+        });
+        main.add(list_character);
+        list_character.setBounds(50, 110, 140, 30);
+
+        search.setBackground(new java.awt.Color(217, 217, 217));
+        search.setRoundBottomLeft(10);
+        search.setRoundBottomRight(10);
+        search.setRoundTopLeft(10);
+        search.setRoundTopRight(10);
+        search.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        search_placeholder.setForeground(new java.awt.Color(109, 109, 109));
+        search_placeholder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/search_icon.png"))); // NOI18N
+        search_placeholder.setText("Search Combo");
+        search_placeholder.setFontSize(18.0F);
+        search_placeholder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                search_placeholderMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                search_placeholderMouseEntered(evt);
+            }
+        });
+        search.add(search_placeholder, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, -1, -1));
+
+        search_input.setBackground(new java.awt.Color(217, 217, 217));
+        search_input.setFont(ropaLabel1.getFont());
+        search_input.setForeground(new java.awt.Color(0, 0, 0));
+        search_input.setBorder(null);
+        search_input.setHighlighter(null);
+        search_input.setPreferredSize(new java.awt.Dimension(960, 30));
+        search_input.setRequestFocusEnabled(false);
+        search_input.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                search_inputFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                search_inputFocusLost(evt);
+            }
+        });
+        search_input.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                search_inputKeyTyped(evt);
+            }
+        });
+        search.add(search_input, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 0, 990, 30));
+
+        main.add(search);
+        search.setBounds(210, 110, 1000, 30);
 
         root.add(main);
 
@@ -129,6 +181,43 @@ public class Character extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void list_characterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list_characterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_list_characterActionPerformed
+
+    private void search_inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_search_inputFocusGained
+        // TODO add your handling code here:
+        if (search_input.getText().isEmpty())
+            search_placeholder.setVisible(true);
+        else
+            search_placeholder.setVisible(false);
+    }//GEN-LAST:event_search_inputFocusGained
+
+    private void search_inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_search_inputFocusLost
+        // TODO add your handling code here:
+        if (search_input.getText().isEmpty())
+            search_placeholder.setVisible(true);
+    }//GEN-LAST:event_search_inputFocusLost
+
+    private void search_placeholderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search_placeholderMouseClicked
+        // TODO add your handling code here:
+        search_input.setFocusable(true);
+    }//GEN-LAST:event_search_placeholderMouseClicked
+
+    private void search_placeholderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search_placeholderMouseEntered
+        // TODO add your handling code here:
+        search_placeholder.setCursor(search_input.getCursor());
+    }//GEN-LAST:event_search_placeholderMouseEntered
+
+    private void search_inputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_search_inputKeyTyped
+        // TODO add your handling code here:
+        String input = search_input.getText() + evt.getKeyChar();
+        if (input.isEmpty())
+            search_placeholder.setVisible(true);
+        else
+            search_placeholder.setVisible(false);
+    }//GEN-LAST:event_search_inputKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -146,14 +235,22 @@ public class Character extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Character.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MyCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Character.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MyCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Character.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MyCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Character.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MyCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -166,18 +263,22 @@ public class Character extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Character().setVisible(true);
+                new MyCombo().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private utils.helper.ComboListHero comboListHero1;
+    private utils.helper.RoundedPanel add_combo;
     private javax.swing.JPanel combolist_data;
-    private utils.helper.RopaLabel guide_path;
     private utils.helper.RopaLabel guide_path1;
     private utils.helper.RopaLabel home_path;
+    private javax.swing.JComboBox<String> list_character;
     private javax.swing.JPanel main;
     private javax.swing.JPanel root;
+    private utils.helper.RopaLabel ropaLabel1;
+    private utils.helper.RoundedPanel search;
+    private javax.swing.JTextField search_input;
+    private utils.helper.RopaLabel search_placeholder;
     // End of variables declaration//GEN-END:variables
 }
