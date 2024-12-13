@@ -4,22 +4,24 @@
  */
 package home;
 
+import combolist.ComboList;
 import guide.Guide;
+import help.Help;
 import java.awt.Cursor;
 import javax.swing.*;
+import myAccount.MyAccount;
 
 /**
  *
  * @author Dammar
  */
 public class Home extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form Home
      */
-    
     public Home() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
     }
 
@@ -54,7 +56,7 @@ public class Home extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1440, 1024));
+        setMinimumSize(new java.awt.Dimension(1281, 650));
 
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
         main.setPreferredSize(new java.awt.Dimension(1281, 650));
@@ -95,6 +97,9 @@ public class Home extends javax.swing.JFrame {
         combo_list.setRoundTopLeft(50);
         combo_list.setRoundTopRight(50);
         combo_list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                combo_listMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 combo_listMouseEntered(evt);
             }
@@ -152,7 +157,7 @@ public class Home extends javax.swing.JFrame {
 
         jMenu2.setText("Account");
 
-        jMenuItem1.setText("Login");
+        jMenuItem1.setText("My Account");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -161,11 +166,21 @@ public class Home extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Exit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Help");
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu3MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
@@ -187,6 +202,9 @@ public class Home extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        MyAccount myAccount = new MyAccount();
+        myAccount.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void guideMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guideMouseEntered
@@ -210,6 +228,25 @@ public class Home extends javax.swing.JFrame {
         guide.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_guideMouseClicked
+
+    private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
+        // TODO add your handling code here:
+        Help help = new Help();
+        help.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void combo_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combo_listMouseClicked
+        // TODO add your handling code here:
+        ComboList comboList = new ComboList();
+        comboList.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_combo_listMouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments

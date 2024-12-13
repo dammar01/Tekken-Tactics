@@ -4,6 +4,7 @@
  */
 package auth;
 
+import help.Help;
 import home.Home;
 import javax.swing.*;
 import java.sql.Connection;
@@ -21,7 +22,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Home
      */
     public Login() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
     }
 
@@ -54,13 +55,16 @@ public class Login extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1281, 650));
+        setMaximumSize(new java.awt.Dimension(1280, 750));
+        setMinimumSize(new java.awt.Dimension(1280, 750));
+        setPreferredSize(new java.awt.Dimension(1280, 750));
+        setResizable(false);
 
-        main.setMinimumSize(new java.awt.Dimension(1281, 650));
-        main.setPreferredSize(new java.awt.Dimension(1281, 650));
+        main.setMaximumSize(new java.awt.Dimension(1280, 750));
+        main.setMinimumSize(new java.awt.Dimension(1280, 750));
+        main.setPreferredSize(new java.awt.Dimension(1280, 750));
         main.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/logo.png"))); // NOI18N
@@ -204,7 +208,12 @@ public class Login extends javax.swing.JFrame {
 
         jMenu2.setText("Account");
 
-        jMenuItem1.setText("Login");
+        jMenuItem1.setText("Register");
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem1MouseClicked(evt);
+            }
+        });
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -213,12 +222,14 @@ public class Login extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Exit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("Help");
-        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -272,6 +283,9 @@ public class Login extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        Register register = new Register();
+        register.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void tfUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusGained
@@ -310,6 +324,15 @@ public class Login extends javax.swing.JFrame {
         register.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_registerLinkLabelMouseClicked
+
+    private void jMenuItem1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1MouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -358,7 +381,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;

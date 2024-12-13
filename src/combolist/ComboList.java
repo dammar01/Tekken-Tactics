@@ -5,6 +5,8 @@
 package combolist;
 
 import guide.*;
+import home.Home;
+import java.awt.Cursor;
 import javax.swing.JFrame;
 import java.util.*;
 import javax.swing.ImageIcon;
@@ -24,8 +26,8 @@ public class ComboList extends javax.swing.JFrame {
         panel.revalidate();
         panel.repaint();
     }
-    
-    private void updatePanel(JPanel panel, int x, int y, int w, int h){
+
+    private void updatePanel(JPanel panel, int x, int y, int w, int h) {
         panel.setPreferredSize(new java.awt.Dimension(w, h));
         panel.setBounds(x, y, w, h);
         reloadPanel(panel);
@@ -73,6 +75,7 @@ public class ComboList extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
+        setResizable(false);
 
         root.setMinimumSize(new java.awt.Dimension(1281, 100));
         root.setPreferredSize(new java.awt.Dimension(1281, 650));
@@ -86,8 +89,16 @@ public class ComboList extends javax.swing.JFrame {
 
         home_path.setText("Home  / ");
         home_path.setFontSize(20.0F);
+        home_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                home_pathMouseEntered(evt);
+            }
+        });
         main.add(home_path);
-        home_path.setBounds(50, 50, 59, 22);
+        home_path.setBounds(50, 50, 62, 22);
 
         guide_path1.setText("Combo List");
         guide_path1.setFontSize(20.0F);
@@ -115,7 +126,20 @@ public class ComboList extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void home_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_home_pathMouseClicked
+
+    private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
+        // TODO add your handling code here:
+        home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_home_pathMouseEntered
 
     /**
      * @param args the command line arguments

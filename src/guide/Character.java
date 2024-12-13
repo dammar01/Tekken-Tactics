@@ -89,21 +89,23 @@ public class Character extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
+        setPreferredSize(new java.awt.Dimension(1281, 650));
+        setResizable(false);
 
-        root.setMinimumSize(new java.awt.Dimension(1281, 100));
+        root.setMinimumSize(new java.awt.Dimension(1281, 650));
         root.setPreferredSize(new java.awt.Dimension(1281, 979));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
-        main.setPreferredSize(new java.awt.Dimension(1281, 979));
+        main.setPreferredSize(new java.awt.Dimension(1281, 650));
         main.setLayout(null);
 
         home_path.setText("Home  / ");
         home_path.setFontSize(20.0F);
         main.add(home_path);
-        home_path.setBounds(50, 50, 59, 22);
+        home_path.setBounds(50, 50, 62, 22);
 
         guide_path.setText("/ Dragunov");
         guide_path.setFontSize(20.0F);
@@ -285,6 +287,7 @@ public class Character extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

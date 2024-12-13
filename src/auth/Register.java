@@ -4,11 +4,26 @@
  */
 package auth;
 
+import help.Help;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
+import org.netbeans.lib.awtextra.AbsoluteLayout;
+import utils.helper.RopaLabel;
+import utils.helper.RoundedPanel;
 
 /**
  *
@@ -20,7 +35,7 @@ public class Register extends javax.swing.JFrame {
      * Creates new form Home
      */
     public Register() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
     }
 
@@ -56,11 +71,15 @@ public class Register extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1440, 1024));
+        setMaximumSize(new java.awt.Dimension(1280, 750));
+        setMinimumSize(new java.awt.Dimension(1280, 750));
+        setPreferredSize(new java.awt.Dimension(1280, 750));
+        setResizable(false);
+        setSize(new java.awt.Dimension(0, 0));
 
+        main.setPreferredSize(new java.awt.Dimension(1390, 1020));
         main.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/utils/logo.png"))); // NOI18N
@@ -242,12 +261,14 @@ public class Register extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Exit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("Help");
-        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -271,7 +292,7 @@ public class Register extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+    private void btnRegisterActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         // TODO add your handling code here:
         String email = tfEmail.getText();
         String username = tfUsername.getText();
@@ -323,57 +344,65 @@ public class Register extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
-    private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
+    private void tfEmailActionPerformed(ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfEmailActionPerformed
 
-    private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed
+    private void tfUsernameActionPerformed(ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfUsernameActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItem1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        Login login = new Login();
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void tfEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusGained
+    private void tfEmailFocusGained(FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusGained
         // TODO add your handling code here:
         phEmail.setVisible(false);
     }//GEN-LAST:event_tfEmailFocusGained
 
-    private void tfEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusLost
+    private void tfEmailFocusLost(FocusEvent evt) {//GEN-FIRST:event_tfEmailFocusLost
         // TODO add your handling code here:
         if (tfEmail.getText().isEmpty())
             phEmail.setVisible(true);
     }//GEN-LAST:event_tfEmailFocusLost
 
-    private void tfUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusGained
+    private void tfUsernameFocusGained(FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusGained
         // TODO add your handling code here:
         phUsername.setVisible(false);
     }//GEN-LAST:event_tfUsernameFocusGained
 
-    private void tfUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusLost
+    private void tfUsernameFocusLost(FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusLost
         // TODO add your handling code here:
         if (tfUsername.getText().isEmpty())
             phUsername.setVisible(true);
     }//GEN-LAST:event_tfUsernameFocusLost
 
-    private void tfPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusGained
+    private void tfPasswordFocusGained(FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusGained
         // TODO add your handling code here:
         phPassword.setVisible(false);
     }//GEN-LAST:event_tfPasswordFocusGained
 
-    private void tfPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusLost
+    private void tfPasswordFocusLost(FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusLost
         // TODO add your handling code here:
         if (tfPassword.getPassword() == null || tfPassword.getPassword().length == 0)
             phPassword.setVisible(true);
     }//GEN-LAST:event_tfPasswordFocusLost
 
-    private void loginLinkLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkLabelMouseClicked
+    private void loginLinkLabelMouseClicked(MouseEvent evt) {//GEN-FIRST:event_loginLinkLabelMouseClicked
         // TODO add your handling code here:
         Login login = new Login();
         login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_loginLinkLabelMouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -418,7 +447,6 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JButton btnRegister;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;

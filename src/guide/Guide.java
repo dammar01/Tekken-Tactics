@@ -4,10 +4,12 @@
  */
 package guide;
 
+import home.Home;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import utils.helper.ScrollBar;
+import java.awt.Cursor;
 
 /**
  *
@@ -46,7 +48,7 @@ public class Guide extends javax.swing.JFrame {
     }
 
     public Guide() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
         drawCharacter(this.s_tier, this.s_tier_character, 12);
         drawCharacter(this.a_tier, this.a_tier_character, 8);
@@ -100,17 +102,20 @@ public class Guide extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-        setMaximumSize(new java.awt.Dimension(1280, 1602));
-        setPreferredSize(new java.awt.Dimension(1281, 1468));
+        setMaximumSize(new java.awt.Dimension(1281, 650));
+        setMinimumSize(new java.awt.Dimension(1281, 650));
+        setPreferredSize(new java.awt.Dimension(1281, 650));
+        setResizable(false);
 
-        root.setMinimumSize(new java.awt.Dimension(1281, 100));
-        root.setPreferredSize(new java.awt.Dimension(1281, 1480));
+        root.setMaximumSize(new java.awt.Dimension(1281, 650));
+        root.setMinimumSize(new java.awt.Dimension(1281, 650));
+        root.setPreferredSize(new java.awt.Dimension(1281, 650));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
-        main.setPreferredSize(new java.awt.Dimension(1281, 1480));
+        main.setPreferredSize(new java.awt.Dimension(1281, 650));
         main.setLayout(null);
 
         s_tier.setBackground(new java.awt.Color(8, 18, 38));
@@ -291,6 +296,14 @@ public class Guide extends javax.swing.JFrame {
 
         home_path.setText("Home");
         home_path.setFontSize(20.0F);
+        home_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                home_pathMouseEntered(evt);
+            }
+        });
         main.add(home_path);
         home_path.setBounds(50, 50, 46, 22);
 
@@ -322,7 +335,20 @@ public class Guide extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void home_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_home_pathMouseClicked
+
+    private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
+        // TODO add your handling code here:
+        home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_home_pathMouseEntered
 
     /**
      * @param args the command line arguments

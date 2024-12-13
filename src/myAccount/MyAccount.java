@@ -5,7 +5,9 @@
 package myAccount;
 
 import editProfile.Edit_profile;
+import home.Home;
 import javax.swing.*;
+import java.awt.Cursor;
 
 /**
  *
@@ -53,7 +55,9 @@ public class MyAccount extends javax.swing.JFrame {
         roundedPanel4 = new utils.helper.RoundedPanel();
         jLabel8 = new javax.swing.JLabel();
         combo2 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        home_path = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        ropaLabel1 = new utils.helper.RopaLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -281,15 +285,32 @@ public class MyAccount extends javax.swing.JFrame {
 
         main.add(roundedPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 330, -1, -1));
 
-        jLabel18.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel18.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("Home/My Account");
-        main.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 160, 30));
+        home_path.setBackground(new java.awt.Color(255, 255, 255));
+        home_path.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        home_path.setForeground(new java.awt.Color(255, 255, 255));
+        home_path.setText("Home");
+        home_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                home_pathMouseEntered(evt);
+            }
+        });
+        main.add(home_path, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 40, 30));
+
+        jLabel19.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel19.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("/ My Account");
+        main.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 110, 30));
+
+        ropaLabel1.setText("ropaLabel1");
+        main.add(ropaLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, -1, -1));
 
         jMenu2.setText("Account");
 
-        jMenuItem1.setText("Login");
+        jMenuItem1.setText("My Account");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -298,6 +319,11 @@ public class MyAccount extends javax.swing.JFrame {
         jMenu2.add(jMenuItem1);
 
         jMenuItem2.setText("Exit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
@@ -311,9 +337,7 @@ public class MyAccount extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(main, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, 1293, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,6 +364,23 @@ public class MyAccount extends javax.swing.JFrame {
                 
                 
     }//GEN-LAST:event_editProfileMouseClicked
+
+    private void home_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_home_pathMouseClicked
+
+    private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
+        // TODO add your handling code here:
+         home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_home_pathMouseEntered
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -415,9 +456,10 @@ public class MyAccount extends javax.swing.JFrame {
     private javax.swing.JLabel combo2;
     private utils.helper.RoundedPanel editProfile;
     private javax.swing.JLabel favChar;
+    private javax.swing.JLabel home_path;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -433,6 +475,7 @@ public class MyAccount extends javax.swing.JFrame {
     private javax.swing.JPanel main;
     private utils.helper.RoundedPanel myCombo;
     private javax.swing.JLabel nickname;
+    private utils.helper.RopaLabel ropaLabel1;
     private utils.helper.RoundedPanel roundedPanel1;
     private utils.helper.RoundedPanel roundedPanel2;
     private utils.helper.RoundedPanel roundedPanel3;

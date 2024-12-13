@@ -5,6 +5,7 @@
 package editProfile;
 
 import javax.swing.*;
+import myAccount.MyAccount;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Edit_profile extends javax.swing.JFrame {
      * Creates new form Home
      */
     public Edit_profile() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
     }
 
@@ -48,6 +49,9 @@ public class Edit_profile extends javax.swing.JFrame {
         username = new utils.helper.RopaLabel();
         jLabel18 = new javax.swing.JLabel();
         nickname1 = new utils.helper.RopaLabel();
+        back = new utils.helper.RoundedPanel();
+        ropaLabel1 = new utils.helper.RopaLabel();
+        ropaLabel2 = new utils.helper.RopaLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -56,6 +60,7 @@ public class Edit_profile extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1281, 650));
+        setResizable(false);
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
@@ -213,6 +218,49 @@ public class Edit_profile extends javax.swing.JFrame {
         nickname1.setFontSize(20.0F);
         main.add(nickname1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 170, 80, 30));
 
+        back.setBackground(new java.awt.Color(123, 15, 58));
+        back.setRoundBottomLeft(10);
+        back.setRoundBottomRight(10);
+        back.setRoundTopLeft(10);
+        back.setRoundTopRight(10);
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
+        });
+
+        ropaLabel1.setText("Back");
+        ropaLabel1.setFontSize(15.0F);
+
+        ropaLabel2.setText("«");
+
+        javax.swing.GroupLayout backLayout = new javax.swing.GroupLayout(back);
+        back.setLayout(backLayout);
+        backLayout.setHorizontalGroup(
+            backLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ropaLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ropaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        backLayout.setVerticalGroup(
+            backLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backLayout.createSequentialGroup()
+                .addGroup(backLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(backLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ropaLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(2, 2, 2))
+                    .addGroup(backLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ropaLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        main.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 50, 60, 30));
+
         jMenu2.setText("Account");
 
         jMenuItem1.setText("Login");
@@ -237,9 +285,7 @@ public class Edit_profile extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(main, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+            .addComponent(main, javax.swing.GroupLayout.DEFAULT_SIZE, 1293, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,6 +344,13 @@ public class Edit_profile extends javax.swing.JFrame {
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfEmailActionPerformed
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        MyAccount myAccount = new MyAccount();
+        myAccount.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backMouseClicked
 
     /**
      * @param args the command line arguments
@@ -399,6 +452,7 @@ public class Edit_profile extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private utils.helper.RopaLabel Password;
+    private utils.helper.RoundedPanel back;
     private utils.helper.RopaLabel email;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
@@ -412,6 +466,8 @@ public class Edit_profile extends javax.swing.JFrame {
     private utils.helper.RopaLabel phEmail;
     private utils.helper.RopaLabel phPassword;
     private utils.helper.RopaLabel phUsername;
+    private utils.helper.RopaLabel ropaLabel1;
+    private utils.helper.RopaLabel ropaLabel2;
     private utils.helper.RoundedPanel roundedPanel10;
     private utils.helper.RoundedPanel roundedPanel5;
     private utils.helper.RoundedPanel roundedPanel6;

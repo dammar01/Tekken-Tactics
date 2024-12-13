@@ -33,7 +33,7 @@ public class Character extends javax.swing.JFrame {
     }
 
     public Character() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
 
         int h = 0;
@@ -78,9 +78,14 @@ public class Character extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
+        setMaximumSize(new java.awt.Dimension(1280, 650));
+        setMinimumSize(new java.awt.Dimension(1280, 650));
+        setPreferredSize(new java.awt.Dimension(1280, 650));
+        setResizable(false);
 
-        root.setMinimumSize(new java.awt.Dimension(1281, 100));
-        root.setPreferredSize(new java.awt.Dimension(1281, 650));
+        root.setMaximumSize(new java.awt.Dimension(1280, 650));
+        root.setMinimumSize(new java.awt.Dimension(1280, 650));
+        root.setPreferredSize(new java.awt.Dimension(1280, 650));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
@@ -92,7 +97,7 @@ public class Character extends javax.swing.JFrame {
         home_path.setText("Home  / ");
         home_path.setFontSize(20.0F);
         main.add(home_path);
-        home_path.setBounds(50, 50, 59, 22);
+        home_path.setBounds(50, 50, 62, 22);
 
         guide_path1.setText("Combo List");
         guide_path1.setFontSize(20.0F);
@@ -127,6 +132,7 @@ public class Character extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
