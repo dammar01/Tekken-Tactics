@@ -59,7 +59,7 @@ public class AddCombo extends javax.swing.JFrame {
         Rectangle max_size = notation_input.getBounds();
         if (componentCount > 0) {
             JLabel lastComponent = (JLabel) notation_input.getComponent(componentCount - 1);
-            if (lastComponent.getBounds().x == 10) {
+            if (lastComponent.getBounds().x == 10 && lastComponent.getBounds().y > 10) {
                 max_size.height -= 74;
                 notation_input.setPreferredSize(new Dimension(max_size.width, max_size.height));
                 notation_input.setBounds(max_size);
