@@ -105,7 +105,7 @@ public class Character extends javax.swing.JFrame {
         home_path.setText("Home  / ");
         home_path.setFontSize(20.0F);
         main.add(home_path);
-        home_path.setBounds(50, 50, 62, 22);
+        home_path.setBounds(50, 50, 59, 22);
 
         guide_path.setText("/ Dragunov");
         guide_path.setFontSize(20.0F);
