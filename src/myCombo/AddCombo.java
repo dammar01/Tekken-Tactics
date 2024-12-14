@@ -249,9 +249,7 @@ public class AddCombo extends javax.swing.JFrame {
 
         version_input.setBackground(new java.awt.Color(217, 217, 217));
         version_input.setFont(ropaLabel1.getFont());
-        version_input.setForeground(new java.awt.Color(0, 0, 0));
         version_input.setBorder(null);
-        version_input.setCaretColor(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout version_areaLayout = new javax.swing.GroupLayout(version_area);
         version_area.setLayout(version_areaLayout);
@@ -293,9 +291,7 @@ public class AddCombo extends javax.swing.JFrame {
 
         total_hits_input.setBackground(new java.awt.Color(217, 217, 217));
         total_hits_input.setFont(ropaLabel1.getFont());
-        total_hits_input.setForeground(new java.awt.Color(0, 0, 0));
         total_hits_input.setBorder(null);
-        total_hits_input.setCaretColor(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout total_hits_areaLayout = new javax.swing.GroupLayout(total_hits_area);
         total_hits_area.setLayout(total_hits_areaLayout);
@@ -337,9 +333,7 @@ public class AddCombo extends javax.swing.JFrame {
 
         total_damages_input.setBackground(new java.awt.Color(217, 217, 217));
         total_damages_input.setFont(ropaLabel1.getFont());
-        total_damages_input.setForeground(new java.awt.Color(0, 0, 0));
         total_damages_input.setBorder(null);
-        total_damages_input.setCaretColor(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout total_damages_areaLayout = new javax.swing.GroupLayout(total_damages_area);
         total_damages_area.setLayout(total_damages_areaLayout);
@@ -462,6 +456,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_3MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_3MousePressed(evt);
+            }
         });
         notation_data.add(btn_3);
 
@@ -469,6 +466,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_4MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_4MousePressed(evt);
             }
         });
         notation_data.add(btn_4);
@@ -478,6 +478,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_2MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_1_2MousePressed(evt);
+            }
         });
         notation_data.add(btn_1_2);
 
@@ -485,6 +488,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_1_3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_3MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_1_3MousePressed(evt);
             }
         });
         notation_data.add(btn_1_3);
@@ -494,6 +500,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_4MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_1_4MousePressed(evt);
+            }
         });
         notation_data.add(btn_1_4);
 
@@ -501,6 +510,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_2_3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_2_3MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_2_3MousePressed(evt);
             }
         });
         notation_data.add(btn_2_3);
@@ -510,6 +522,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_2_4MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_2_4MousePressed(evt);
+            }
         });
         notation_data.add(btn_2_4);
 
@@ -517,6 +532,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_3_4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_3_4MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_3_4MousePressed(evt);
             }
         });
         notation_data.add(btn_3_4);
@@ -526,6 +544,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_2_3MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_1_2_3MousePressed(evt);
+            }
         });
         notation_data.add(btn_1_2_3);
 
@@ -533,6 +554,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_1_2_4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_2_4MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_1_2_4MousePressed(evt);
             }
         });
         notation_data.add(btn_1_2_4);
@@ -542,6 +566,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_3_4MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_1_3_4MousePressed(evt);
+            }
         });
         notation_data.add(btn_1_3_4);
 
@@ -549,6 +576,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_2_3_4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_2_3_4MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_2_3_4MousePressed(evt);
             }
         });
         notation_data.add(btn_2_3_4);
@@ -558,6 +588,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_2_3_4MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_1_2_3_4MousePressed(evt);
+            }
         });
         notation_data.add(btn_1_2_3_4);
 
@@ -565,6 +598,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_n.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_nMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_nMousePressed(evt);
             }
         });
         notation_data.add(btn_n);
@@ -574,6 +610,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_fMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_fMousePressed(evt);
+            }
         });
         notation_data.add(btn_f);
 
@@ -581,6 +620,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_df.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_dfMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_dfMousePressed(evt);
             }
         });
         notation_data.add(btn_df);
@@ -590,6 +632,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_dMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_dMousePressed(evt);
+            }
         });
         notation_data.add(btn_d);
 
@@ -597,6 +642,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_db.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_dbMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_dbMousePressed(evt);
             }
         });
         notation_data.add(btn_db);
@@ -606,6 +654,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_bMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_bMousePressed(evt);
+            }
         });
         notation_data.add(btn_b);
 
@@ -613,6 +664,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_ub.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ubMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ubMousePressed(evt);
             }
         });
         notation_data.add(btn_ub);
@@ -622,6 +676,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_uMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_uMousePressed(evt);
+            }
         });
         notation_data.add(btn_u);
 
@@ -629,6 +686,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_uf.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ufMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ufMousePressed(evt);
             }
         });
         notation_data.add(btn_uf);
@@ -638,6 +698,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_f1MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_f1MousePressed(evt);
+            }
         });
         notation_data.add(btn_f1);
 
@@ -645,6 +708,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_df1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_df1MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_df1MousePressed(evt);
             }
         });
         notation_data.add(btn_df1);
@@ -654,6 +720,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_d1MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_d1MousePressed(evt);
+            }
         });
         notation_data.add(btn_d1);
 
@@ -661,6 +730,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_db1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_db1MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_db1MousePressed(evt);
             }
         });
         notation_data.add(btn_db1);
@@ -670,6 +742,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_b1MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_b1MousePressed(evt);
+            }
         });
         notation_data.add(btn_b1);
 
@@ -677,6 +752,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_ub1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ub1MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ub1MousePressed(evt);
             }
         });
         notation_data.add(btn_ub1);
@@ -686,6 +764,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_u1MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_u1MousePressed(evt);
+            }
         });
         notation_data.add(btn_u1);
 
@@ -693,6 +774,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_uf1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_uf1MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_uf1MousePressed(evt);
             }
         });
         notation_data.add(btn_uf1);
@@ -702,6 +786,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_brace1MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_brace1MousePressed(evt);
+            }
         });
         notation_data.add(btn_brace1);
 
@@ -709,6 +796,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_brace2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_brace2MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_brace2MousePressed(evt);
             }
         });
         notation_data.add(btn_brace2);
@@ -718,6 +808,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_nextMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_nextMousePressed(evt);
+            }
         });
         notation_data.add(btn_next);
 
@@ -725,6 +818,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_colon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_colonMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_colonMousePressed(evt);
             }
         });
         notation_data.add(btn_colon);
@@ -734,6 +830,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_tildeMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_tildeMousePressed(evt);
+            }
         });
         notation_data.add(btn_tilde);
 
@@ -741,6 +840,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_comma.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_commaMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_commaMousePressed(evt);
             }
         });
         notation_data.add(btn_comma);
@@ -750,6 +852,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_delay1MouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_delay1MousePressed(evt);
+            }
         });
         notation_data.add(btn_delay1);
 
@@ -757,6 +862,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_delay2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_delay2MouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_delay2MousePressed(evt);
             }
         });
         notation_data.add(btn_delay2);
@@ -766,6 +874,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_bbMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_bbMousePressed(evt);
+            }
         });
         notation_data.add(btn_bb);
 
@@ -773,6 +884,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_fbl.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_fblMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_fblMousePressed(evt);
             }
         });
         notation_data.add(btn_fbl);
@@ -782,6 +896,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_fbMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_fbMousePressed(evt);
+            }
         });
         notation_data.add(btn_fb);
 
@@ -789,6 +906,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_wbo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wboMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_wboMousePressed(evt);
             }
         });
         notation_data.add(btn_wbo);
@@ -798,6 +918,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wblMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_wblMousePressed(evt);
+            }
         });
         notation_data.add(btn_wbl);
 
@@ -805,6 +928,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_wb.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wbMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_wbMousePressed(evt);
             }
         });
         notation_data.add(btn_wb);
@@ -814,6 +940,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_hMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_hMousePressed(evt);
+            }
         });
         notation_data.add(btn_h);
 
@@ -821,6 +950,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_r.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_rMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_rMousePressed(evt);
             }
         });
         notation_data.add(btn_r);
@@ -830,6 +962,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_rageMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_rageMousePressed(evt);
+            }
         });
         notation_data.add(btn_rage);
 
@@ -837,6 +972,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_cc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ccMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ccMousePressed(evt);
             }
         });
         notation_data.add(btn_cc);
@@ -846,6 +984,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_chMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_chMousePressed(evt);
+            }
         });
         notation_data.add(btn_ch);
 
@@ -853,6 +994,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_cd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_cdMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_cdMousePressed(evt);
             }
         });
         notation_data.add(btn_cd);
@@ -862,6 +1006,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_dashMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_dashMousePressed(evt);
+            }
         });
         notation_data.add(btn_dash);
 
@@ -869,6 +1016,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_fc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_fcMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_fcMousePressed(evt);
             }
         });
         notation_data.add(btn_fc);
@@ -878,6 +1028,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_holdMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_holdMousePressed(evt);
+            }
         });
         notation_data.add(btn_hold);
 
@@ -885,6 +1038,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_ss.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ssMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ssMousePressed(evt);
             }
         });
         notation_data.add(btn_ss);
@@ -894,6 +1050,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_sslMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_sslMousePressed(evt);
+            }
         });
         notation_data.add(btn_ssl);
 
@@ -901,6 +1060,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_ssr.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ssrMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ssrMousePressed(evt);
             }
         });
         notation_data.add(btn_ssr);
@@ -910,6 +1072,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_swlMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_swlMousePressed(evt);
+            }
         });
         notation_data.add(btn_swl);
 
@@ -917,6 +1082,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_swr.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_swrMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_swrMousePressed(evt);
             }
         });
         notation_data.add(btn_swr);
@@ -926,6 +1094,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_wMousePressed(evt);
+            }
         });
         notation_data.add(btn_w);
 
@@ -933,6 +1104,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_wr.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wrMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_wrMousePressed(evt);
             }
         });
         notation_data.add(btn_wr);
@@ -942,6 +1116,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wsMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_wsMousePressed(evt);
+            }
         });
         notation_data.add(btn_ws);
 
@@ -949,6 +1126,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_mdash.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_mdashMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_mdashMousePressed(evt);
             }
         });
         notation_data.add(btn_mdash);
@@ -958,6 +1138,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ddashMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_ddashMousePressed(evt);
+            }
         });
         notation_data.add(btn_ddash);
 
@@ -966,6 +1149,9 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_iwrMouseEntered(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_iwrMousePressed(evt);
+            }
         });
         notation_data.add(btn_iwr);
 
@@ -973,6 +1159,9 @@ public class AddCombo extends javax.swing.JFrame {
         btn_iws.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_iwsMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn_iwsMousePressed(evt);
             }
         });
         notation_data.add(btn_iws);
@@ -1357,6 +1546,331 @@ public class AddCombo extends javax.swing.JFrame {
         // TODO add your handling code here:
         delNotation();
     }//GEN-LAST:event_backspaceMouseClicked
+
+    private void btn_3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_3MousePressed
+
+    private void btn_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_4MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_4MousePressed
+
+    private void btn_1_2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1_2MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_1_2MousePressed
+
+    private void btn_1_3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1_3MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_1_3MousePressed
+
+    private void btn_1_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1_4MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_1_4MousePressed
+
+    private void btn_2_3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2_3MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_2_3MousePressed
+
+    private void btn_2_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2_4MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_2_4MousePressed
+
+    private void btn_3_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_3_4MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_3_4MousePressed
+
+    private void btn_1_2_3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1_2_3MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_1_2_3MousePressed
+
+    private void btn_1_2_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1_2_4MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_1_2_4MousePressed
+
+    private void btn_1_3_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1_3_4MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_1_3_4MousePressed
+
+    private void btn_2_3_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_2_3_4MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_2_3_4MousePressed
+
+    private void btn_1_2_3_4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_1_2_3_4MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_1_2_3_4MousePressed
+
+    private void btn_nMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_nMousePressed
+
+    private void btn_fMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_fMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_fMousePressed
+
+    private void btn_dfMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dfMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_dfMousePressed
+
+    private void btn_dMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_dMousePressed
+
+    private void btn_dbMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dbMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_dbMousePressed
+
+    private void btn_bMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_bMousePressed
+
+    private void btn_ubMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ubMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_ubMousePressed
+
+    private void btn_uMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_uMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_uMousePressed
+
+    private void btn_ufMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ufMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_ufMousePressed
+
+    private void btn_f1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_f1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_f1MousePressed
+
+    private void btn_df1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_df1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_df1MousePressed
+
+    private void btn_d1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_d1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_d1MousePressed
+
+    private void btn_db1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_db1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_db1MousePressed
+
+    private void btn_b1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_b1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_b1MousePressed
+
+    private void btn_ub1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ub1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_ub1MousePressed
+
+    private void btn_u1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_u1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_u1MousePressed
+
+    private void btn_uf1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_uf1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_uf1MousePressed
+
+    private void btn_brace1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_brace1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_brace1MousePressed
+
+    private void btn_brace2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_brace2MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_brace2MousePressed
+
+    private void btn_nextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_nextMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_nextMousePressed
+
+    private void btn_colonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_colonMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_colonMousePressed
+
+    private void btn_tildeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_tildeMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_tildeMousePressed
+
+    private void btn_commaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_commaMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_commaMousePressed
+
+    private void btn_delay1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delay1MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_delay1MousePressed
+
+    private void btn_delay2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_delay2MousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_delay2MousePressed
+
+    private void btn_bbMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bbMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_bbMousePressed
+
+    private void btn_fblMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_fblMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_fblMousePressed
+
+    private void btn_fbMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_fbMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_fbMousePressed
+
+    private void btn_wboMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_wboMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_wboMousePressed
+
+    private void btn_wblMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_wblMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_wblMousePressed
+
+    private void btn_wbMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_wbMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_wbMousePressed
+
+    private void btn_hMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_hMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_hMousePressed
+
+    private void btn_rMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_rMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_rMousePressed
+
+    private void btn_rageMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_rageMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_rageMousePressed
+
+    private void btn_ccMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ccMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_ccMousePressed
+
+    private void btn_chMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_chMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_chMousePressed
+
+    private void btn_cdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cdMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_cdMousePressed
+
+    private void btn_dashMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_dashMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_dashMousePressed
+
+    private void btn_fcMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_fcMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_fcMousePressed
+
+    private void btn_holdMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_holdMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_holdMousePressed
+
+    private void btn_ssMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ssMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_ssMousePressed
+
+    private void btn_sslMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_sslMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_sslMousePressed
+
+    private void btn_ssrMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ssrMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_ssrMousePressed
+
+    private void btn_swlMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_swlMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_swlMousePressed
+
+    private void btn_swrMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_swrMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_swrMousePressed
+
+    private void btn_wMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_wMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_wMousePressed
+
+    private void btn_wrMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_wrMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_wrMousePressed
+
+    private void btn_wsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_wsMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_wsMousePressed
+
+    private void btn_mdashMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_mdashMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_mdashMousePressed
+
+    private void btn_ddashMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ddashMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_ddashMousePressed
+
+    private void btn_iwrMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_iwrMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_iwrMousePressed
+
+    private void btn_iwsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_iwsMousePressed
+        // TODO add your handling code here:
+        addNotation(evt);
+    }//GEN-LAST:event_btn_iwsMousePressed
 
     /**
      * @param args the command line arguments

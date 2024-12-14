@@ -199,14 +199,8 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection component="ropaLabel1" name="font" type="property"/>
                         </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="0" type="rgb"/>
-                        </Property>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
-                        </Property>
-                        <Property name="caretColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="0" type="rgb"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -289,14 +283,8 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection component="ropaLabel1" name="font" type="property"/>
                         </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="0" type="rgb"/>
-                        </Property>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
-                        </Property>
-                        <Property name="caretColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="0" type="rgb"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -379,14 +367,8 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection component="ropaLabel1" name="font" type="property"/>
                         </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="0" type="rgb"/>
-                        </Property>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="null"/>
-                        </Property>
-                        <Property name="caretColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="0" type="rgb"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -581,6 +563,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_3MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_3MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_4">
@@ -591,6 +574,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_4MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_4MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_1_2">
@@ -601,6 +585,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_2MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_2MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_1_3">
@@ -611,6 +596,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_3MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_3MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_1_4">
@@ -621,6 +607,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_4MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_4MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_2_3">
@@ -631,6 +618,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_2_3MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_2_3MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_2_4">
@@ -641,6 +629,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_2_4MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_2_4MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_3_4">
@@ -651,6 +640,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_3_4MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_3_4MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_1_2_3">
@@ -661,6 +651,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_2_3MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_2_3MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_1_2_4">
@@ -671,6 +662,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_2_4MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_2_4MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_1_3_4">
@@ -681,6 +673,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_3_4MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_3_4MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_2_3_4">
@@ -691,6 +684,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_2_3_4MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_2_3_4MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_1_2_3_4">
@@ -701,6 +695,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_2_3_4MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_1_2_3_4MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_n">
@@ -711,6 +706,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_f">
@@ -721,6 +717,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_fMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_fMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_df">
@@ -731,6 +728,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_dfMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_dfMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_d">
@@ -741,6 +739,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_dMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_dMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_db">
@@ -751,6 +750,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_dbMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_dbMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_b">
@@ -761,6 +761,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_bMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_bMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ub">
@@ -771,6 +772,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ubMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ubMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_u">
@@ -781,6 +783,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_uMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_uMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_uf">
@@ -791,6 +794,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ufMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ufMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_f1">
@@ -801,6 +805,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_f1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_f1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_df1">
@@ -811,6 +816,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_df1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_df1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_d1">
@@ -821,6 +827,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_d1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_d1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_db1">
@@ -831,6 +838,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_db1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_db1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_b1">
@@ -841,6 +849,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_b1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_b1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ub1">
@@ -851,6 +860,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ub1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ub1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_u1">
@@ -861,6 +871,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_u1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_u1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_uf1">
@@ -871,6 +882,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_uf1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_uf1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_brace1">
@@ -881,6 +893,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_brace1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_brace1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_brace2">
@@ -891,6 +904,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_brace2MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_brace2MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_next">
@@ -901,6 +915,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nextMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_nextMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_colon">
@@ -911,6 +926,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_colonMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_colonMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_tilde">
@@ -921,6 +937,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_tildeMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_tildeMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_comma">
@@ -931,6 +948,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_commaMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_commaMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_delay1">
@@ -941,6 +959,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_delay1MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_delay1MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_delay2">
@@ -951,6 +970,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_delay2MouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_delay2MousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_bb">
@@ -961,6 +981,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_bbMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_bbMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_fbl">
@@ -971,6 +992,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_fblMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_fblMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_fb">
@@ -981,6 +1003,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_fbMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_fbMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_wbo">
@@ -991,6 +1014,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wboMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wboMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_wbl">
@@ -1001,6 +1025,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wblMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wblMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_wb">
@@ -1011,6 +1036,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wbMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wbMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_h">
@@ -1021,6 +1047,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_hMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_hMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_r">
@@ -1031,6 +1058,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_rMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_rMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_rage">
@@ -1041,6 +1069,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_rageMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_rageMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_cc">
@@ -1051,6 +1080,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ccMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ccMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ch">
@@ -1061,6 +1091,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_chMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_chMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_cd">
@@ -1071,6 +1102,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_cdMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_cdMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_dash">
@@ -1081,6 +1113,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_dashMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_dashMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_fc">
@@ -1091,6 +1124,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_fcMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_fcMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_hold">
@@ -1101,6 +1135,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_holdMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_holdMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ss">
@@ -1111,6 +1146,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ssMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ssMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ssl">
@@ -1121,6 +1157,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_sslMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_sslMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ssr">
@@ -1131,6 +1168,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ssrMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ssrMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_swl">
@@ -1141,6 +1179,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_swlMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_swlMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_swr">
@@ -1151,6 +1190,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_swrMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_swrMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_w">
@@ -1161,6 +1201,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_wr">
@@ -1171,6 +1212,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wrMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wrMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ws">
@@ -1181,6 +1223,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wsMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_wsMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_mdash">
@@ -1191,6 +1234,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mdashMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_mdashMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_ddash">
@@ -1201,6 +1245,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ddashMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_ddashMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_iwr">
@@ -1211,6 +1256,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_iwrMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_iwrMousePressed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="btn_iws">
@@ -1221,6 +1267,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_iwsMouseEntered"/>
+                    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_iwsMousePressed"/>
                   </Events>
                 </Component>
               </SubComponents>
