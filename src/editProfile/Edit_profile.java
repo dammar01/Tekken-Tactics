@@ -4,8 +4,10 @@
  */
 package editProfile;
 
+import home.Home;
 import javax.swing.*;
 import myAccount.MyAccount;
+import java.awt.Cursor;
 
 /**
  *
@@ -47,11 +49,13 @@ public class Edit_profile extends javax.swing.JFrame {
         phUsername = new utils.helper.RopaLabel();
         tfUsername = new javax.swing.JTextField();
         username = new utils.helper.RopaLabel();
-        jLabel18 = new javax.swing.JLabel();
         nickname1 = new utils.helper.RopaLabel();
         back = new utils.helper.RoundedPanel();
         ropaLabel1 = new utils.helper.RopaLabel();
         ropaLabel2 = new utils.helper.RopaLabel();
+        home_path = new utils.helper.RopaLabel();
+        EditProfile_path = new utils.helper.RopaLabel();
+        myAccount_path = new utils.helper.RopaLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -208,12 +212,6 @@ public class Edit_profile extends javax.swing.JFrame {
 
         main.add(roundedPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 580, 60));
 
-        jLabel18.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel18.setFont(new java.awt.Font("Yu Gothic UI", 1, 12)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("Home/My Account/Edit Profile");
-        main.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 180, 30));
-
         nickname1.setText("Nickname");
         nickname1.setFontSize(20.0F);
         main.add(nickname1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 170, 80, 30));
@@ -226,6 +224,9 @@ public class Edit_profile extends javax.swing.JFrame {
         back.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 backMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backMouseEntered(evt);
             }
         });
 
@@ -260,6 +261,34 @@ public class Edit_profile extends javax.swing.JFrame {
         );
 
         main.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 50, 60, 30));
+
+        home_path.setText("Home  / ");
+        home_path.setFontSize(20.0F);
+        home_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                home_pathMouseEntered(evt);
+            }
+        });
+        main.add(home_path, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 70, -1));
+
+        EditProfile_path.setText("/ Edit Profile");
+        EditProfile_path.setFontSize(20.0F);
+        main.add(EditProfile_path, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 100, -1));
+
+        myAccount_path.setText(" My Account");
+        myAccount_path.setFontSize(20.0F);
+        myAccount_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                myAccount_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                myAccount_pathMouseEntered(evt);
+            }
+        });
+        main.add(myAccount_path, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 100, -1));
 
         jMenu2.setText("Account");
 
@@ -351,6 +380,35 @@ public class Edit_profile extends javax.swing.JFrame {
         myAccount.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_backMouseClicked
+
+    private void home_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_home_pathMouseClicked
+
+    private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
+        // TODO add your handling code here:
+        home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_home_pathMouseEntered
+
+    private void myAccount_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myAccount_pathMouseClicked
+        // TODO add your handling code here:
+        MyAccount myAccount = new MyAccount();
+        myAccount.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_myAccount_pathMouseClicked
+
+    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
+        // TODO add your handling code here:
+        back.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_backMouseEntered
+
+    private void myAccount_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myAccount_pathMouseEntered
+        // TODO add your handling code here:
+        myAccount_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_myAccount_pathMouseEntered
 
     /**
      * @param args the command line arguments
@@ -451,17 +509,19 @@ public class Edit_profile extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private utils.helper.RopaLabel EditProfile_path;
     private utils.helper.RopaLabel Password;
     private utils.helper.RoundedPanel back;
     private utils.helper.RopaLabel email;
+    private utils.helper.RopaLabel home_path;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel main;
+    private utils.helper.RopaLabel myAccount_path;
     private utils.helper.RopaLabel nickname1;
     private utils.helper.RopaLabel phEmail;
     private utils.helper.RopaLabel phPassword;

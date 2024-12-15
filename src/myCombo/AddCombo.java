@@ -4,6 +4,7 @@
  */
 package myCombo;
 
+import home.Home;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -80,7 +81,7 @@ public class AddCombo extends javax.swing.JFrame {
     }
 
     public AddCombo() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
         reloadPanel(root);
         ScrollBar scrollPane = new ScrollBar(root);
@@ -197,19 +198,29 @@ public class AddCombo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
+        setPreferredSize(new java.awt.Dimension(1300, 650));
+        setResizable(false);
 
-        root.setMinimumSize(new java.awt.Dimension(1281, 100));
+        root.setMinimumSize(new java.awt.Dimension(1287, 650));
         root.setPreferredSize(new java.awt.Dimension(1281, 931));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        main.setMinimumSize(new java.awt.Dimension(1281, 650));
-        main.setPreferredSize(new java.awt.Dimension(1281, 931));
+        main.setMinimumSize(new java.awt.Dimension(0, 0));
+        main.setPreferredSize(new java.awt.Dimension(1290, 650));
         main.setLayout(null);
 
         home_path.setText("Home /");
         home_path.setFontSize(20.0F);
+        home_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                home_pathMouseEntered(evt);
+            }
+        });
         main.add(home_path);
         home_path.setBounds(50, 50, 60, 22);
 
@@ -220,6 +231,14 @@ public class AddCombo extends javax.swing.JFrame {
 
         add_combo.setText("  My Combo");
         add_combo.setFontSize(20.0F);
+        add_combo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                add_comboMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                add_comboMouseEntered(evt);
+            }
+        });
         main.add(add_combo);
         add_combo.setBounds(100, 50, 100, 22);
 
@@ -228,6 +247,14 @@ public class AddCombo extends javax.swing.JFrame {
         back.setRoundBottomRight(10);
         back.setRoundTopLeft(10);
         back.setRoundTopRight(10);
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backMouseEntered(evt);
+            }
+        });
         back.setLayout(new java.awt.GridBagLayout());
 
         ropaLabel1.setText("<< Back");
@@ -996,6 +1023,7 @@ public class AddCombo extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseEntered
@@ -1357,6 +1385,43 @@ public class AddCombo extends javax.swing.JFrame {
         // TODO add your handling code here:
         delNotation();
     }//GEN-LAST:event_backspaceMouseClicked
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        MyCombo myCombo = new MyCombo();
+        myCombo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backMouseClicked
+
+    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
+        // TODO add your handling code here:
+        back.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_backMouseEntered
+
+    private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
+        // TODO add your handling code here:
+        home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_home_pathMouseEntered
+
+    private void home_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_home_pathMouseClicked
+
+    private void add_comboMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_comboMouseClicked
+        // TODO add your handling code here:
+        MyCombo myCombo = new MyCombo();
+        myCombo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_add_comboMouseClicked
+
+    private void add_comboMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_comboMouseEntered
+        // TODO add your handling code here:
+        add_combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_add_comboMouseEntered
 
     /**
      * @param args the command line arguments

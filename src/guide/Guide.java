@@ -104,7 +104,6 @@ public class Guide extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setMaximumSize(new java.awt.Dimension(1281, 650));
         setMinimumSize(new java.awt.Dimension(1281, 650));
-        setPreferredSize(new java.awt.Dimension(1281, 650));
         setResizable(false);
 
         root.setMaximumSize(new java.awt.Dimension(1281, 650));
