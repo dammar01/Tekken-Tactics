@@ -4,9 +4,14 @@
  */
 package guide;
 
+import java.sql.ResultSet;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import java.util.*;
 import javax.swing.ImageIcon;
+import utils.helper.Db;
 import utils.helper.ScrollBar;
 
 /**
@@ -19,8 +24,10 @@ public class Character extends javax.swing.JFrame {
      * Creates new form Guide
      */
     public Character() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
+
+        // sample datasheet table
         ArrayList<ImageIcon> img = new ArrayList<>();
         img.add(new ImageIcon(getClass().getResource("/image/button/32x32/1.png")));
         img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
@@ -39,6 +46,70 @@ public class Character extends javax.swing.JFrame {
             {img, "John", "1", "a", "ab", "c"}
         };
         movesheetTable1.setData(data);
+
+        ScrollBar scrollPane = new ScrollBar(root);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBar(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.setBounds(0, 0, main.getWidth(), 650);
+        add(scrollPane);
+    }
+
+    public Character(HashMap<String, String> raw) throws SQLException {
+        initComponents();
+
+        Db db = new Db();
+        db.connect();
+        String selectQuery = "SELECT * FROM `character` WHERE `id` = ? LIMIT 1";
+        ResultSet data = db.executeQuery(selectQuery, raw.get("id"));
+
+        while (data.next()) {
+            guide_path.setText("/" + data.getString("name"));
+            String difficultyValue = data.getString("difficulty");
+
+            if ("Easy".equals(difficultyValue)) {
+                difficulty.setForeground(new Color(0, 129, 72));
+            } else if ("Medium".equals(difficultyValue)) {
+                difficulty.setForeground(new Color(243, 167, 18));
+            } else if ("Hard".equals(difficultyValue)) {
+                difficulty.setForeground(new Color(221, 10, 0)); 
+            }
+            difficulty.setText("Difficulty: " + data.getString("difficulty"));
+
+            ImageIcon image = new ImageIcon(getClass().getResource("/image/character/128x128/dragunov.png"));
+            if (data.getString("code") != "_") {
+                image = new ImageIcon(getClass().getResource("/image/character/128x128/" + data.getString("code") + ".png"));
+            }
+            characterItem1.setImage(image);
+            characterItem1.setTitle(data.getString("name"));
+
+            evasiveness_value.setValue(data.getInt("evasiveness"));
+            mobility_value.setValue(data.getInt("mobility"));
+            throw_game_value.setValue(data.getInt("throw_game"));
+            combo_damage_value.setValue(data.getInt("combo_damage"));
+            wall_carry_value.setValue(data.getInt("wall_carry"));
+        }
+
+        // sample datasheet table
+        ArrayList<ImageIcon> img = new ArrayList<>();
+        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/1.png")));
+        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
+        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
+        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
+        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
+        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
+        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
+        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
+        Object[][] tb_data = {
+            {img, "John", "1", "a", "ab", "c"},
+            {img, "John", "1", "a", "ab", "c"},
+            {img, "John", "1", "a", "ab", "c"},
+            {img, "John", "1", "a", "ab", "c"},
+            {img, "John", "1", "a", "ab", "c"},
+            {img, "John", "1", "a", "ab", "c"}
+        };
+        movesheetTable1.setData(tb_data);
+
         ScrollBar scrollPane = new ScrollBar(root);
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBar(null);
@@ -105,7 +176,7 @@ public class Character extends javax.swing.JFrame {
         home_path.setText("Home  / ");
         home_path.setFontSize(20.0F);
         main.add(home_path);
-        home_path.setBounds(50, 50, 59, 22);
+        home_path.setBounds(50, 50, 62, 22);
 
         guide_path.setText("/ Dragunov");
         guide_path.setFontSize(20.0F);
@@ -122,6 +193,14 @@ public class Character extends javax.swing.JFrame {
         back.setRoundBottomRight(10);
         back.setRoundTopLeft(10);
         back.setRoundTopRight(10);
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backMouseEntered(evt);
+            }
+        });
         back.setLayout(new java.awt.GridBagLayout());
 
         ropaLabel1.setText("<<  Back");
@@ -289,6 +368,18 @@ public class Character extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
+        // TODO add your handling code here:
+        back.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_backMouseEntered
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        Guide guide = new Guide();
+        guide.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backMouseClicked
 
     /**
      * @param args the command line arguments

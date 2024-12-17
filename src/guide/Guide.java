@@ -10,6 +10,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import utils.helper.ScrollBar;
 import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import utils.helper.Db;
+import guide.Character;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,12 +46,59 @@ public class Guide extends javax.swing.JFrame {
         reloadPanel(panel);
     }
 
-    private void drawCharacter(JPanel tier_panel, JPanel character_panel, int data) {
-        int row = (int) Math.ceil(data / 8.0);
+    private String getLatestUpdated(Db db) {
+        String latest = "";
+        try {
+            db.connect();
+            String selectQuery = "SELECT * FROM `character` ORDER BY `character`.`last_updated` DESC LIMIT 1";
+            ResultSet resultSet = db.executeQuery(selectQuery);
+            while (resultSet.next()) {
+                latest = resultSet.getDate("last_updated") + " " + resultSet.getTime("last_updated");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return latest;
+    }
+
+    private void addAnchor(utils.helper.CharacterItem item, HashMap<String, String> data) {
+        item.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Character character;
+                try {
+                    character = new Character(data);
+                    character.setVisible(true);
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                }
+                dispose();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                item.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+        });
+    }
+
+    private void drawCharacter(JPanel tier_panel, JPanel character_panel, List<HashMap<String, String>> data) {
+        int row = (int) Math.ceil(data.size() / 8.0);
         characterPanelHeight = 180 * row + (row * 10);
-        for (int i = 1; i <= data; i++) {
-            utils.helper.CharacterItem item = new utils.helper.CharacterItem();
-            character_panel.add(item);
+        for (HashMap<String, String> character : data) {
+            String code = character.get("code");
+            String name = character.get("name");
+            if (code != "_") {
+                utils.helper.CharacterItem item = new utils.helper.CharacterItem(name, code);
+                character_panel.add(item);
+                addAnchor(item, character);
+            }
         }
         updatePanel(character_panel, character_panel.getX(), character_panel.getY(), characterPanelWidth, characterPanelHeight);
         updatePanel(tier_panel, tier_panel.getX(), currentYOffset, characterPanelWidth, characterPanelHeight + 70);
@@ -48,13 +106,48 @@ public class Guide extends javax.swing.JFrame {
     }
 
     public Guide() {
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
-        drawCharacter(this.s_tier, this.s_tier_character, 12);
-        drawCharacter(this.a_tier, this.a_tier_character, 8);
-        drawCharacter(this.b_tier, this.b_tier_character, 12);
-        drawCharacter(this.c_tier, this.c_tier_character, 4);
-        drawCharacter(this.d_tier, this.d_tier_character, 2);
+        Db db = new Db();
+        HashMap<String, ArrayList<HashMap<String, String>>> tierMap = new HashMap<>();
+        tierMap.put("S", new ArrayList<>());
+        tierMap.put("A", new ArrayList<>());
+        tierMap.put("B", new ArrayList<>());
+        tierMap.put("C", new ArrayList<>());
+        tierMap.put("D", new ArrayList<>());
+        try {
+            db.connect();
+            String selectQuery = "SELECT * FROM `character`";
+            ResultSet resultSet = db.executeQuery(selectQuery);
+            while (resultSet.next()) {
+                String id = String.valueOf(resultSet.getInt("id"));
+                String code = resultSet.getString("code");
+                String name = resultSet.getString("name");
+                String tier = resultSet.getString("tier");
+
+                if (tierMap.containsKey(tier)) {
+                    HashMap<String, String> characterData = new HashMap<>();
+                    characterData.put("id", id);
+                    characterData.put("code", code);
+                    characterData.put("name", name);
+                    tierMap.get(tier).add(characterData);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        drawCharacter(this.s_tier, this.s_tier_character, tierMap.get("S"));
+        drawCharacter(this.a_tier, this.a_tier_character, tierMap.get("A"));
+        drawCharacter(this.b_tier, this.b_tier_character, tierMap.get("B"));
+        drawCharacter(this.c_tier, this.c_tier_character, tierMap.get("C"));
+        drawCharacter(this.d_tier, this.d_tier_character, tierMap.get("D"));
+        last_update.setText("Last updated: " + getLatestUpdated(db));
         updatePanel(main, 0, 0, 1281, currentYOffset);
         updatePanel(root, 0, 0, 1281, currentYOffset);
         ScrollBar scrollPane = new ScrollBar(root);
@@ -102,9 +195,7 @@ public class Guide extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-        setMaximumSize(new java.awt.Dimension(1281, 650));
         setMinimumSize(new java.awt.Dimension(1281, 650));
-        setPreferredSize(new java.awt.Dimension(1281, 650));
         setResizable(false);
 
         root.setMaximumSize(new java.awt.Dimension(1281, 650));
@@ -294,7 +385,7 @@ public class Guide extends javax.swing.JFrame {
         main.add(d_tier);
         d_tier.setBounds(50, 900, 1125, 261);
 
-        home_path.setText("Home");
+        home_path.setText("Home ");
         home_path.setFontSize(20.0F);
         home_path.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -305,17 +396,18 @@ public class Guide extends javax.swing.JFrame {
             }
         });
         main.add(home_path);
-        home_path.setBounds(50, 50, 46, 22);
+        home_path.setBounds(50, 50, 60, 22);
 
         ropaLabel1.setText(" / Guide");
         ropaLabel1.setFontSize(20.0F);
         main.add(ropaLabel1);
-        ropaLabel1.setBounds(95, 50, 57, 22);
+        ropaLabel1.setBounds(95, 50, 70, 22);
 
-        last_update.setText("Last updated:  Nov 29, 2024");
+        last_update.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        last_update.setText("Last updated:  2024-12-15 19:52:26");
         last_update.setFontSize(20.0F);
         main.add(last_update);
-        last_update.setBounds(1030, 50, 207, 22);
+        last_update.setBounds(908, 50, 330, 22);
 
         root.add(main);
 
