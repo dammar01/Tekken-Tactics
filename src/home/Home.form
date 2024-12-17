@@ -220,6 +220,7 @@
                 <Property name="roundTopRight" type="int" value="50"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="my_comboMouseClicked"/>
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="my_comboMouseEntered"/>
               </Events>
               <Constraints>

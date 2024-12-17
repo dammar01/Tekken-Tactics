@@ -6,6 +6,8 @@ package myCombo;
 
 import combolist.*;
 import guide.*;
+import home.Home;
+import java.awt.Cursor;
 import javax.swing.JFrame;
 import java.util.*;
 import javax.swing.ImageIcon;
@@ -28,7 +30,7 @@ public class MyCombo extends javax.swing.JFrame {
     }
 
     public MyCombo() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
         reloadPanel(root);
         ScrollBar scrollPane = new ScrollBar(root);
@@ -62,19 +64,30 @@ public class MyCombo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
+        setMinimumSize(new java.awt.Dimension(1281, 650));
+        setPreferredSize(new java.awt.Dimension(1281, 650));
+        setResizable(false);
 
-        root.setMinimumSize(new java.awt.Dimension(1281, 100));
+        root.setMinimumSize(new java.awt.Dimension(1281, 650));
         root.setPreferredSize(new java.awt.Dimension(1281, 650));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
-        main.setPreferredSize(new java.awt.Dimension(1281, 1480));
+        main.setPreferredSize(new java.awt.Dimension(1281, 650));
         main.setLayout(null);
 
         home_path.setText("Home ");
         home_path.setFontSize(20.0F);
+        home_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                home_pathMouseEntered(evt);
+            }
+        });
         main.add(home_path);
         home_path.setBounds(50, 50, 50, 22);
 
@@ -93,6 +106,14 @@ public class MyCombo extends javax.swing.JFrame {
         add_combo.setRoundBottomRight(10);
         add_combo.setRoundTopLeft(10);
         add_combo.setRoundTopRight(10);
+        add_combo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                add_comboMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                add_comboMouseEntered(evt);
+            }
+        });
         add_combo.setLayout(new java.awt.GridBagLayout());
 
         ropaLabel1.setText("+  Add Combo");
@@ -179,6 +200,7 @@ public class MyCombo extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void list_characterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list_characterActionPerformed
@@ -217,6 +239,30 @@ public class MyCombo extends javax.swing.JFrame {
         else
             search_placeholder.setVisible(false);
     }//GEN-LAST:event_search_inputKeyTyped
+
+    private void home_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_home_pathMouseClicked
+
+    private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
+        // TODO add your handling code here:
+        home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_home_pathMouseEntered
+
+    private void add_comboMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_comboMouseClicked
+        // TODO add your handling code here:
+        AddCombo addCombo = new AddCombo();
+        addCombo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_add_comboMouseClicked
+
+    private void add_comboMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_comboMouseEntered
+        // TODO add your handling code here:
+        add_combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_add_comboMouseEntered
 
     /**
      * @param args the command line arguments

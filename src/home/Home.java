@@ -10,6 +10,7 @@ import help.Help;
 import java.awt.Cursor;
 import javax.swing.*;
 import myAccount.MyAccount;
+import myCombo.MyCombo;
 
 /**
  *
@@ -122,6 +123,9 @@ public class Home extends javax.swing.JFrame {
         my_combo.setRoundTopLeft(50);
         my_combo.setRoundTopRight(50);
         my_combo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                my_comboMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 my_comboMouseEntered(evt);
             }
@@ -247,6 +251,13 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void my_comboMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_my_comboMouseClicked
+        // TODO add your handling code here:
+        MyCombo myCombo = new MyCombo();
+        myCombo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_my_comboMouseClicked
 
     /**
      * @param args the command line arguments
