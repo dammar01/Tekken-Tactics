@@ -5,6 +5,7 @@
 package combolist;
 
 import guide.*;
+import java.awt.Cursor;
 import javax.swing.JFrame;
 import java.util.*;
 import javax.swing.ImageIcon;
@@ -45,7 +46,7 @@ public class Character extends javax.swing.JFrame {
         combolist_data.setPreferredSize(new java.awt.Dimension(combolist_data.getWidth(), h));
         combolist_data.setBounds(combolist_data.getX(), combolist_data.getY(), combolist_data.getWidth(), h);
         reloadPanel(combolist_data);
-        
+
         h += combolist_data.getY() + 20;
         java.awt.Dimension dim = getPreferredSize();
         dim.height = h;
@@ -80,9 +81,8 @@ public class Character extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-        setMaximumSize(new java.awt.Dimension(1280, 650));
         setMinimumSize(new java.awt.Dimension(1280, 650));
-        setPreferredSize(new java.awt.Dimension(1280, 650));
+        setPreferredSize(new java.awt.Dimension(1295, 650));
         setResizable(false);
 
         root.setMaximumSize(new java.awt.Dimension(1280, 650));
@@ -123,6 +123,14 @@ public class Character extends javax.swing.JFrame {
         back.setRoundBottomRight(10);
         back.setRoundTopLeft(10);
         back.setRoundTopRight(10);
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backMouseEntered(evt);
+            }
+        });
         back.setLayout(new java.awt.GridBagLayout());
 
         ropaLabel1.setText("<<  Back");
@@ -150,6 +158,18 @@ public class Character extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        ComboList comboList = new ComboList();
+        comboList.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backMouseClicked
+
+    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
+        // TODO add your handling code here:
+        back.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_backMouseEntered
 
     /**
      * @param args the command line arguments
