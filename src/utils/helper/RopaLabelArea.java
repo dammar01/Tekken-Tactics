@@ -45,6 +45,7 @@ public class RopaLabelArea extends JTextArea {
         setOpaque(false);
         setEditable(false);
         setBorder(null);
+        super.setBorder(null);
         setForeground(Color.WHITE); 
     }
 
