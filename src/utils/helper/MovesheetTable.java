@@ -150,19 +150,32 @@ public class MovesheetTable extends JPanel {
 
     public class CustomCellRenderer extends DefaultTableCellRenderer {
 
+        private final JTextArea textArea;
+
         public CustomCellRenderer() {
             setOpaque(true);
             setBackground(new Color(66, 21, 50));
             setForeground(Color.white);
             setFont(font);
             setHorizontalAlignment(SwingConstants.CENTER);
+
+            textArea = new JTextArea();
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            textArea.setOpaque(true);
+            textArea.setBackground(new Color(66, 21, 50));
+            textArea.setForeground(Color.white);
+            textArea.setFont(getFont());
+            textArea.setEditable(false);
         }
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
-            return this;
+            textArea.setText(value != null ? value.toString() : "");
+            textArea.setPreferredSize(new Dimension(table.getColumnModel().getColumn(column).getWidth(), textArea.getPreferredSize().height));
+            textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
+            return textArea;
         }
     }
 

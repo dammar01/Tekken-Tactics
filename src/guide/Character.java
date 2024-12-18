@@ -4,9 +4,17 @@
  */
 package guide;
 
+import home.Home;
+import java.sql.ResultSet;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import utils.helper.Db;
 import utils.helper.ScrollBar;
 
 /**
@@ -18,9 +26,82 @@ public class Character extends javax.swing.JFrame {
     /**
      * Creates new form Guide
      */
-    public Character() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+    
+    public static Object[][] appendToObjectArray(Object[][] original, Object[] newRow) {
+        Object[][] newArray = new Object[original.length + 1][];
+        for (int i = 0; i < original.length; i++) {
+            newArray[i] = original[i];
+        }
+        newArray[original.length] = newRow;
+        return newArray;
+    }
+    public Character() throws SQLException {
         initComponents();
+        
+        Db db = new Db();
+        db.connect();
+        String selectQuery = "SELECT * FROM `movesheet` WHERE `character_id` = ?";
+        ResultSet raw_movesheet = db.executeQuery(selectQuery, 7);
+        Object[][] data_movesheet = {};
+        while(raw_movesheet.next()){
+            ArrayList<ImageIcon> img_movesheet = new ArrayList<>();
+            img_movesheet.add(new ImageIcon(getClass().getResource("/image/button/32x32/1.png")));
+            Object[] new_data = {
+                img_movesheet, 
+                raw_movesheet.getString("name_move"), 
+                raw_movesheet.getString("damage"),
+                raw_movesheet.getString("frame_startup"),
+                raw_movesheet.getString("hit_properties"),
+                raw_movesheet.getString("notes")
+            };
+            data_movesheet = appendToObjectArray(data_movesheet, new_data);
+        }
+        movesheetTable1.setData(data_movesheet);
+
+        ScrollBar scrollPane = new ScrollBar(root);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBar(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.setBounds(0, 0, main.getWidth(), 650);
+        add(scrollPane);
+    }
+
+    public Character(HashMap<String, String> raw) throws SQLException {
+        initComponents();
+
+        Db db = new Db();
+        db.connect();
+        String selectQuery = "SELECT * FROM `character` WHERE `id` = ? LIMIT 1";
+        ResultSet data = db.executeQuery(selectQuery, raw.get("id"));
+
+        while (data.next()) {
+            guide_path.setText("/ " + data.getString("name"));
+            String difficultyValue = data.getString("difficulty");
+
+            if ("Easy".equals(difficultyValue)) {
+                difficulty.setForeground(new Color(0, 129, 72));
+            } else if ("Medium".equals(difficultyValue)) {
+                difficulty.setForeground(new Color(243, 167, 18));
+            } else if ("Hard".equals(difficultyValue)) {
+                difficulty.setForeground(new Color(221, 10, 0));
+            }
+            difficulty.setText("Difficulty: " + data.getString("difficulty"));
+
+            ImageIcon image = new ImageIcon(getClass().getResource("/image/character/128x128/dragunov.png"));
+            if (data.getString("code") != "_") {
+                image = new ImageIcon(getClass().getResource("/image/character/128x128/" + data.getString("code") + ".png"));
+            }
+            characterItem1.setImage(image);
+            characterItem1.setTitle(data.getString("name"));
+
+            evasiveness_value.setValue(data.getInt("evasiveness"));
+            mobility_value.setValue(data.getInt("mobility"));
+            throw_game_value.setValue(data.getInt("throw_game"));
+            combo_damage_value.setValue(data.getInt("combo_damage"));
+            wall_carry_value.setValue(data.getInt("wall_carry"));
+        }
+
+        // sample datasheet table
         ArrayList<ImageIcon> img = new ArrayList<>();
         img.add(new ImageIcon(getClass().getResource("/image/button/32x32/1.png")));
         img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
@@ -30,7 +111,7 @@ public class Character extends javax.swing.JFrame {
         img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
         img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
         img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
-        Object[][] data = {
+        Object[][] tb_data = {
             {img, "John", "1", "a", "ab", "c"},
             {img, "John", "1", "a", "ab", "c"},
             {img, "John", "1", "a", "ab", "c"},
@@ -38,7 +119,8 @@ public class Character extends javax.swing.JFrame {
             {img, "John", "1", "a", "ab", "c"},
             {img, "John", "1", "a", "ab", "c"}
         };
-        movesheetTable1.setData(data);
+        movesheetTable1.setData(tb_data);
+
         ScrollBar scrollPane = new ScrollBar(root);
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBar(null);
@@ -104,24 +186,48 @@ public class Character extends javax.swing.JFrame {
 
         home_path.setText("Home  / ");
         home_path.setFontSize(20.0F);
+        home_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                home_pathMouseEntered(evt);
+            }
+        });
         main.add(home_path);
         home_path.setBounds(50, 50, 62, 22);
 
         guide_path.setText("/ Dragunov");
         guide_path.setFontSize(20.0F);
         main.add(guide_path);
-        guide_path.setBounds(160, 50, 140, 22);
+        guide_path.setBounds(170, 50, 140, 22);
 
         guide_path1.setText("Guide");
         guide_path1.setFontSize(20.0F);
+        guide_path1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                guide_path1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                guide_path1MouseEntered(evt);
+            }
+        });
         main.add(guide_path1);
-        guide_path1.setBounds(110, 50, 60, 22);
+        guide_path1.setBounds(115, 50, 60, 22);
 
         back.setBackground(new java.awt.Color(123, 15, 58));
         back.setRoundBottomLeft(10);
         back.setRoundBottomRight(10);
         back.setRoundTopLeft(10);
         back.setRoundTopRight(10);
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                backMouseEntered(evt);
+            }
+        });
         back.setLayout(new java.awt.GridBagLayout());
 
         ropaLabel1.setText("<<  Back");
@@ -290,6 +396,42 @@ public class Character extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void backMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseEntered
+        // TODO add your handling code here:
+        back.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_backMouseEntered
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        Guide guide = new Guide();
+        guide.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backMouseClicked
+
+    private void guide_path1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path1MouseClicked
+        // TODO add your handling code here:
+        Guide guide = new Guide();
+        guide.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_guide_path1MouseClicked
+
+    private void home_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_home_pathMouseClicked
+
+    private void guide_path1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path1MouseEntered
+        // TODO add your handling code here:
+        guide_path1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_guide_path1MouseEntered
+
+    private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
+        // TODO add your handling code here:
+        home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_home_pathMouseEntered
+
     /**
      * @param args the command line arguments
      */
@@ -321,7 +463,11 @@ public class Character extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Character().setVisible(true);
+                try {
+                    new Character().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Character.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
