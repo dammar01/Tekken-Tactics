@@ -65,7 +65,6 @@ public class MyCombo extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
         setMinimumSize(new java.awt.Dimension(1281, 650));
-        setPreferredSize(new java.awt.Dimension(1281, 650));
         setResizable(false);
 
         root.setMinimumSize(new java.awt.Dimension(1281, 650));

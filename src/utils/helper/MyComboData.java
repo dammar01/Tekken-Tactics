@@ -366,18 +366,4 @@ public class MyComboData extends JPanel {
         this.totalDamage = damage;
         refreshAdditionalPanel();
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Test ComboListHero");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            MyComboData panel = new MyComboData();
-            frame.add(panel);
-
-            frame.pack();
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
-    }
 }

@@ -95,9 +95,16 @@ public class Guide extends javax.swing.JFrame {
             String code = character.get("code");
             String name = character.get("name");
             if (code != "_") {
-                utils.helper.CharacterItem item = new utils.helper.CharacterItem(name, code);
-                character_panel.add(item);
-                addAnchor(item, character);
+                try {
+                    utils.helper.CharacterItem item = new utils.helper.CharacterItem(name, code);
+                    character_panel.add(item);
+                    addAnchor(item, character);
+                } catch (NullPointerException e) {
+                    utils.helper.CharacterItem item = new utils.helper.CharacterItem(name, "dragunov");
+                    character_panel.add(item);
+                    addAnchor(item, character);
+                }
+
             }
         }
         updatePanel(character_panel, character_panel.getX(), character_panel.getY(), characterPanelWidth, characterPanelHeight);

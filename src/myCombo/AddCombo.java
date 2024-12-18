@@ -8,9 +8,20 @@ import home.Home;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import javax.swing.JFrame;
+import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+import javax.swing.plaf.basic.ComboPopup;
+import utils.helper.Db;
 import utils.helper.ScrollBar;
 
 /**
@@ -22,6 +33,8 @@ public class AddCombo extends javax.swing.JFrame {
     /**
      * Creates new form Guide
      */
+    private LinkedList<String> notation_list = new LinkedList<>();
+
     private void reloadPanel(JPanel panel) {
         panel.revalidate();
         panel.repaint();
@@ -31,6 +44,11 @@ public class AddCombo extends javax.swing.JFrame {
         int componentCount = notation_input.getComponentCount();
         Rectangle max_size = notation_input.getBounds();
         JLabel source = (JLabel) evt.getComponent();
+        File image = new File(source.getIcon().toString());
+        String file_name = image.getName().replace("%5e", "^");
+
+        this.notation_list.add(file_name.substring(0, file_name.length() - 4));
+        System.out.println(this.notation_list);
         if (componentCount > 0) {
             JLabel lastComponent = (JLabel) notation_input.getComponent(componentCount - 1);
             if (lastComponent.getBounds().x + lastComponent.getIcon().getIconWidth()
@@ -80,14 +98,54 @@ public class AddCombo extends javax.swing.JFrame {
                 reloadPanel(notation_data);
             }
             notation_input.remove(lastComponent);
+            this.notation_list.removeLast();
             notation_input.revalidate();
             notation_input.repaint();
         }
     }
 
+    private void setupCharacterInput() {
+        Db db = new Db();
+        try {
+            db.connect();
+            String selectQuery = "SELECT * FROM `character` WHERE `tier` != '-' ORDER BY `id`";
+            ResultSet resultSet = db.executeQuery(selectQuery);
+            input_character.addItem("Select character");
+            while (resultSet.next()) {
+                input_character.addItem(resultSet.getString("name"));
+            }
+            input_character.setSelectedIndex(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void changeScrollBar() {
+        input_character.setUI(new BasicComboBoxUI() {
+            @Override
+            protected ComboPopup createPopup() {
+                return new BasicComboPopup(comboBox) {
+                    @Override
+                    protected ScrollBar createScroller() {
+                        ScrollBar scroller = new ScrollBar(list);
+                        return scroller;
+                    }
+                };
+            }
+        });
+    }
+
     public AddCombo() {
         // setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
+        setupCharacterInput();
+        changeScrollBar();
         reloadPanel(root);
         ScrollBar scrollPane = new ScrollBar(root);
         scrollPane.setBorder(null);
@@ -104,7 +162,7 @@ public class AddCombo extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         root = new javax.swing.JPanel();
@@ -126,6 +184,9 @@ public class AddCombo extends javax.swing.JFrame {
         total_damages_area = new utils.helper.RoundedPanel();
         total_damages_input = new javax.swing.JTextField();
         total_damages_label = new utils.helper.RopaLabel();
+        character = new javax.swing.JPanel();
+        total_damages_label1 = new utils.helper.RopaLabel();
+        input_character = new javax.swing.JComboBox<>();
         save = new utils.helper.RoundedPanel();
         save_label = new utils.helper.RopaLabel();
         backspace = new utils.helper.RoundedPanel();
@@ -223,7 +284,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 home_pathMouseClicked(evt);
             }
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 home_pathMouseEntered(evt);
             }
@@ -242,7 +302,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 add_comboMouseClicked(evt);
             }
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 add_comboMouseEntered(evt);
             }
@@ -259,7 +318,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 backMouseClicked(evt);
             }
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 backMouseEntered(evt);
             }
@@ -290,17 +348,19 @@ public class AddCombo extends javax.swing.JFrame {
         javax.swing.GroupLayout version_areaLayout = new javax.swing.GroupLayout(version_area);
         version_area.setLayout(version_areaLayout);
         version_areaLayout.setHorizontalGroup(
-                version_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(version_areaLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(version_input, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                                .addContainerGap()));
+            version_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(version_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(version_input, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addContainerGap())
+        );
         version_areaLayout.setVerticalGroup(
-                version_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(version_areaLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(version_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                                .addContainerGap()));
+            version_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(version_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(version_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         version.add(version_area);
         version_area.setBounds(0, 30, 120, 50);
@@ -330,19 +390,19 @@ public class AddCombo extends javax.swing.JFrame {
         javax.swing.GroupLayout total_hits_areaLayout = new javax.swing.GroupLayout(total_hits_area);
         total_hits_area.setLayout(total_hits_areaLayout);
         total_hits_areaLayout.setHorizontalGroup(
-                total_hits_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(total_hits_areaLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(total_hits_input, javax.swing.GroupLayout.DEFAULT_SIZE, 138,
-                                        Short.MAX_VALUE)
-                                .addContainerGap()));
+            total_hits_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(total_hits_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(total_hits_input, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addContainerGap())
+        );
         total_hits_areaLayout.setVerticalGroup(
-                total_hits_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(total_hits_areaLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(total_hits_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38,
-                                        Short.MAX_VALUE)
-                                .addContainerGap()));
+            total_hits_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(total_hits_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(total_hits_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         total_hits.add(total_hits_area);
         total_hits_area.setBounds(0, 30, 150, 50);
@@ -372,19 +432,19 @@ public class AddCombo extends javax.swing.JFrame {
         javax.swing.GroupLayout total_damages_areaLayout = new javax.swing.GroupLayout(total_damages_area);
         total_damages_area.setLayout(total_damages_areaLayout);
         total_damages_areaLayout.setHorizontalGroup(
-                total_damages_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(total_damages_areaLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(total_damages_input, javax.swing.GroupLayout.DEFAULT_SIZE, 138,
-                                        Short.MAX_VALUE)
-                                .addContainerGap()));
+            total_damages_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(total_damages_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(total_damages_input, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addContainerGap())
+        );
         total_damages_areaLayout.setVerticalGroup(
-                total_damages_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(total_damages_areaLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(total_damages_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38,
-                                        Short.MAX_VALUE)
-                                .addContainerGap()));
+            total_damages_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(total_damages_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(total_damages_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         total_damages.add(total_damages_area);
         total_damages_area.setBounds(0, 30, 150, 50);
@@ -396,6 +456,30 @@ public class AddCombo extends javax.swing.JFrame {
 
         main.add(total_damages);
         total_damages.setBounds(360, 140, 150, 80);
+
+        character.setBackground(new java.awt.Color(8, 18, 38));
+        character.setLayout(null);
+
+        total_damages_label1.setText("Character");
+        total_damages_label1.setFontSize(18.0F);
+        character.add(total_damages_label1);
+        total_damages_label1.setBounds(0, 10, 110, 20);
+
+        input_character.setBackground(new java.awt.Color(217, 217, 217));
+        input_character.setFont(ropaLabel1.getFont());
+        input_character.setBorder(null);
+        input_character.setFocusable(false);
+        input_character.setPreferredSize(new java.awt.Dimension(140, 30));
+        input_character.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_characterActionPerformed(evt);
+            }
+        });
+        character.add(input_character);
+        input_character.setBounds(0, 30, 180, 50);
+
+        main.add(character);
+        character.setBounds(530, 140, 180, 80);
 
         save.setBackground(new java.awt.Color(52, 255, 67));
         save.setRoundBottomLeft(10);
@@ -415,7 +499,7 @@ public class AddCombo extends javax.swing.JFrame {
         save.add(save_label, new java.awt.GridBagConstraints());
 
         main.add(save);
-        save.setBounds(540, 150, 150, 70);
+        save.setBounds(730, 150, 150, 70);
 
         backspace.setBackground(new java.awt.Color(123, 15, 58));
         backspace.setRoundBottomLeft(10);
@@ -426,7 +510,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 backspaceMouseClicked(evt);
             }
-
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 backspaceMouseEntered(evt);
             }
@@ -439,7 +522,7 @@ public class AddCombo extends javax.swing.JFrame {
         backspace.add(backspace_label, new java.awt.GridBagConstraints());
 
         main.add(backspace);
-        backspace.setBounds(710, 150, 90, 70);
+        backspace.setBounds(900, 150, 90, 70);
 
         notation.setBackground(new java.awt.Color(8, 18, 38));
         notation.setLayout(null);
@@ -469,7 +552,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_1MousePressed(evt);
             }
@@ -481,7 +563,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_2MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_2MousePressed(evt);
             }
@@ -493,7 +574,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_3MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_3MousePressed(evt);
             }
@@ -505,7 +585,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_4MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_4MousePressed(evt);
             }
@@ -517,7 +596,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_2MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_1_2MousePressed(evt);
             }
@@ -529,7 +607,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_3MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_1_3MousePressed(evt);
             }
@@ -541,7 +618,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_4MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_1_4MousePressed(evt);
             }
@@ -553,7 +629,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_2_3MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_2_3MousePressed(evt);
             }
@@ -565,7 +640,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_2_4MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_2_4MousePressed(evt);
             }
@@ -577,7 +651,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_3_4MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_3_4MousePressed(evt);
             }
@@ -589,7 +662,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_2_3MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_1_2_3MousePressed(evt);
             }
@@ -601,7 +673,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_2_4MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_1_2_4MousePressed(evt);
             }
@@ -613,7 +684,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_3_4MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_1_3_4MousePressed(evt);
             }
@@ -625,7 +695,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_2_3_4MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_2_3_4MousePressed(evt);
             }
@@ -637,7 +706,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_1_2_3_4MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_1_2_3_4MousePressed(evt);
             }
@@ -649,7 +717,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_nMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_nMousePressed(evt);
             }
@@ -661,7 +728,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_fMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_fMousePressed(evt);
             }
@@ -673,7 +739,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_dfMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_dfMousePressed(evt);
             }
@@ -685,7 +750,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_dMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_dMousePressed(evt);
             }
@@ -697,7 +761,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_dbMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_dbMousePressed(evt);
             }
@@ -709,7 +772,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_bMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_bMousePressed(evt);
             }
@@ -721,7 +783,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ubMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_ubMousePressed(evt);
             }
@@ -733,7 +794,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_uMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_uMousePressed(evt);
             }
@@ -745,7 +805,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ufMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_ufMousePressed(evt);
             }
@@ -757,7 +816,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_f1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_f1MousePressed(evt);
             }
@@ -769,7 +827,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_df1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_df1MousePressed(evt);
             }
@@ -781,7 +838,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_d1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_d1MousePressed(evt);
             }
@@ -793,7 +849,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_db1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_db1MousePressed(evt);
             }
@@ -805,7 +860,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_b1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_b1MousePressed(evt);
             }
@@ -817,7 +871,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ub1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_ub1MousePressed(evt);
             }
@@ -829,7 +882,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_u1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_u1MousePressed(evt);
             }
@@ -841,7 +893,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_uf1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_uf1MousePressed(evt);
             }
@@ -853,7 +904,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_brace1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_brace1MousePressed(evt);
             }
@@ -865,7 +915,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_brace2MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_brace2MousePressed(evt);
             }
@@ -877,7 +926,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_nextMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_nextMousePressed(evt);
             }
@@ -889,7 +937,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_colonMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_colonMousePressed(evt);
             }
@@ -901,7 +948,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_tildeMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_tildeMousePressed(evt);
             }
@@ -913,7 +959,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_commaMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_commaMousePressed(evt);
             }
@@ -925,7 +970,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_delay1MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_delay1MousePressed(evt);
             }
@@ -937,7 +981,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_delay2MouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_delay2MousePressed(evt);
             }
@@ -949,7 +992,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_bbMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_bbMousePressed(evt);
             }
@@ -961,7 +1003,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_fblMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_fblMousePressed(evt);
             }
@@ -973,7 +1014,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_fbMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_fbMousePressed(evt);
             }
@@ -985,7 +1025,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wboMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_wboMousePressed(evt);
             }
@@ -997,7 +1036,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wblMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_wblMousePressed(evt);
             }
@@ -1009,7 +1047,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wbMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_wbMousePressed(evt);
             }
@@ -1021,7 +1058,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_hMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_hMousePressed(evt);
             }
@@ -1033,7 +1069,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_rMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_rMousePressed(evt);
             }
@@ -1045,7 +1080,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_rageMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_rageMousePressed(evt);
             }
@@ -1057,7 +1091,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ccMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_ccMousePressed(evt);
             }
@@ -1069,7 +1102,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_chMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_chMousePressed(evt);
             }
@@ -1081,7 +1113,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_cdMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_cdMousePressed(evt);
             }
@@ -1093,7 +1124,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_dashMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_dashMousePressed(evt);
             }
@@ -1105,7 +1135,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_fcMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_fcMousePressed(evt);
             }
@@ -1117,7 +1146,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_holdMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_holdMousePressed(evt);
             }
@@ -1129,7 +1157,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ssMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_ssMousePressed(evt);
             }
@@ -1141,7 +1168,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_sslMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_sslMousePressed(evt);
             }
@@ -1153,7 +1179,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ssrMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_ssrMousePressed(evt);
             }
@@ -1165,7 +1190,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_swlMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_swlMousePressed(evt);
             }
@@ -1177,7 +1201,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_swrMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_swrMousePressed(evt);
             }
@@ -1189,7 +1212,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_wMousePressed(evt);
             }
@@ -1201,7 +1223,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wrMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_wrMousePressed(evt);
             }
@@ -1213,7 +1234,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_wsMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_wsMousePressed(evt);
             }
@@ -1225,7 +1245,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_mdashMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_mdashMousePressed(evt);
             }
@@ -1237,7 +1256,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_ddashMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_ddashMousePressed(evt);
             }
@@ -1249,7 +1267,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_iwrMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_iwrMousePressed(evt);
             }
@@ -1261,7 +1278,6 @@ public class AddCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btn_iwsMouseEntered(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btn_iwsMousePressed(evt);
             }
@@ -1276,19 +1292,23 @@ public class AddCombo extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void input_characterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_characterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_input_characterActionPerformed
 
     private void saveMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_saveMouseEntered
         // TODO add your handling code here:
@@ -2154,8 +2174,10 @@ public class AddCombo extends javax.swing.JFrame {
     private javax.swing.JLabel btn_wbo;
     private javax.swing.JLabel btn_wr;
     private javax.swing.JLabel btn_ws;
+    private javax.swing.JPanel character;
     private utils.helper.RopaLabel guide_path1;
     private utils.helper.RopaLabel home_path;
+    private javax.swing.JComboBox<String> input_character;
     private javax.swing.JPanel main;
     private javax.swing.JPanel notation;
     private javax.swing.JPanel notation_data;
@@ -2169,6 +2191,7 @@ public class AddCombo extends javax.swing.JFrame {
     private utils.helper.RoundedPanel total_damages_area;
     private javax.swing.JTextField total_damages_input;
     private utils.helper.RopaLabel total_damages_label;
+    private utils.helper.RopaLabel total_damages_label1;
     private javax.swing.JPanel total_hits;
     private utils.helper.RoundedPanel total_hits_area;
     private javax.swing.JTextField total_hits_input;
