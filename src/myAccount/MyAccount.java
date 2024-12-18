@@ -8,6 +8,8 @@ import editProfile.Edit_profile;
 import home.Home;
 import javax.swing.*;
 import java.awt.Cursor;
+import myCombo.MyCombo;
+import utils.helper.Session;
 
 /**
  *
@@ -21,6 +23,7 @@ public class MyAccount extends javax.swing.JFrame {
     public MyAccount() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
+        nickname.setText(Session.getUsername());
     }
 
     /**
@@ -52,7 +55,7 @@ public class MyAccount extends javax.swing.JFrame {
         roundedPanel4 = new utils.helper.RoundedPanel();
         jLabel8 = new javax.swing.JLabel();
         ropaLabel4 = new utils.helper.RopaLabel();
-        sample = new utils.helper.RopaLabel();
+        nickname = new utils.helper.RopaLabel();
         MyAccount_path = new utils.helper.RopaLabel();
         home_path = new utils.helper.RopaLabel();
         ropaLabel7 = new utils.helper.RopaLabel();
@@ -65,6 +68,7 @@ public class MyAccount extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1281, 650));
+        setResizable(false);
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
@@ -77,9 +81,17 @@ public class MyAccount extends javax.swing.JFrame {
         myCombo.setRoundBottomRight(50);
         myCombo.setRoundTopLeft(50);
         myCombo.setRoundTopRight(50);
+        myCombo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                myComboMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                myComboMouseEntered(evt);
+            }
+        });
         myCombo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ropaLabel6.setText("Edit Profile");
+        ropaLabel6.setText("My Combo");
         ropaLabel6.setFontSize(20.0F);
         myCombo.add(ropaLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, -1));
 
@@ -102,6 +114,9 @@ public class MyAccount extends javax.swing.JFrame {
         editProfile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 editProfileMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                editProfileMouseEntered(evt);
             }
         });
         editProfile.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -262,9 +277,9 @@ public class MyAccount extends javax.swing.JFrame {
 
         main.add(roundedPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 330, -1, -1));
 
-        sample.setText("Nickname");
-        sample.setFontSize(23.0F);
-        main.add(sample, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 180, -1, -1));
+        nickname.setText("Nickname");
+        nickname.setFontSize(23.0F);
+        main.add(nickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 180, -1, -1));
 
         MyAccount_path.setText("/ My Account");
         MyAccount_path.setFontSize(20.0F);
@@ -380,6 +395,23 @@ public class MyAccount extends javax.swing.JFrame {
          home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_home_pathMouseEntered
 
+    private void editProfileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editProfileMouseEntered
+        // TODO add your handling code here:
+        editProfile.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_editProfileMouseEntered
+
+    private void myComboMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myComboMouseClicked
+        // TODO add your handling code here:
+        MyCombo myCombo = new MyCombo();
+        myCombo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_myComboMouseClicked
+
+    private void myComboMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myComboMouseEntered
+        // TODO add your handling code here:
+        myCombo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_myComboMouseEntered
+
     /**
      * @param args the command line arguments
      */
@@ -464,6 +496,7 @@ public class MyAccount extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel main;
     private utils.helper.RoundedPanel myCombo;
+    private utils.helper.RopaLabel nickname;
     private utils.helper.RopaLabel ropaLabel1;
     private utils.helper.RopaLabel ropaLabel2;
     private utils.helper.RopaLabel ropaLabel3;
@@ -476,6 +509,5 @@ public class MyAccount extends javax.swing.JFrame {
     private utils.helper.RoundedPanel roundedPanel2;
     private utils.helper.RoundedPanel roundedPanel3;
     private utils.helper.RoundedPanel roundedPanel4;
-    private utils.helper.RopaLabel sample;
     // End of variables declaration//GEN-END:variables
 }

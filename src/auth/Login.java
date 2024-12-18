@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import utils.helper.Session;
 
 /**
  *
@@ -266,6 +267,12 @@ public class Login extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+
+                String email = rs.getString("email");
+
+                Session.setSession(inputUsername, email);
+                System.out.println("email " + email);
+
                 JOptionPane.showMessageDialog(this, "Login Berhasil!");
                 // Navigasi ke JFrame berikutnya
                 Home home = new Home(); // Ganti dengan nama JFrame Anda

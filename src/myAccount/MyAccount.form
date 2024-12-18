@@ -40,6 +40,7 @@
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1281, 650]"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -101,6 +102,10 @@
             <Property name="roundTopLeft" type="int" value="50"/>
             <Property name="roundTopRight" type="int" value="50"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="myComboMouseClicked"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="myComboMouseEntered"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="760" y="440" width="280" height="150"/>
@@ -113,7 +118,7 @@
           <SubComponents>
             <Component class="utils.helper.RopaLabel" name="ropaLabel6">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Edit Profile"/>
+                <Property name="text" type="java.lang.String" value="My Combo"/>
                 <Property name="fontSize" type="float" value="20.0"/>
               </Properties>
               <Constraints>
@@ -152,6 +157,7 @@
           <Events>
             <EventHandler event="componentRemoved" listener="java.awt.event.ContainerListener" parameters="java.awt.event.ContainerEvent" handler="editProfileComponentRemoved"/>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="editProfileMouseClicked"/>
+            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="editProfileMouseEntered"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -441,7 +447,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="utils.helper.RopaLabel" name="sample">
+        <Component class="utils.helper.RopaLabel" name="nickname">
           <Properties>
             <Property name="text" type="java.lang.String" value="Nickname"/>
             <Property name="fontSize" type="float" value="23.0"/>

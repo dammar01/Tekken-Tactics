@@ -4,10 +4,15 @@
  */
 package editProfile;
 
+import auth.DatabaseConnection;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
 import home.Home;
 import javax.swing.*;
 import myAccount.MyAccount;
 import java.awt.Cursor;
+import utils.helper.Session;
+import java.sql.ResultSet;
 
 /**
  *
@@ -21,6 +26,9 @@ public class Edit_profile extends javax.swing.JFrame {
     public Edit_profile() {
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
+        nickname.setText(Session.getUsername());
+        tfUsername.setText(Session.getUsername());
+        tfEmail.setText(Session.getEmail());
     }
 
     /**
@@ -46,19 +54,19 @@ public class Edit_profile extends javax.swing.JFrame {
         Password = new utils.helper.RopaLabel();
         roundedPanel7 = new utils.helper.RoundedPanel();
         roundedPanel8 = new utils.helper.RoundedPanel();
-        phUsername = new utils.helper.RopaLabel();
         tfUsername = new javax.swing.JTextField();
         username = new utils.helper.RopaLabel();
-        nickname1 = new utils.helper.RopaLabel();
+        nickname = new utils.helper.RopaLabel();
         back = new utils.helper.RoundedPanel();
         ropaLabel1 = new utils.helper.RopaLabel();
         ropaLabel2 = new utils.helper.RopaLabel();
         home_path = new utils.helper.RopaLabel();
         EditProfile_path = new utils.helper.RopaLabel();
         myAccount_path = new utils.helper.RopaLabel();
+        Save = new utils.helper.RoundedPanel();
+        ropaLabel3 = new utils.helper.RopaLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
 
@@ -180,11 +188,6 @@ public class Edit_profile extends javax.swing.JFrame {
         roundedPanel8.setRoundTopRight(20);
         roundedPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        phUsername.setForeground(new java.awt.Color(123, 15, 58));
-        phUsername.setText("Nickname");
-        phUsername.setFontSize(18.0F);
-        roundedPanel8.add(phUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 80, 40));
-
         tfUsername.setBackground(new java.awt.Color(217, 217, 217));
         tfUsername.setFont(new java.awt.Font("Yu Gothic UI", 1, 16)); // NOI18N
         tfUsername.setForeground(new java.awt.Color(123, 15, 58));
@@ -212,9 +215,9 @@ public class Edit_profile extends javax.swing.JFrame {
 
         main.add(roundedPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 580, 60));
 
-        nickname1.setText("Nickname");
-        nickname1.setFontSize(20.0F);
-        main.add(nickname1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 170, 80, 30));
+        nickname.setText("Nickname");
+        nickname.setFontSize(20.0F);
+        main.add(nickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 170, 80, 30));
 
         back.setBackground(new java.awt.Color(123, 15, 58));
         back.setRoundBottomLeft(10);
@@ -290,17 +293,47 @@ public class Edit_profile extends javax.swing.JFrame {
         });
         main.add(myAccount_path, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 100, -1));
 
-        jMenu2.setText("Account");
-
-        jMenuItem1.setText("Login");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+        Save.setBackground(new java.awt.Color(123, 15, 58));
+        Save.setRoundBottomLeft(20);
+        Save.setRoundBottomRight(20);
+        Save.setRoundTopLeft(20);
+        Save.setRoundTopRight(20);
+        Save.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SaveMouseClicked(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+
+        ropaLabel3.setText("Save");
+        ropaLabel3.setFontSize(20.0F);
+
+        javax.swing.GroupLayout SaveLayout = new javax.swing.GroupLayout(Save);
+        Save.setLayout(SaveLayout);
+        SaveLayout.setHorizontalGroup(
+            SaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SaveLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(ropaLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        SaveLayout.setVerticalGroup(
+            SaveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SaveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ropaLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        main.add(Save, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 500, 80, 40));
+
+        jMenu2.setText("Account");
 
         jMenuItem2.setText("Exit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
@@ -325,19 +358,15 @@ public class Edit_profile extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void tfUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusGained
         // TODO add your handling code here:
-        phUsername.setVisible(false);
+//        phUsername.setVisible(false);
     }//GEN-LAST:event_tfUsernameFocusGained
 
     private void tfUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfUsernameFocusLost
         // TODO add your handling code here:
-        if (tfUsername.getText().isEmpty())
-            phUsername.setVisible(true);
+//        if (tfUsername.getText().isEmpty())
+//            phUsername.setVisible(true);
     }//GEN-LAST:event_tfUsernameFocusLost
 
     private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed
@@ -345,14 +374,14 @@ public class Edit_profile extends javax.swing.JFrame {
     }//GEN-LAST:event_tfUsernameActionPerformed
 
     private void tfPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusGained
-        // TODO add your handling code here:
+//         TODO add your handling code here:
         phPassword.setVisible(false);
     }//GEN-LAST:event_tfPasswordFocusGained
 
     private void tfPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfPasswordFocusLost
         // TODO add your handling code here:
         if (tfPassword.getPassword() == null || tfPassword.getPassword().length == 0)
-        phPassword.setVisible(true);
+            phPassword.setVisible(true);
     }//GEN-LAST:event_tfPasswordFocusLost
 
     private void tfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPasswordActionPerformed
@@ -371,7 +400,7 @@ public class Edit_profile extends javax.swing.JFrame {
     }//GEN-LAST:event_tfEmailFocusLost
 
     private void tfEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfEmailActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here: 
     }//GEN-LAST:event_tfEmailActionPerformed
 
     private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
@@ -409,6 +438,80 @@ public class Edit_profile extends javax.swing.JFrame {
         // TODO add your handling code here:
         myAccount_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_myAccount_pathMouseEntered
+
+    private void SaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SaveMouseClicked
+        // TODO add your handling code here:
+        String newEmail = tfEmail.getText();
+        String newPassword = new String(tfPassword.getPassword());
+        String newUsername = tfUsername.getText();
+        String currentUsername = Session.getUsername();
+
+        // Validasi input kosong
+        if (newUsername.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username harus diisi!");
+            return;
+        }
+
+        if (newEmail.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Email harus diisi!");
+            return;
+        }
+
+        // Validasi format email
+        if (!newEmail.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            JOptionPane.showMessageDialog(this, "Format email tidak valid!");
+            return;
+        }
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            String fetchQuery = "SELECT password FROM user WHERE username = ?";
+            PreparedStatement fetchStmt = conn.prepareStatement(fetchQuery);
+            fetchStmt.setString(1, currentUsername);
+            ResultSet rs = fetchStmt.executeQuery();
+
+            String oldPassword = "";
+            if (rs.next()) {
+                oldPassword = rs.getString("password");
+            } else {
+                JOptionPane.showMessageDialog(this, "Data pengguna tidak ditemukan!");
+                return;
+            }
+
+            if (newPassword.isEmpty()) {
+                newPassword = oldPassword;
+            }
+
+            // Query untuk update email dan password
+            String query = "UPDATE user SET email = ?, password = ?, username = ? WHERE username = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, newEmail);
+            stmt.setString(2, newPassword);
+            stmt.setString(3, newUsername);
+            stmt.setString(4, currentUsername);
+
+            // Eksekusi query
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(this, "Perubahan berhasil disimpan!");
+
+                // Perbarui sesi email dengan email baru
+                Session.setSession(newUsername, newEmail);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal mengubah data. Username tidak ditemukan.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Terjadi kesalahan: " + e.getMessage());
+        }
+
+    }//GEN-LAST:event_SaveMouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -511,6 +614,7 @@ public class Edit_profile extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private utils.helper.RopaLabel EditProfile_path;
     private utils.helper.RopaLabel Password;
+    private utils.helper.RoundedPanel Save;
     private utils.helper.RoundedPanel back;
     private utils.helper.RopaLabel email;
     private utils.helper.RopaLabel home_path;
@@ -518,16 +622,15 @@ public class Edit_profile extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel main;
     private utils.helper.RopaLabel myAccount_path;
-    private utils.helper.RopaLabel nickname1;
+    private utils.helper.RopaLabel nickname;
     private utils.helper.RopaLabel phEmail;
     private utils.helper.RopaLabel phPassword;
-    private utils.helper.RopaLabel phUsername;
     private utils.helper.RopaLabel ropaLabel1;
     private utils.helper.RopaLabel ropaLabel2;
+    private utils.helper.RopaLabel ropaLabel3;
     private utils.helper.RoundedPanel roundedPanel10;
     private utils.helper.RoundedPanel roundedPanel5;
     private utils.helper.RoundedPanel roundedPanel6;

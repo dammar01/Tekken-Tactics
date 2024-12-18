@@ -58,6 +58,7 @@ public class Home extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1281, 650));
+        setResizable(false);
 
         main.setMinimumSize(new java.awt.Dimension(1281, 650));
         main.setPreferredSize(new java.awt.Dimension(1281, 650));
