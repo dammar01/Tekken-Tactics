@@ -5,6 +5,7 @@
 package help;
 
 import home.Home;
+import java.awt.Cursor;
 import javax.swing.*;
 import myAccount.MyAccount;
 
@@ -94,6 +95,14 @@ public class Help extends javax.swing.JFrame {
         faq.setRoundBottomRight(50);
         faq.setRoundTopLeft(50);
         faq.setRoundTopRight(50);
+        faq.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                faqMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                faqMouseEntered(evt);
+            }
+        });
         faq.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ropaLabel9.setText("FAQ");
@@ -318,6 +327,18 @@ public class Help extends javax.swing.JFrame {
         home.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void faqMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_faqMouseClicked
+        // TODO add your handling code here:
+        Faq faq = new Faq();
+        faq.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_faqMouseClicked
+
+    private void faqMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_faqMouseEntered
+        // TODO add your handling code here:
+        faq.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_faqMouseEntered
 
     /**
      * @param args the command line arguments
