@@ -155,7 +155,7 @@ public class Faq extends javax.swing.JFrame {
             }
         });
         main.add(home_path);
-        home_path.setBounds(90, 50, 49, 22);
+        home_path.setBounds(90, 50, 60, 22);
 
         FAQ_path.setText("/ FAQ");
         FAQ_path.setFontSize(20.0F);

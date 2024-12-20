@@ -4,6 +4,7 @@
  */
 package myCombo;
 
+import auth.Login;
 import home.Home;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -11,18 +12,18 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
-import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.plaf.basic.ComboPopup;
 import utils.helper.Db;
 import utils.helper.ScrollBar;
+import utils.helper.Session;
 
 /**
  *
@@ -48,7 +49,6 @@ public class AddCombo extends javax.swing.JFrame {
         String file_name = image.getName().replace("%5e", "^");
 
         this.notation_list.add(file_name.substring(0, file_name.length() - 4));
-        System.out.println(this.notation_list);
         if (componentCount > 0) {
             JLabel lastComponent = (JLabel) notation_input.getComponent(componentCount - 1);
             if (lastComponent.getBounds().x + lastComponent.getIcon().getIconWidth()
@@ -104,6 +104,22 @@ public class AddCombo extends javax.swing.JFrame {
         }
     }
 
+    private void clearAllNotations() {
+        notation_input.removeAll();
+        notation_list.clear();
+        notation_input.setPreferredSize(new Dimension(0, 0));
+        notation_input.revalidate();
+        notation_input.repaint();
+    }
+
+    private void resetInput() {
+        clearAllNotations();
+        version_input.setText("");
+        input_character.setSelectedIndex(0);
+        total_damages_input.setText("");
+        total_hits_input.setText("");
+    }
+
     private void setupCharacterInput() {
         Db db = new Db();
         try {
@@ -143,6 +159,13 @@ public class AddCombo extends javax.swing.JFrame {
 
     public AddCombo() {
         // setExtendedState(JFrame.MAXIMIZED_BOTH);
+        System.out.println("Session ID: " + Session.getId());
+        if (Session.getId() == null) {
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
+            return;
+        }
         initComponents();
         setupCharacterInput();
         changeScrollBar();
@@ -185,7 +208,7 @@ public class AddCombo extends javax.swing.JFrame {
         total_damages_input = new javax.swing.JTextField();
         total_damages_label = new utils.helper.RopaLabel();
         character = new javax.swing.JPanel();
-        total_damages_label1 = new utils.helper.RopaLabel();
+        character_label = new utils.helper.RopaLabel();
         input_character = new javax.swing.JComboBox<>();
         save = new utils.helper.RoundedPanel();
         save_label = new utils.helper.RopaLabel();
@@ -460,10 +483,10 @@ public class AddCombo extends javax.swing.JFrame {
         character.setBackground(new java.awt.Color(8, 18, 38));
         character.setLayout(null);
 
-        total_damages_label1.setText("Character");
-        total_damages_label1.setFontSize(18.0F);
-        character.add(total_damages_label1);
-        total_damages_label1.setBounds(0, 10, 110, 20);
+        character_label.setText("Character");
+        character_label.setFontSize(18.0F);
+        character.add(character_label);
+        character_label.setBounds(0, 10, 110, 20);
 
         input_character.setBackground(new java.awt.Color(217, 217, 217));
         input_character.setFont(ropaLabel1.getFont());
@@ -487,6 +510,9 @@ public class AddCombo extends javax.swing.JFrame {
         save.setRoundTopLeft(10);
         save.setRoundTopRight(10);
         save.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 saveMouseEntered(evt);
             }
@@ -1310,6 +1336,60 @@ public class AddCombo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_input_characterActionPerformed
 
+    private int getCharacterId(Db db, String char_name) throws SQLException {
+        if (char_name == null || char_name.isEmpty()) {
+            throw new IllegalArgumentException("Character name cannot be null or empty.");
+        }
+        String q = "SELECT id FROM `character` WHERE `name` = ? LIMIT 1";
+        ResultSet res = db.executeQuery(q, char_name);
+        int char_id = -1;
+        if (res.next()) {
+            char_id = res.getInt("id");
+        }
+        return char_id;
+    }
+    private void saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseClicked
+        // TODO add your handling code here:
+        String version = version_input.getText();
+        String total_hits = total_hits_input.getText();
+        String total_damage = total_damages_input.getText();
+        String character_name = input_character.getSelectedItem().toString();
+
+        if (version.equals("") || total_hits.equals("") || total_damage.equals("") || character_name.equals("Select character") || notation_list.size() == 0) {
+            JOptionPane.showMessageDialog(this, "Please fill all input !");
+            return;
+        }
+
+        Db db = new Db();
+        String query = "INSERT INTO `my_combo` (user_id, character_id, notation, version, total_damage, total_hits, is_favorite, date_created) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            db.connect();
+            int character_id = getCharacterId(db, character_name);
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String now = currentDateTime.format(formatter);
+            if (character_id == -1) {
+                return;
+            }
+            int res = db.executeUpdate(query, Session.getId(), character_id, notation_list.toString(), version, total_damage, total_hits, 0, now);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to add data");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to add data");
+        } finally {
+            try {
+                JOptionPane.showMessageDialog(this, "Add data successfully !");
+                resetInput();
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Failed to add data");
+            }
+        }
+    }//GEN-LAST:event_saveMouseClicked
+
     private void saveMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_saveMouseEntered
         // TODO add your handling code here:
         evt.getComponent().setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -2097,7 +2177,13 @@ public class AddCombo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddCombo().setVisible(true);
+                if (Session.getId() == null) {
+                    Login login = new Login();
+                    login.setVisible(true);
+                } else {
+                    AddCombo addCombo = new AddCombo();
+                    addCombo.setVisible(true);
+                }
             }
         });
     }
@@ -2175,6 +2261,7 @@ public class AddCombo extends javax.swing.JFrame {
     private javax.swing.JLabel btn_wr;
     private javax.swing.JLabel btn_ws;
     private javax.swing.JPanel character;
+    private utils.helper.RopaLabel character_label;
     private utils.helper.RopaLabel guide_path1;
     private utils.helper.RopaLabel home_path;
     private javax.swing.JComboBox<String> input_character;
@@ -2191,7 +2278,6 @@ public class AddCombo extends javax.swing.JFrame {
     private utils.helper.RoundedPanel total_damages_area;
     private javax.swing.JTextField total_damages_input;
     private utils.helper.RopaLabel total_damages_label;
-    private utils.helper.RopaLabel total_damages_label1;
     private javax.swing.JPanel total_hits;
     private utils.helper.RoundedPanel total_hits_area;
     private javax.swing.JTextField total_hits_input;

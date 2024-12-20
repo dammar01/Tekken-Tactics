@@ -269,8 +269,9 @@ public class Login extends javax.swing.JFrame {
             if (rs.next()) {
 
                 String email = rs.getString("email");
+                int id = rs.getInt("id");
 
-                Session.setSession(inputUsername, email);
+                Session.setSession(inputUsername, email, id);
                 System.out.println("email " + email);
 
                 JOptionPane.showMessageDialog(this, "Login Berhasil!");

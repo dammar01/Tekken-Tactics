@@ -27,7 +27,8 @@ public class Character extends javax.swing.JFrame {
      * Creates new form Guide
      */
     private List<String> convertArray(String string_data) {
-        String cleanedData = string_data.replace("[", "").replace("]", "").replace("\"", "");
+        String cleanedData = string_data.replace("[", "").replace("]", "");
+        if (cleanedData.contains("\"")) cleanedData.replace("\"", "");
         String[] array = cleanedData.split(",\\s*");
         List<String> list = new ArrayList<>(Arrays.asList(array));
         return list;

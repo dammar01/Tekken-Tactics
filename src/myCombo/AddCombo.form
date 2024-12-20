@@ -419,7 +419,7 @@
                 <Property name="useNullLayout" type="boolean" value="true"/>
               </Layout>
               <SubComponents>
-                <Component class="utils.helper.RopaLabel" name="total_damages_label1">
+                <Component class="utils.helper.RopaLabel" name="character_label">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Character"/>
                     <Property name="fontSize" type="float" value="18.0"/>
@@ -471,6 +471,7 @@
                 <Property name="roundTopRight" type="int" value="10"/>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="saveMouseClicked"/>
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="saveMouseEntered"/>
               </Events>
               <Constraints>

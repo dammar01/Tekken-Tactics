@@ -337,6 +337,10 @@ public class Register extends javax.swing.JFrame {
                 tfEmail.setText("");
                 tfUsername.setText("");
                 tfPassword.setText("");
+                Login login = new Login();
+                login.setVisible(true);
+                this.dispose();
+                return;
             }
         } catch (Exception e) {
             e.printStackTrace();

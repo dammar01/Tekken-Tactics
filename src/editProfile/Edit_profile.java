@@ -496,7 +496,7 @@ public class Edit_profile extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Perubahan berhasil disimpan!");
 
                 // Perbarui sesi email dengan email baru
-                Session.setSession(newUsername, newEmail);
+                Session.setSession(newUsername, newEmail, Session.getId());
 
             } else {
                 JOptionPane.showMessageDialog(this, "Gagal mengubah data. Username tidak ditemukan.");
