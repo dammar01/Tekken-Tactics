@@ -1351,12 +1351,19 @@ public class AddCombo extends javax.swing.JFrame {
     private void saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseClicked
         // TODO add your handling code here:
         String version = version_input.getText();
-        String total_hits = total_hits_input.getText();
-        String total_damage = total_damages_input.getText();
         String character_name = input_character.getSelectedItem().toString();
 
-        if (version.equals("") || total_hits.equals("") || total_damage.equals("") || character_name.equals("Select character") || notation_list.size() == 0) {
+        if (version.equals("") || total_hits.equals("") || character_name.equals("Select character") || notation_list.size() == 0) {
             JOptionPane.showMessageDialog(this, "Please fill all input !");
+            return;
+        }
+        Integer total_hits = 0;
+        Integer total_damage = 0;
+        try {
+            total_hits = Integer.parseInt(total_hits_input.getText());
+            total_damage = Integer.parseInt(total_damages_input.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Total hit or Total damage invalid (must a number) !");
             return;
         }
 

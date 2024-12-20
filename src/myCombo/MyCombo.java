@@ -4,16 +4,28 @@
  */
 package myCombo;
 
+import auth.Login;
 import combolist.*;
 import guide.*;
 import home.Home;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import java.util.*;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.plaf.basic.ComboPopup;
 import utils.helper.ComboListData;
+import utils.helper.Db;
+import utils.helper.MyComboData;
 import utils.helper.ScrollBar;
+import utils.helper.Session;
 
 /**
  *
@@ -24,14 +36,137 @@ public class MyCombo extends javax.swing.JFrame {
     /**
      * Creates new form Guide
      */
+    private int total_data = 0;
+    private String filter_character = "%%";
+    private String filter_name_move = "%%";
+
     private void reloadPanel(JPanel panel) {
         panel.revalidate();
         panel.repaint();
     }
 
+    private void setupCharacterData() {
+        Db db = new Db();
+        try {
+            db.connect();
+            String selectQuery = "SELECT * FROM `character` WHERE `tier` != '-' ORDER BY `id`";
+            ResultSet resultSet = db.executeQuery(selectQuery);
+            list_character.addItem("All");
+            while (resultSet.next()) {
+                list_character.addItem(resultSet.getString("name"));
+            }
+            list_character.setSelectedIndex(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void changeScrollBar() {
+        list_character.setUI(new BasicComboBoxUI() {
+            @Override
+            protected ComboPopup createPopup() {
+                return new BasicComboPopup(comboBox) {
+                    @Override
+                    protected ScrollBar createScroller() {
+                        ScrollBar scroller = new ScrollBar(list);
+                        return scroller;
+                    }
+                };
+            }
+        });
+    }
+
+    private void setupDataMyCombo(String character_name, String name_move) {
+        Db db = new Db();
+        int user_id = Session.getId();
+        try {
+            db.connect();
+            String selectQuery = "SELECT \n"
+                    + "    `combo_list`.*, \n"
+                    + "    `favorite_combo`.`id` IS NOT NULL AS `is_favorite`, \n"
+                    + "    `user`.`username`, \n"
+                    + "    `character`.`name` AS `character_name`, \n"
+                    + "    `character`.`code` AS `character_code`\n"
+                    + "FROM \n"
+                    + "    `combo_list`\n"
+                    + "LEFT JOIN \n"
+                    + "    `favorite_combo` \n"
+                    + "    ON `combo_list`.`id` = `favorite_combo`.`combo_id` \n"
+                    + "    AND `favorite_combo`.`user_id` = ?\n"
+                    + "INNER JOIN \n"
+                    + "    `user` \n"
+                    + "    ON `combo_list`.`user_id` = `user`.`id`\n"
+                    + "INNER JOIN \n"
+                    + "    `character` \n"
+                    + "    ON `combo_list`.`character_id` = `character`.`id`\n"
+                    + "WHERE \n"
+                    + "    `combo_list`.`user_id` = ?\n"
+                    + "    AND `character`.`name` LIKE ?\n"
+                    + "    AND `combo_list`.`name_move` LIKE ?\n"
+                    + "ORDER BY \n"
+                    + "    `combo_list`.`id`;";
+            ResultSet resultSet = db.executeQuery(selectQuery, user_id, user_id, character_name, name_move);
+            while (resultSet.next()) {
+                total_data++;
+                MyComboData item = new MyComboData(
+                        resultSet.getInt("id"),
+                        resultSet.getString("character_name"),
+                        resultSet.getString("name_move"),
+                        resultSet.getString("username"),
+                        resultSet.getTimestamp("date_created").toString().replaceAll("\\.0$", ""),
+                        resultSet.getString("character_code"),
+                        resultSet.getBoolean("is_favorite"),
+                        resultSet.getString("notation"),
+                        resultSet.getString("version"),
+                        resultSet.getInt("total_damage"),
+                        resultSet.getInt("total_hits")
+                );
+                Dimension panel_dim = combolist_data.getPreferredSize();
+                if (total_data == 1) {
+                    panel_dim.height = 0;
+                }
+                panel_dim.height += item.getMaxHeight() + 20;
+                combolist_data.setPreferredSize(new Dimension(panel_dim.width, panel_dim.height));
+                combolist_data.setBounds(combolist_data.getBounds().x, combolist_data.getBounds().y, combolist_data.getBounds().width, panel_dim.height + 20);
+                combolist_data.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (total_data == 0){
+                    JOptionPane.showMessageDialog(this, "Not found any data");
+                }
+                reloadPanel(combolist_data);
+                Dimension root_size = root.getPreferredSize();
+                root.setPreferredSize(new Dimension(root_size.width, combolist_data.getBounds().height + combolist_data.getBounds().y));
+                reloadPanel(root);
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public MyCombo() {
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        if (Session.getId() == null) {
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
+            return;
+        }
         initComponents();
+        setupCharacterData();
+        changeScrollBar();
+
+        setupDataMyCombo(filter_character, filter_name_move);
+
         reloadPanel(root);
         ScrollBar scrollPane = new ScrollBar(root);
         scrollPane.setBorder(null);
@@ -61,6 +196,8 @@ public class MyCombo extends javax.swing.JFrame {
         search = new utils.helper.RoundedPanel();
         search_placeholder = new utils.helper.RopaLabel();
         search_input = new javax.swing.JTextField();
+        btn_search = new utils.helper.RoundedPanel();
+        search_label = new utils.helper.RopaLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -99,7 +236,7 @@ public class MyCombo extends javax.swing.JFrame {
         combolist_data.setBackground(new java.awt.Color(8, 18, 38));
         combolist_data.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 10));
         main.add(combolist_data);
-        combolist_data.setBounds(50, 450, 1170, 263);
+        combolist_data.setBounds(50, 170, 1170, 263);
 
         add_combo.setBackground(new java.awt.Color(123, 15, 58));
         add_combo.setRoundBottomLeft(10);
@@ -126,7 +263,6 @@ public class MyCombo extends javax.swing.JFrame {
         list_character.setBackground(new java.awt.Color(217, 217, 217));
         list_character.setFont(ropaLabel1.getFont());
         list_character.setForeground(new java.awt.Color(0, 0, 0));
-        list_character.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         list_character.setBorder(null);
         list_character.setFocusable(false);
         list_character.setPreferredSize(new java.awt.Dimension(140, 30));
@@ -136,7 +272,7 @@ public class MyCombo extends javax.swing.JFrame {
             }
         });
         main.add(list_character);
-        list_character.setBounds(50, 110, 140, 30);
+        list_character.setBounds(50, 110, 170, 30);
 
         search.setBackground(new java.awt.Color(217, 217, 217));
         search.setRoundBottomLeft(10);
@@ -179,10 +315,33 @@ public class MyCombo extends javax.swing.JFrame {
                 search_inputKeyTyped(evt);
             }
         });
-        search.add(search_input, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 0, 990, 30));
+        search.add(search_input, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 0, 850, 30));
 
         main.add(search);
-        search.setBounds(210, 110, 1000, 30);
+        search.setBounds(240, 110, 870, 30);
+
+        btn_search.setBackground(new java.awt.Color(52, 255, 67));
+        btn_search.setRoundBottomLeft(10);
+        btn_search.setRoundBottomRight(10);
+        btn_search.setRoundTopLeft(10);
+        btn_search.setRoundTopRight(10);
+        btn_search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_searchMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_searchMouseEntered(evt);
+            }
+        });
+
+        search_label.setForeground(new java.awt.Color(0, 0, 0));
+        search_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/search_icon.png"))); // NOI18N
+        search_label.setText("Search");
+        search_label.setFontSize(16.0F);
+        btn_search.add(search_label);
+
+        main.add(btn_search);
+        btn_search.setBounds(1120, 110, 90, 30);
 
         root.add(main);
 
@@ -264,6 +423,22 @@ public class MyCombo extends javax.swing.JFrame {
         add_combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_add_comboMouseEntered
 
+    private void btn_searchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_searchMouseEntered
+        // TODO add your handling code here:
+        btn_search.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btn_searchMouseEntered
+
+    private void btn_searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_searchMouseClicked
+        // TODO add your handling code here:
+        this.filter_character = list_character.getSelectedItem().toString().equals("All") ? "%%" : "%" + list_character.getSelectedItem().toString() + "%";
+        this.filter_name_move = "%" + search_input.getText() + "%";
+        combolist_data.removeAll();
+        total_data = 0;
+        setupDataMyCombo(filter_character, filter_name_move);
+        reloadPanel(combolist_data);
+        reloadPanel(root);
+    }//GEN-LAST:event_btn_searchMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -309,13 +484,19 @@ public class MyCombo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MyCombo().setVisible(true);
+                if (Session.getId() == null) {
+                    Login login = new Login();
+                    login.setVisible(true);
+                } else {
+                    new MyCombo().setVisible(true);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private utils.helper.RoundedPanel add_combo;
+    private utils.helper.RoundedPanel btn_search;
     private javax.swing.JPanel combolist_data;
     private utils.helper.RopaLabel guide_path1;
     private utils.helper.RopaLabel home_path;
@@ -325,6 +506,7 @@ public class MyCombo extends javax.swing.JFrame {
     private utils.helper.RopaLabel ropaLabel1;
     private utils.helper.RoundedPanel search;
     private javax.swing.JTextField search_input;
+    private utils.helper.RopaLabel search_label;
     private utils.helper.RopaLabel search_placeholder;
     // End of variables declaration//GEN-END:variables
 }

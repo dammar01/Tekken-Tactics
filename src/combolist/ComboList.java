@@ -83,7 +83,7 @@ public class ComboList extends javax.swing.JFrame {
     }
 
     public ComboList() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
         Db db = new Db();
         ArrayList<Object[]> list = new ArrayList<>();
@@ -157,7 +157,7 @@ public class ComboList extends javax.swing.JFrame {
         main.add(home_path);
         home_path.setBounds(50, 50, 62, 22);
 
-        guide_path1.setText("Combo List");
+        guide_path1.setText(" Combo List");
         guide_path1.setFontSize(20.0F);
         main.add(guide_path1);
         guide_path1.setBounds(110, 50, 110, 22);

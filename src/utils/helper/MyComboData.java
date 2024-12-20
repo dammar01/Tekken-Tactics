@@ -5,12 +5,25 @@
 package utils.helper;
 
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.text.StyleConstants;
@@ -21,6 +34,7 @@ import javax.swing.text.StyleConstants;
  */
 public class MyComboData extends JPanel {
 
+    private int id = -1;
     private String characterName = "Dragunov";
     private ImageIcon image = new ImageIcon(getClass().getResource("/image/character/128x128/dragunov.png"));
     private CharacterItem character = new CharacterItem();
@@ -33,7 +47,8 @@ public class MyComboData extends JPanel {
     private String version = "v1.06";
     private int totalHit = 8;
     private int totalDamage = 67;
-    
+
+    private int max_height = 200;
     private RopaLabel moveNameLabel;
     private MakerLabel makerLabel;
     private RoundedPanel dataPanel;
@@ -41,7 +56,6 @@ public class MyComboData extends JPanel {
     private JLabel favoriteIcon;
     private JLabel deleteIcon;
     private RoundedPanel additionalPanel;
-
 
     private void reloadPanel(JPanel panel) {
         panel.revalidate();
@@ -98,8 +112,8 @@ public class MyComboData extends JPanel {
         data.setBackground(new Color(66, 21, 50));
         return data;
     }
-    
-    private RopaLabel setupMoveName(){
+
+    private RopaLabel setupMoveName() {
         RopaLabel move = new RopaLabel();
         move.setText(moveName);
         move.setFontSize(18);
@@ -128,8 +142,8 @@ public class MyComboData extends JPanel {
         fav.setBounds(xPosition, 10, icon.getIconWidth(), icon.getIconHeight());
         return fav;
     }
-    
-    private JLabel deleteCombo(boolean active){
+
+    private JLabel deleteCombo(boolean active) {
         JLabel del = new JLabel();
         String iconPath = active ? "/image/icon/normal/trash_active.png"
                 : "/image/icon/normal/trash_inactive.png";
@@ -184,7 +198,7 @@ public class MyComboData extends JPanel {
         addData(panel);
         return panel;
     }
-    
+
     private void refreshAdditionalPanel() {
         dataPanel.remove(additionalPanel);
         additionalPanel = setupAdditional(version, totalHit, totalDamage);
@@ -196,6 +210,135 @@ public class MyComboData extends JPanel {
         reloadPanel(dataPanel);
         revalidate();
         repaint();
+    }
+
+    private String formatDate(String inputDateTime) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(inputDateTime, inputFormatter);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = dateTime.format(outputFormatter);
+        return formattedDate;
+    }
+
+    private String[] convertArray(String string_data) {
+        String cleanedData = string_data.replace("[", "").replace("]", "");
+        if (cleanedData.contains("\"")) {
+            cleanedData = cleanedData.replace("\"", "");
+        }
+        return cleanedData.split(",\\s*");
+    }
+
+    private void setAllData(int current_id, String name, String name_move, String username, String date, String code, boolean favorite, String notation, String version, int damage, int hit) throws SQLException {
+        this.id = current_id;
+        setCharacterName(name);
+        setMovename(name_move);
+        setMaker(username);
+        setSubmitedAt(formatDate(date));
+        setImage(new ImageIcon(getClass().getResource("/image/character/128x128/" + code + ".png")));
+        setFavorite(favorite);
+//        setDeleteable(username.equals(Session.getUsername()) ? true : false);
+        setDeleteable(username.equals("tes") ? true : false);
+        setNotation(convertArray(notation));
+        setVersion(version);
+        setDamage(damage);
+        setHit(hit);
+    }
+
+    private void setEvent() {
+        if (this.deleteable) {
+            favoriteIcon.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    e.getComponent().setCursor(new Cursor(java.awt.Cursor.HAND_CURSOR));
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    MyComboData parent = (MyComboData) e.getComponent().getParent().getParent();
+                    int user_id = Session.getId();
+                    Db db = new Db();
+                    try {
+                        db.connect();
+                        String check_q = "SELECT COUNT(*) FROM `favorite_combo` WHERE `combo_id` = ? AND `user_id` = ?";
+                        ResultSet check_data = db.executeQuery(check_q, parent.getId(), user_id);
+                        boolean is_exist = false;
+                        if (check_data.next()) {
+                            is_exist = check_data.getInt(1) > 0;
+                        }
+                        if (is_exist) {
+                            int response = JOptionPane.showConfirmDialog(
+                                    null,
+                                    "Are you sure to unfavorite this combo?",
+                                    "Confirmation",
+                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.QUESTION_MESSAGE
+                            );
+
+                            if (response == JOptionPane.YES_OPTION) {
+                                String q = "DELETE FROM `favorite_combo` WHERE `user_id` = ? AND `combo_id` = ? ";
+                                int res = db.executeUpdate(q, user_id, parent.getId());
+                                if (res > 0) {
+                                    setFavorite(false);
+                                }
+                            }
+                        } else {
+                            String q = "INSERT INTO `favorite_combo` (`user_id`, `combo_id`) VALUES (?, ?)";
+                            int res = db.executeUpdate(q, user_id, parent.getId());
+                            if (res > 0) {
+                                setFavorite(true);
+                            }
+                        }
+                    } catch (SQLException err) {
+                        err.printStackTrace();
+                    } finally {
+                        try {
+                            db.disconnect();
+                        } catch (SQLException err) {
+                            err.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
+
+        deleteIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                e.getComponent().setCursor(new Cursor(java.awt.Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "Are you sure to delete this combo?",
+                        "Confirmation",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
+                if (response == JOptionPane.YES_OPTION) {
+                    MyComboData parent = (MyComboData) e.getComponent().getParent().getParent();
+                    JPanel root = (JPanel) parent.getParent();
+                    root.remove(parent);
+                    reloadPanel(root);
+                    Db db = new Db();
+                    try {
+                        db.connect();
+                        String q = "DELETE FROM `combo_list` WHERE `id` = ?";
+                        int res = db.executeUpdate(q, parent.getId());
+                    } catch (SQLException err) {
+                        err.printStackTrace();
+                    } finally {
+                        try {
+                            db.disconnect();
+                        } catch (SQLException err) {
+                            err.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        });
     }
 
     public MyComboData() {
@@ -218,10 +361,10 @@ public class MyComboData extends JPanel {
         favoriteIcon = isFavorite(favorite);
         deleteIcon = deleteCombo(deleteable);
         additionalPanel = setupAdditional("v1.06", 8, 67);
-        
+
         int dataPanelHeight = notationPanel.getHeight() + 20 + moveNameLabel.getHeight() + additionalPanel.getHeight();
         dataPanelHeight = Math.max(dataPanelHeight, 180);
-        
+
         dataPanel.setPreferredSize(new Dimension(dataWidth, Math.max(dataPanelHeight, 180)));
         dataPanel.setBounds(dataPanel.getX(), dataPanel.getY(), dataWidth, Math.max(dataPanelHeight, 180));
         reloadPanel(dataPanel);
@@ -230,7 +373,7 @@ public class MyComboData extends JPanel {
         additionalPanel.setBounds(10, dataPanelHeight - additionalSize.height - 10, additionalSize.width, additionalSize.height);
         reloadPanel(additionalPanel);
         setPreferredSize(new Dimension(widthDefault, dataPanelHeight));
-        
+
         int bound[] = {
             dataPanel.getBounds().width - makerLabel.getPreferredSize().width - 10,
             dataPanel.getBounds().height - makerLabel.getPreferredSize().height - 10,
@@ -238,19 +381,77 @@ public class MyComboData extends JPanel {
             makerLabel.getPreferredSize().height
         };
         makerLabel.setBounds(bound[0], bound[1], bound[2], bound[3]);
-        
+
         dataPanel.add(moveNameLabel);
         dataPanel.add(favoriteIcon);
         dataPanel.add(deleteIcon);
         dataPanel.add(makerLabel);
         dataPanel.add(notationPanel);
         dataPanel.add(additionalPanel);
-        
+        setEvent();
+        this.max_height = dataPanelHeight;
 
         add(character);
         add(dataPanel);
     }
-    
+
+    public MyComboData(int current_id, String name, String name_move, String username, String date, String code, boolean favorite, String notation, String version, int damage, int hit) throws SQLException {
+        int widthDefault = 1170;
+        int heightDefault = 236;
+
+        setLayout(null);
+        setBackground(new Color(8, 18, 38));
+
+        Dimension characterDimension = character.getPreferredSize();
+        character.setBounds(0, 0, characterDimension.width, characterDimension.height);
+
+        int x = characterDimension.width + 20;
+        int dataWidth = widthDefault - x;
+
+        dataPanel = setupDataPanel(dataWidth, heightDefault, x);
+        moveNameLabel = setupMoveName();
+        makerLabel = setupMakerLabel();
+        notationPanel = setupDataNotation();
+        favoriteIcon = isFavorite(favorite);
+        deleteIcon = deleteCombo(deleteable);
+        additionalPanel = setupAdditional("v1.06", 8, 67);
+
+        int dataPanelHeight = notationPanel.getHeight() + 20 + moveNameLabel.getHeight() + additionalPanel.getHeight();
+        dataPanelHeight = Math.max(dataPanelHeight, 180);
+
+        dataPanel.setPreferredSize(new Dimension(dataWidth, Math.max(dataPanelHeight, 180)));
+        dataPanel.setBounds(dataPanel.getX(), dataPanel.getY(), dataWidth, Math.max(dataPanelHeight, 180));
+        reloadPanel(dataPanel);
+
+        Dimension additionalSize = additionalPanel.getPreferredSize();
+        additionalPanel.setBounds(10, dataPanelHeight - additionalSize.height - 10, additionalSize.width, additionalSize.height);
+        reloadPanel(additionalPanel);
+        setPreferredSize(new Dimension(widthDefault, dataPanelHeight));
+
+        int bound[] = {
+            dataPanel.getBounds().width - makerLabel.getPreferredSize().width - 10,
+            dataPanel.getBounds().height - makerLabel.getPreferredSize().height - 10,
+            makerLabel.getPreferredSize().width,
+            makerLabel.getPreferredSize().height
+        };
+        makerLabel.setBounds(bound[0], bound[1], bound[2], bound[3]);
+
+        dataPanel.add(moveNameLabel);
+        dataPanel.add(favoriteIcon);
+        dataPanel.add(deleteIcon);
+        dataPanel.add(makerLabel);
+        dataPanel.add(notationPanel);
+        dataPanel.add(additionalPanel);
+
+        this.max_height = dataPanelHeight;
+
+        setEvent();
+        setAllData(current_id, name, name_move, username, date, code, favorite, notation, version, damage, hit);
+
+        add(character);
+        add(dataPanel);
+    }
+
     public void setMovename(String name) {
         this.moveName = name;
         moveNameLabel.setText(name);
@@ -260,6 +461,7 @@ public class MyComboData extends JPanel {
 
     public void setCharacterName(String name) {
         this.characterName = name;
+        character.setTitle(name);
         makerLabel.setCharacterName(name);
         revalidate();
         repaint();
@@ -292,10 +494,10 @@ public class MyComboData extends JPanel {
         revalidate();
         repaint();
     }
-    
+
     public void setDeleteable(boolean val) {
         this.deleteable = val;
-        String iconPath = this.favorite ? "/image/icon/normal/trash_active.png"
+        String iconPath = this.deleteable ? "/image/icon/normal/trash_active.png"
                 : "/image/icon/normal/trash_inactive.png";
         ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
         this.deleteIcon.setIcon(icon);
@@ -366,4 +568,13 @@ public class MyComboData extends JPanel {
         this.totalDamage = damage;
         refreshAdditionalPanel();
     }
+
+    public int getMaxHeight() {
+        return this.max_height;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
 }

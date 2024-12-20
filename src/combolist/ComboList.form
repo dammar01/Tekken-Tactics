@@ -89,7 +89,7 @@
             </Component>
             <Component class="utils.helper.RopaLabel" name="guide_path1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Combo List"/>
+                <Property name="text" type="java.lang.String" value=" Combo List"/>
                 <Property name="fontSize" type="float" value="20.0"/>
               </Properties>
               <Constraints>
