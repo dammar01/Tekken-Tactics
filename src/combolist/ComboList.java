@@ -5,6 +5,7 @@
 package combolist;
 
 import auth.DatabaseConnection;
+import auth.Login;
 import guide.*;
 import home.Home;
 import java.awt.Cursor;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import utils.helper.Db;
 import utils.helper.ScrollBar;
+import utils.helper.Session;
 
 /**
  *
@@ -42,20 +44,12 @@ public class ComboList extends javax.swing.JFrame {
         reloadPanel(panel);
     }
 
-    private void addAnchor(utils.helper.CharacterItem item, Object[] data) {
+    private void addAnchor(utils.helper.CharacterItem item, int id) {
         item.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-//                combolist.Character character;
-//                try {
-//                    character = new Character(data);
-//                    character.setVisible(true);
-//                } catch (SQLException err) {
-//                    err.printStackTrace();
-//                }
-//                dispose();
-
-                Character character = new Character();
+                combolist.Character character;
+                character = new Character(id);
                 character.setVisible(true);
                 dispose();
 
@@ -73,9 +67,9 @@ public class ComboList extends javax.swing.JFrame {
         int characterPanelHeight = 200 * row + (row * 10);
         int rootPanelHeight = characterPanelHeight + 80;
         for (Object[] pair : data) {
-            utils.helper.CharacterItem item = new utils.helper.CharacterItem((String) pair[1], (String) pair[0]);
+            utils.helper.CharacterItem item = new utils.helper.CharacterItem((String) pair[2], (String) pair[1]);
             character_list.add(item);
-            addAnchor(item, pair);
+            addAnchor(item, Integer.parseInt(pair[0].toString()));
         }
         updatePanel(character_list, character_list.getX(), character_list.getY(), 1170, characterPanelHeight);
         updatePanel(main, 0, 0, main.getWidth(), rootPanelHeight);
@@ -84,6 +78,12 @@ public class ComboList extends javax.swing.JFrame {
 
     public ComboList() {
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        if (Session.getId() == null) {
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
+            return;
+        }
         initComponents();
         Db db = new Db();
         ArrayList<Object[]> list = new ArrayList<>();
@@ -92,9 +92,10 @@ public class ComboList extends javax.swing.JFrame {
             String selectQuery = "SELECT * FROM `character` WHERE `tier` != '-'";
             ResultSet resultSet = db.executeQuery(selectQuery);
             while (resultSet.next()) {
+                int id = resultSet.getInt("id");
                 String code = resultSet.getString("code");
                 String name = resultSet.getString("name");
-                list.add(new Object[]{code, name});
+                list.add(new Object[]{id, code, name});
             }
             addCharacter(list);
         } catch (SQLException e) {
@@ -231,7 +232,12 @@ public class ComboList extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ComboList().setVisible(true);
+                if (Session.getId() == null) {
+                    Login login = new Login();
+                    login.setVisible(true);
+                } else {
+                    new ComboList().setVisible(true);
+                }
             }
         });
     }

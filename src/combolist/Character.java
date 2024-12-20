@@ -4,14 +4,21 @@
  */
 package combolist;
 
+import auth.Login;
 import guide.*;
+import home.Home;
 import java.awt.Cursor;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import java.util.*;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import utils.helper.ComboListData;
+import utils.helper.Db;
 import utils.helper.ScrollBar;
+import java.sql.ResultSet;
+import utils.helper.MyComboData;
+import utils.helper.Session;
 
 /**
  *
@@ -22,6 +29,8 @@ public class Character extends javax.swing.JFrame {
     /**
      * Creates new form Guide
      */
+    private int h = 0;
+
     private void reloadPanel(JPanel panel) {
         panel.revalidate();
         panel.repaint();
@@ -49,6 +58,111 @@ public class Character extends javax.swing.JFrame {
 
         h += combolist_data.getY() + 20;
         java.awt.Dimension dim = getPreferredSize();
+        dim.height = h;
+        root.setPreferredSize(dim);
+        reloadPanel(root);
+        ScrollBar scrollPane = new ScrollBar(root);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBar(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.setBounds(0, 0, main.getWidth(), 650);
+        add(scrollPane);
+    }
+
+    private void setImageCharacter(Db db, int id) {
+        try {
+            db.connect();
+            String q = "SELECT name, code FROM `character` WHERE `id` = ? LIMIT 1";
+            ResultSet res = db.executeQuery(q, id);
+            if (res.next()) {
+                ImageIcon im = new ImageIcon(getClass().getResource("/image/character/1170x263/" + res.getString("code") + ".png"));
+                comboListHero1.setImage(im);
+                comboListHero1.setTitle("Combo " + res.getString("name"));
+                guide_path.setText("/ " + res.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setData(Db db, int id) {
+        try {
+            db.connect();
+            String q = "SELECT \n"
+                    + "    `combo_list`.*, \n"
+                    + "    `favorite_combo`.`id` IS NOT NULL AS `is_favorite`, \n"
+                    + "    `user`.`username`, \n"
+                    + "    `character`.`name` AS `character_name`, \n"
+                    + "    `character`.`code` AS `character_code`\n"
+                    + "FROM \n"
+                    + "    `combo_list`\n"
+                    + "LEFT JOIN \n"
+                    + "    `favorite_combo` \n"
+                    + "    ON `combo_list`.`id` = `favorite_combo`.`combo_id` \n"
+                    + "    AND `favorite_combo`.`user_id` = ?\n"
+                    + "INNER JOIN \n"
+                    + "    `user` \n"
+                    + "    ON `combo_list`.`user_id` = `user`.`id`\n"
+                    + "INNER JOIN \n"
+                    + "    `character` \n"
+                    + "    ON `combo_list`.`character_id` = `character`.`id`\n"
+                    + "WHERE \n"
+                    + "    `combo_list`.`character_id` = ?\n"
+                    + "ORDER BY \n"
+                    + "    `combo_list`.`id`;";
+            int user_id = Session.getId();
+            ResultSet resultSet = db.executeQuery(q, user_id, id);
+            while (resultSet.next()) {
+                ComboListData data = new ComboListData(
+                        resultSet.getInt("id"),
+                        resultSet.getString("character_name"),
+                        resultSet.getString("name_move"),
+                        resultSet.getString("username"),
+                        resultSet.getTimestamp("date_created").toString().replaceAll("\\.0$", ""),
+                        resultSet.getString("character_code"),
+                        resultSet.getBoolean("is_favorite"),
+                        resultSet.getString("notation"),
+                        resultSet.getString("version"),
+                        resultSet.getInt("total_damage"),
+                        resultSet.getInt("total_hits")
+                );
+                h += data.getPreferredSize().height + 20;
+                combolist_data.add(data);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+                combolist_data.setPreferredSize(new java.awt.Dimension(combolist_data.getWidth(), h));
+                combolist_data.setBounds(combolist_data.getX(), combolist_data.getY(), combolist_data.getWidth(), h);
+                reloadPanel(combolist_data);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Character(int id) {
+        if (Session.getId() == null) {
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
+            return;
+        }
+        initComponents();
+        Db db = new Db();
+        setImageCharacter(db, id);
+
+        setData(db, id);
+        java.awt.Dimension dim = getPreferredSize();
+        h += combolist_data.getY() + 20;
         dim.height = h;
         root.setPreferredSize(dim);
         reloadPanel(root);
@@ -98,18 +212,31 @@ public class Character extends javax.swing.JFrame {
 
         home_path.setText("Home  / ");
         home_path.setFontSize(20.0F);
+        home_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                home_pathMouseEntered(evt);
+            }
+        });
         main.add(home_path);
         home_path.setBounds(50, 50, 62, 22);
 
         guide_path1.setText("Combo List");
         guide_path1.setFontSize(20.0F);
+        guide_path1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                guide_path1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                guide_path1MouseEntered(evt);
+            }
+        });
         main.add(guide_path1);
-        guide_path1.setBounds(110, 50, 100, 22);
+        guide_path1.setBounds(115, 50, 100, 22);
 
         guide_path.setText("/ Law");
         guide_path.setFontSize(20.0F);
         main.add(guide_path);
-        guide_path.setBounds(200, 50, 140, 22);
+        guide_path.setBounds(210, 50, 160, 22);
         main.add(comboListHero1);
         comboListHero1.setBounds(50, 120, 1170, 286);
 
@@ -171,6 +298,25 @@ public class Character extends javax.swing.JFrame {
         back.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_backMouseEntered
 
+    private void guide_path1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path1MouseClicked
+        // TODO add your handling code here:
+        ComboList comboList = new ComboList();
+        comboList.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_guide_path1MouseClicked
+
+    private void guide_path1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path1MouseEntered
+        // TODO add your handling code here:
+        guide_path1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_guide_path1MouseEntered
+
+    private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_home_pathMouseEntered
+
     /**
      * @param args the command line arguments
      */
@@ -208,7 +354,12 @@ public class Character extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Character().setVisible(true);
+                if (Session.getId() == null) {
+                    Login login = new Login();
+                    login.setVisible(true);
+                } else {
+                    new Character().setVisible(true);
+                }
             }
         });
     }

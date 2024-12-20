@@ -34,14 +34,14 @@ public class ComboListHero extends RoundedPanel {
         imageLabel.setBounds(0, 0, 1170, 263);
 
         titleLabel = new RopaItalicLabel("Combo Law");
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         titleLabel.setFontSize(48);
 
         int margin = 9;
         Dimension labelSize = titleLabel.getPreferredSize();
-        int x = getPreferredSize().width - labelSize.width - margin;
         int y = getPreferredSize().height - labelSize.height - margin;
-        titleLabel.setBounds(x, y, labelSize.width, labelSize.height);
+        titleLabel.setPreferredSize(new Dimension(1170, labelSize.height));
+        titleLabel.setBounds(0, y, 1170, labelSize.height);
 
         JPanel border = new JPanel();
         border.setPreferredSize(new Dimension(1170, 263));

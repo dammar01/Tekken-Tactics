@@ -86,6 +86,9 @@
                 <Property name="text" type="java.lang.String" value="Home  / "/>
                 <Property name="fontSize" type="float" value="20.0"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="home_pathMouseEntered"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="50" y="50" width="-1" height="-1"/>
@@ -97,9 +100,13 @@
                 <Property name="text" type="java.lang.String" value="Combo List"/>
                 <Property name="fontSize" type="float" value="20.0"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="guide_path1MouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="guide_path1MouseEntered"/>
+              </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="110" y="50" width="100" height="-1"/>
+                  <AbsoluteConstraints x="115" y="50" width="100" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -110,7 +117,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="200" y="50" width="140" height="-1"/>
+                  <AbsoluteConstraints x="210" y="50" width="160" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
