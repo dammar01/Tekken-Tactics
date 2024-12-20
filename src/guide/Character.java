@@ -26,7 +26,13 @@ public class Character extends javax.swing.JFrame {
     /**
      * Creates new form Guide
      */
-    
+    private List<String> convertArray(String string_data) {
+        String cleanedData = string_data.replace("[", "").replace("]", "").replace("\"", "");
+        String[] array = cleanedData.split(",\\s*");
+        List<String> list = new ArrayList<>(Arrays.asList(array));
+        return list;
+    }
+
     public static Object[][] appendToObjectArray(Object[][] original, Object[] newRow) {
         Object[][] newArray = new Object[original.length + 1][];
         for (int i = 0; i < original.length; i++) {
@@ -35,20 +41,24 @@ public class Character extends javax.swing.JFrame {
         newArray[original.length] = newRow;
         return newArray;
     }
+
     public Character() throws SQLException {
         initComponents();
-        
+
         Db db = new Db();
         db.connect();
         String selectQuery = "SELECT * FROM `movesheet` WHERE `character_id` = ?";
         ResultSet raw_movesheet = db.executeQuery(selectQuery, 7);
         Object[][] data_movesheet = {};
-        while(raw_movesheet.next()){
+        while (raw_movesheet.next()) {
             ArrayList<ImageIcon> img_movesheet = new ArrayList<>();
-            img_movesheet.add(new ImageIcon(getClass().getResource("/image/button/32x32/1.png")));
+            List<String> notation_data = convertArray(raw_movesheet.getString("notation"));
+            for (String item : notation_data) {
+                img_movesheet.add(new ImageIcon(getClass().getResource("/image/button/32x32/" + item + ".png")));
+            }
             Object[] new_data = {
-                img_movesheet, 
-                raw_movesheet.getString("name_move"), 
+                img_movesheet,
+                raw_movesheet.getString("name_move"),
                 raw_movesheet.getString("damage"),
                 raw_movesheet.getString("frame_startup"),
                 raw_movesheet.getString("hit_properties"),
@@ -102,24 +112,26 @@ public class Character extends javax.swing.JFrame {
         }
 
         // sample datasheet table
-        ArrayList<ImageIcon> img = new ArrayList<>();
-        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/1.png")));
-        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
-        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
-        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
-        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
-        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
-        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
-        img.add(new ImageIcon(getClass().getResource("/image/button/32x32/2.png")));
-        Object[][] tb_data = {
-            {img, "John", "1", "a", "ab", "c"},
-            {img, "John", "1", "a", "ab", "c"},
-            {img, "John", "1", "a", "ab", "c"},
-            {img, "John", "1", "a", "ab", "c"},
-            {img, "John", "1", "a", "ab", "c"},
-            {img, "John", "1", "a", "ab", "c"}
-        };
-        movesheetTable1.setData(tb_data);
+        String selectQueryTable = "SELECT * FROM `movesheet` WHERE `character_id` = ?";
+        ResultSet raw_movesheet = db.executeQuery(selectQueryTable, raw.get("id"));
+        Object[][] data_movesheet = {};
+        while (raw_movesheet.next()) {
+            ArrayList<ImageIcon> img_movesheet = new ArrayList<>();
+            List<String> notation_data = convertArray(raw_movesheet.getString("notation"));
+            for (String item : notation_data) {
+                img_movesheet.add(new ImageIcon(getClass().getResource("/image/button/32x32/" + item + ".png")));
+            }
+            Object[] new_data = {
+                img_movesheet,
+                raw_movesheet.getString("name_move"),
+                raw_movesheet.getString("damage"),
+                raw_movesheet.getString("frame_startup"),
+                raw_movesheet.getString("hit_properties"),
+                raw_movesheet.getString("notes")
+            };
+            data_movesheet = appendToObjectArray(data_movesheet, new_data);
+        }
+        movesheetTable1.setData(data_movesheet);
 
         ScrollBar scrollPane = new ScrollBar(root);
         scrollPane.setBorder(null);
