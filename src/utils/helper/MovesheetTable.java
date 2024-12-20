@@ -86,15 +86,21 @@ public class MovesheetTable extends JPanel {
 
     // Adjust row heights dynamically based on content
     private void adjustRowHeights() {
-        table.setForeground(Color.white);
-        table.setGridColor(Color.black);
-        for (int row = 0; row < this.table.getRowCount(); row++) {
-            int maxHeight = this.table.getRowHeight();
-            for (int column = 0; column < this.table.getColumnCount(); column++) {
-                Component comp = this.table.prepareRenderer(this.table.getCellRenderer(row, column), row, column);
-                maxHeight = Math.max(maxHeight, comp.getPreferredSize().height);
+        for (int row = 0; row < table.getRowCount(); row++) {
+            int maxHeight = table.getRowHeight(); // Default row height
+
+            for (int column = 0; column < table.getColumnCount(); column++) {
+                Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
+
+                // Calculate preferred height of each component
+                if (comp != null) {
+                    Dimension preferredSize = comp.getPreferredSize();
+                    maxHeight = Math.max(maxHeight, preferredSize.height);
+                }
             }
-            this.table.setRowHeight(row, maxHeight + 20);
+
+            // Set row height to the calculated maximum height
+            table.setRowHeight(row, maxHeight + 10); // Add padding for better spacing
         }
     }
 
@@ -171,9 +177,12 @@ public class MovesheetTable extends JPanel {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             textArea.setText(value != null ? value.toString() : "");
-            textArea.setPreferredSize(new Dimension(table.getColumnModel().getColumn(column).getWidth(), textArea.getPreferredSize().height));
+            textArea.setSize(table.getColumnModel().getColumn(column).getWidth(), Short.MAX_VALUE);
+
+            // Adjust height based on the content
+            int preferredHeight = textArea.getPreferredSize().height;
+            table.setRowHeight(row, Math.max(preferredHeight + 30, table.getRowHeight()));
             textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
             return textArea;
         }
@@ -214,11 +223,7 @@ public class MovesheetTable extends JPanel {
                 JPanel panel = new JPanel();
                 panel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
                 panel.setOpaque(true);
-
-                // Layout the icons in a grid
-                int columnCount = 3;
-                int rowCount = (int) Math.ceil((double) icons.size() / columnCount);
-                panel.setLayout(new GridLayout(rowCount, columnCount, 5, 5));
+                panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
                 // Add each icon to the panel
                 for (ImageIcon icon : icons) {
