@@ -5,10 +5,11 @@ import java.io.InputStream;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.util.List;
+import java.util.function.Consumer;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.MatteBorder;
 
-public class MovesheetTable extends JPanel {
+public class EditTierTable extends JPanel {
 
     private JTable table;
     private JScrollPane scrollPane;
@@ -23,14 +24,17 @@ public class MovesheetTable extends JPanel {
     // Setup columns of the table
     public void setupColumn() {
         // Set fixed column widths
-        setColumnWidth(table, 0, 200);
-        setColumnWidth(table, 1, 200);
-        setColumnWidth(table, 2, 80);
-        setColumnWidth(table, 3, 100);
-        setColumnWidth(table, 4, 100);
-        setColumnWidth(table, 5, 356);
+        setColumnWidth(table, 0, 140);
+        setColumnWidth(table, 1, 130);
+        setColumnWidth(table, 2, 130);
+        setColumnWidth(table, 3, 130);
+        setColumnWidth(table, 4, 130);
+        setColumnWidth(table, 5, 130);
+        setColumnWidth(table, 6, 130);
+        setColumnWidth(table, 7, 130);
+        setColumnWidth(table, 8, 130);
         table.setDragEnabled(false);
-        table.setCellSelectionEnabled(false);
+        table.setCellSelectionEnabled(true);
         table.setColumnSelectionAllowed(false);
         table.setBackground(new Color(66, 21, 50));
         table.setForeground(Color.white);
@@ -51,21 +55,22 @@ public class MovesheetTable extends JPanel {
     }
 
     // Constructor to initialize the table
-    public MovesheetTable() {
+    public EditTierTable() {
         setBackground(new Color(66, 21, 50));
         setLayout(new BorderLayout());
         this.font = loadFont("/utils/font/RopaSans-Regular.ttf", 16f);
 
         // Column names and initial empty data
-        String[] columnNames = {"Moveset", "Name move", "Damage", "Frame startup", "Hit properties", "Notes"};
+        String[] columnNames = {"Image", "Name", "Difficulty", "Evasiveness", "Mobility", "Throw Game", "Combo Damage", "Wall Carry", "Tier"};
         Object[][] data = {};
 
         // Create custom table model and set it to the table
-        DefaultTableModel model = new MultiImageTableModel(data, columnNames);
+        DefaultTableModel model = new SingleImageTableModel(data, columnNames);
         this.table = new JTable(model);
-        this.table.getColumnModel().getColumn(0).setCellRenderer(new MultiImageRenderer());
-        this.table.setPreferredScrollableViewportSize(new Dimension(1036, 100));
+        this.table.getColumnModel().getColumn(0).setCellRenderer(new SingleImageRenderer());
+        this.table.setPreferredScrollableViewportSize(new Dimension(1180, 100));
         this.scrollPane = new ScrollBar(this.table);
+        this.table.setRowHeight(140);
         add(scrollPane, BorderLayout.CENTER);
         this.setupColumn();
     }
@@ -84,34 +89,38 @@ public class MovesheetTable extends JPanel {
         }
     }
 
-    // Adjust row heights dynamically based on content
-    private void adjustRowHeights() {
-        for (int row = 0; row < table.getRowCount(); row++) {
-            int maxHeight = table.getRowHeight(); // Default row height
-
-            for (int column = 0; column < table.getColumnCount(); column++) {
-                Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
-
-                // Calculate preferred height of each component
-                if (comp != null) {
-                    Dimension preferredSize = comp.getPreferredSize();
-                    maxHeight = Math.max(maxHeight, preferredSize.height);
-                }
-            }
-
-            // Set row height to the calculated maximum height
-            table.setRowHeight(row, maxHeight + 10); // Add padding for better spacing
-        }
-    }
-
     // Set data for the table
     public void setData(Object[][] data) {
-        String[] columnNames = {"Moveset", "Name move", "Damage", "Frame startup", "Hit properties", "Notes"};
-        MultiImageTableModel model = new MultiImageTableModel(data, columnNames);
+        String[] columnNames = {"Image", "Name", "Difficulty", "Evasiveness", "Mobility", "Throw Game", "Combo Damage", "Wall Carry", "Tier"};
+        SingleImageTableModel model = new SingleImageTableModel(data, columnNames);
         this.table.setModel(model);
-        this.table.getColumnModel().getColumn(0).setCellRenderer(new MultiImageRenderer());
-        this.adjustRowHeights();
+        this.table.getColumnModel().getColumn(0).setCellRenderer(new SingleImageRenderer());
         this.setupColumn();
+    }
+    
+    public void setSelecedRow(int row){
+        this.table.setRowSelectionInterval(row, row);
+    }
+
+    public ListSelectionModel getSelectionModel() {
+        return this.table.getSelectionModel();
+    }
+
+    public int getSelectedRow() {
+        return this.table.getSelectedRow();
+    }
+
+    public void setSelectedRowData(int row, int column, String new_val){
+        TableModel model = this.table.getModel();
+        model.setValueAt(new_val, row, column);
+    }
+    
+    public Object[] getSelectedRowData(int rowIndex) {
+        Object[] rowData = new Object[table.getColumnCount()];
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            rowData[i] = table.getValueAt(rowIndex, i);
+        }
+        return rowData;
     }
 
     public class CustomHeaderRenderer extends DefaultTableCellRenderer {
@@ -184,14 +193,19 @@ public class MovesheetTable extends JPanel {
             int preferredHeight = textArea.getPreferredSize().height;
             table.setRowHeight(row, Math.max(preferredHeight + 30, table.getRowHeight()));
             textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
+            if (isSelected) {
+                textArea.setBackground(new Color(202, 28, 100));
+            } else {
+                textArea.setBackground(new Color(66, 21, 50));
+            }
             return textArea;
         }
     }
 
     // Custom TableModel to handle multi-image columns
-    private static class MultiImageTableModel extends DefaultTableModel {
+    private static class SingleImageTableModel extends DefaultTableModel {
 
-        public MultiImageTableModel(Object[][] data, String[] columnNames) {
+        public SingleImageTableModel(Object[][] data, String[] columnNames) {
             super(data, columnNames);
         }
 
@@ -210,27 +224,26 @@ public class MovesheetTable extends JPanel {
         }
     }
 
-    // Custom cell renderer for displaying multiple images in a single cell
-    private static class MultiImageRenderer extends DefaultTableCellRenderer {
+    private static class SingleImageRenderer extends DefaultTableCellRenderer {
 
         @Override
         public Component getTableCellRendererComponent(
                 JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
             // If the value is a list of ImageIcons
-            if (value instanceof List) {
-                List<ImageIcon> icons = (List<ImageIcon>) value;
+            if (value instanceof ImageIcon) {
                 JPanel panel = new JPanel();
-                panel.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+                if (isSelected) {
+                    panel.setBackground(new Color(202, 28, 100)); 
+                } else {
+                    panel.setBackground(new Color(66, 21, 50)); 
+                }
                 panel.setOpaque(true);
                 panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-                // Add each icon to the panel
-                for (ImageIcon icon : icons) {
-                    JLabel label = new JLabel(icon);
-                    label.setHorizontalAlignment(SwingConstants.CENTER);
-                    panel.add(label);
-                }
+                JLabel label = new JLabel((ImageIcon) value);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                panel.add(label);
                 panel.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
                 return panel;
             }

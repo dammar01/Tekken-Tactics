@@ -2,64 +2,79 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package myCombo;
+package guide;
 
-import auth.Login;
-import combolist.*;
+import java.sql.ResultSet;
 import guide.*;
 import home.Home;
 import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JFrame;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
-import utils.helper.ComboListData;
 import utils.helper.Db;
-import utils.helper.MyComboData;
 import utils.helper.ScrollBar;
-import utils.helper.Session;
 
 /**
  *
  * @author Dammar
  */
-public class MyCombo extends javax.swing.JFrame {
+public class EditTier extends javax.swing.JFrame {
 
     /**
      * Creates new form Guide
      */
-    private int total_data = 0;
-    private String filter_character = "%%";
-    private String filter_name_move = "%%";
+    private Object[][] character_data = {};
+
+    public static Object[][] appendToObjectArray(Object[][] original, Object[] newRow) {
+        Object[][] newArray = new Object[original.length + 1][];
+        for (int i = 0; i < original.length; i++) {
+            newArray[i] = original[i];
+        }
+        newArray[original.length] = newRow;
+        return newArray;
+    }
 
     private void reloadPanel(JPanel panel) {
         panel.revalidate();
         panel.repaint();
     }
 
-    private void setupCharacterData() {
+    private void setupData() {
         Db db = new Db();
         try {
             db.connect();
-            String selectQuery = "SELECT * FROM `character` WHERE `tier` != '-' ORDER BY `id`";
-            ResultSet resultSet = db.executeQuery(selectQuery);
-            list_character.addItem("All");
-            while (resultSet.next()) {
-                list_character.addItem(resultSet.getString("name"));
+            String q = "SELECT * FROM `character` WHERE `tier` != '-'";
+            ResultSet res = db.executeQuery(q);
+            while (res.next()) {
+                Object[] tmp = {
+                    new ImageIcon(getClass().getResource("/image/character/128x128/" + res.getString("code") + ".png")),
+                    res.getString("name"),
+                    res.getString("difficulty"),
+                    res.getString("evasiveness"),
+                    res.getString("mobility"),
+                    res.getString("throw_game"),
+                    res.getString("combo_damage"),
+                    res.getString("wall_carry"),
+                    res.getString("tier")
+                };
+                character_data = appendToObjectArray(character_data, tmp);
             }
-            list_character.setSelectedIndex(0);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
+                character_table.setData(character_data);
+                character_table.setSelecedRow(0);
+                fillInput(0);
                 db.disconnect();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -67,8 +82,8 @@ public class MyCombo extends javax.swing.JFrame {
         }
     }
 
-    private void changeScrollBar() {
-        list_character.setUI(new BasicComboBoxUI() {
+    private void changeScrollBar(JComboBox combo_box) {
+        combo_box.setUI(new BasicComboBoxUI() {
             @Override
             protected ComboPopup createPopup() {
                 return new BasicComboPopup(comboBox) {
@@ -82,90 +97,37 @@ public class MyCombo extends javax.swing.JFrame {
         });
     }
 
-    private void setupDataMyCombo(String character_name, String name_move) {
-        Db db = new Db();
-        int user_id = Session.getId();
-        try {
-            db.connect();
-            String selectQuery = "SELECT \n"
-                    + "    `combo_list`.*, \n"
-                    + "    `favorite_combo`.`id` IS NOT NULL AS `is_favorite`, \n"
-                    + "    `user`.`username`, \n"
-                    + "    `character`.`name` AS `character_name`, \n"
-                    + "    `character`.`code` AS `character_code`\n"
-                    + "FROM \n"
-                    + "    `combo_list`\n"
-                    + "LEFT JOIN \n"
-                    + "    `favorite_combo` \n"
-                    + "    ON `combo_list`.`id` = `favorite_combo`.`combo_id` \n"
-                    + "    AND `favorite_combo`.`user_id` = ?\n"
-                    + "INNER JOIN \n"
-                    + "    `user` \n"
-                    + "    ON `combo_list`.`user_id` = `user`.`id`\n"
-                    + "INNER JOIN \n"
-                    + "    `character` \n"
-                    + "    ON `combo_list`.`character_id` = `character`.`id`\n"
-                    + "WHERE \n"
-                    + "    `combo_list`.`user_id` = ?\n"
-                    + "    AND `character`.`name` LIKE ?\n"
-                    + "    AND `combo_list`.`name_move` LIKE ?\n"
-                    + "ORDER BY \n"
-                    + "    `combo_list`.`id`;";
-            ResultSet resultSet = db.executeQuery(selectQuery, user_id, user_id, character_name, name_move);
-            while (resultSet.next()) {
-                total_data++;
-                MyComboData item = new MyComboData(
-                        resultSet.getInt("id"),
-                        resultSet.getString("character_name"),
-                        resultSet.getString("name_move"),
-                        resultSet.getString("username"),
-                        resultSet.getTimestamp("date_created").toString().replaceAll("\\.0$", ""),
-                        resultSet.getString("character_code"),
-                        resultSet.getBoolean("is_favorite"),
-                        resultSet.getString("notation"),
-                        resultSet.getString("version"),
-                        resultSet.getInt("total_damage"),
-                        resultSet.getInt("total_hits")
-                );
-                Dimension panel_dim = combolist_data.getPreferredSize();
-                if (total_data == 1) {
-                    panel_dim.height = 0;
-                }
-                panel_dim.height += item.getMaxHeight() + 20;
-                combolist_data.setPreferredSize(new Dimension(panel_dim.width, panel_dim.height));
-                combolist_data.setBounds(combolist_data.getBounds().x, combolist_data.getBounds().y, combolist_data.getBounds().width, panel_dim.height + 20);
-                combolist_data.add(item);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (total_data == 0){
-                    JOptionPane.showMessageDialog(this, "Not found any data");
-                }
-                reloadPanel(combolist_data);
-                Dimension root_size = root.getPreferredSize();
-                root.setPreferredSize(new Dimension(root_size.width, combolist_data.getBounds().height + combolist_data.getBounds().y));
-                reloadPanel(root);
-                db.disconnect();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    private void fillInput(int row) {
+        Object[] rowData = character_table.getSelectedRowData(row);
+        name_input.setText(rowData[1].toString());
+        difficulty_input.setSelectedItem(rowData[2].toString());
+        evasiveness_input.setText(rowData[3].toString());
+        mobility_input.setText(rowData[4].toString());
+        throw_game_input.setText(rowData[5].toString());
+        combo_damage_input.setText(rowData[6].toString());
+        wall_carry_input.setText(rowData[7].toString());
+        tier_input.setSelectedItem(rowData[8].toString());
     }
 
-    public MyCombo() {
-        if (Session.getId() == null) {
-            Login login = new Login();
-            login.setVisible(true);
-            this.dispose();
-            return;
-        }
-        initComponents();
-        setupCharacterData();
-        changeScrollBar();
+    private void tableOnSelect() {
+        ListSelectionModel selectionModel = character_table.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        selectionModel.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = character_table.getSelectedRow();
+                if (selectedRow != -1) {
+                    fillInput(selectedRow);
+                }
+            }
+        });
+    }
 
-        setupDataMyCombo(filter_character, filter_name_move);
+    public EditTier() {
+        initComponents();
+        setupData();
+        changeScrollBar(difficulty_input);
+        changeScrollBar(tier_input);
+        tableOnSelect();
 
         reloadPanel(root);
         ScrollBar scrollPane = new ScrollBar(root);
@@ -189,15 +151,40 @@ public class MyCombo extends javax.swing.JFrame {
         main = new javax.swing.JPanel();
         home_path = new utils.helper.RopaLabel();
         guide_path1 = new utils.helper.RopaLabel();
-        combolist_data = new javax.swing.JPanel();
-        add_combo = new utils.helper.RoundedPanel();
-        ropaLabel1 = new utils.helper.RopaLabel();
-        list_character = new javax.swing.JComboBox<>();
-        search = new utils.helper.RoundedPanel();
-        search_placeholder = new utils.helper.RopaLabel();
-        search_input = new javax.swing.JTextField();
-        btn_search = new utils.helper.RoundedPanel();
-        search_label = new utils.helper.RopaLabel();
+        guide_path2 = new utils.helper.RopaLabel();
+        character_table = new utils.helper.EditTierTable();
+        name = new javax.swing.JPanel();
+        name_area = new utils.helper.RoundedPanel();
+        name_input = new utils.helper.RopaLabel();
+        name_label = new utils.helper.RopaLabel();
+        evasiveness = new javax.swing.JPanel();
+        evasiveness_area = new utils.helper.RoundedPanel();
+        evasiveness_input = new javax.swing.JTextField();
+        evasiveness_label = new utils.helper.RopaLabel();
+        mobility = new javax.swing.JPanel();
+        mobility_area = new utils.helper.RoundedPanel();
+        mobility_input = new javax.swing.JTextField();
+        mobility_label = new utils.helper.RopaLabel();
+        throw_game = new javax.swing.JPanel();
+        throw_game_area = new utils.helper.RoundedPanel();
+        throw_game_input = new javax.swing.JTextField();
+        throw_game_label = new utils.helper.RopaLabel();
+        combo_damage = new javax.swing.JPanel();
+        combo_damage_area = new utils.helper.RoundedPanel();
+        combo_damage_input = new javax.swing.JTextField();
+        combo_damage_label = new utils.helper.RopaLabel();
+        wall_carry = new javax.swing.JPanel();
+        wall_carry_area = new utils.helper.RoundedPanel();
+        wall_carry_input = new javax.swing.JTextField();
+        wall_carry_label = new utils.helper.RopaLabel();
+        difficulty = new javax.swing.JPanel();
+        difficulty_label = new utils.helper.RopaLabel();
+        difficulty_input = new javax.swing.JComboBox<>();
+        tier = new javax.swing.JPanel();
+        tier_label = new utils.helper.RopaLabel();
+        tier_input = new javax.swing.JComboBox<>();
+        save_btn = new utils.helper.RoundedPanel();
+        save_label = new utils.helper.RopaLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -205,14 +192,15 @@ public class MyCombo extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1281, 650));
         setResizable(false);
 
-        root.setMinimumSize(new java.awt.Dimension(1281, 650));
-        root.setPreferredSize(new java.awt.Dimension(1281, 650));
+        root.setMinimumSize(new java.awt.Dimension(1281, 997));
+        root.setPreferredSize(new java.awt.Dimension(1281, 997));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        main.setMinimumSize(new java.awt.Dimension(1281, 650));
-        main.setPreferredSize(new java.awt.Dimension(1281, 650));
+        main.setEnabled(false);
+        main.setMinimumSize(new java.awt.Dimension(1281, 997));
+        main.setPreferredSize(new java.awt.Dimension(1281, 997));
         main.setLayout(null);
 
         home_path.setText("Home ");
@@ -224,124 +212,358 @@ public class MyCombo extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 home_pathMouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                home_pathMouseExited(evt);
+            }
         });
         main.add(home_path);
         home_path.setBounds(50, 50, 50, 22);
 
-        guide_path1.setText("/ My Combo");
+        guide_path1.setText("/ Edit Tier");
         guide_path1.setFontSize(20.0F);
         main.add(guide_path1);
-        guide_path1.setBounds(100, 50, 110, 22);
+        guide_path1.setBounds(160, 50, 110, 22);
 
-        combolist_data.setBackground(new java.awt.Color(8, 18, 38));
-        combolist_data.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 10));
-        main.add(combolist_data);
-        combolist_data.setBounds(50, 170, 1170, 263);
-
-        add_combo.setBackground(new java.awt.Color(123, 15, 58));
-        add_combo.setRoundBottomLeft(10);
-        add_combo.setRoundBottomRight(10);
-        add_combo.setRoundTopLeft(10);
-        add_combo.setRoundTopRight(10);
-        add_combo.addMouseListener(new java.awt.event.MouseAdapter() {
+        guide_path2.setText("/ Guide");
+        guide_path2.setFontSize(20.0F);
+        guide_path2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                add_comboMouseClicked(evt);
+                guide_path2MouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                add_comboMouseEntered(evt);
+                guide_path2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                guide_path2MouseExited(evt);
             }
         });
-        add_combo.setLayout(new java.awt.GridBagLayout());
+        main.add(guide_path2);
+        guide_path2.setBounds(100, 50, 60, 22);
+        main.add(character_table);
+        character_table.setBounds(40, 300, 1182, 620);
 
-        ropaLabel1.setText("+  Add Combo");
-        ropaLabel1.setFontSize(20.0F);
-        add_combo.add(ropaLabel1, new java.awt.GridBagConstraints());
+        name.setBackground(new java.awt.Color(8, 18, 38));
+        name.setLayout(null);
 
-        main.add(add_combo);
-        add_combo.setBounds(1080, 50, 130, 33);
+        name_area.setBackground(new java.awt.Color(100, 100, 100));
+        name_area.setRoundBottomLeft(10);
+        name_area.setRoundBottomRight(10);
+        name_area.setRoundTopLeft(10);
+        name_area.setRoundTopRight(10);
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT);
+        flowLayout1.setAlignOnBaseline(true);
+        name_area.setLayout(flowLayout1);
 
-        list_character.setBackground(new java.awt.Color(217, 217, 217));
-        list_character.setFont(ropaLabel1.getFont());
-        list_character.setForeground(new java.awt.Color(0, 0, 0));
-        list_character.setBorder(null);
-        list_character.setFocusable(false);
-        list_character.setPreferredSize(new java.awt.Dimension(140, 30));
-        list_character.addActionListener(new java.awt.event.ActionListener() {
+        name_input.setForeground(new java.awt.Color(0, 0, 0));
+        name_input.setFontSize(18.0F);
+        name_input.setMaximumSize(new java.awt.Dimension(74, 28));
+        name_input.setMinimumSize(new java.awt.Dimension(74, 28));
+        name_input.setPreferredSize(new java.awt.Dimension(74, 28));
+        name_area.add(name_input);
+
+        name.add(name_area);
+        name_area.setBounds(0, 30, 200, 40);
+
+        name_label.setText("Name");
+        name_label.setFontSize(18.0F);
+        name.add(name_label);
+        name_label.setBounds(0, 10, 99, 20);
+
+        main.add(name);
+        name.setBounds(50, 80, 200, 70);
+
+        evasiveness.setBackground(new java.awt.Color(8, 18, 38));
+        evasiveness.setLayout(null);
+
+        evasiveness_area.setBackground(new java.awt.Color(217, 217, 217));
+        evasiveness_area.setRoundBottomLeft(10);
+        evasiveness_area.setRoundBottomRight(10);
+        evasiveness_area.setRoundTopLeft(10);
+        evasiveness_area.setRoundTopRight(10);
+
+        evasiveness_input.setBackground(new java.awt.Color(217, 217, 217));
+        evasiveness_input.setFont(name_label.getFont());
+        evasiveness_input.setForeground(new java.awt.Color(0, 0, 0));
+        evasiveness_input.setBorder(null);
+        evasiveness_input.setName("Evasiveness"); // NOI18N
+
+        javax.swing.GroupLayout evasiveness_areaLayout = new javax.swing.GroupLayout(evasiveness_area);
+        evasiveness_area.setLayout(evasiveness_areaLayout);
+        evasiveness_areaLayout.setHorizontalGroup(
+            evasiveness_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(evasiveness_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(evasiveness_input, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        evasiveness_areaLayout.setVerticalGroup(
+            evasiveness_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(evasiveness_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(evasiveness_input, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        evasiveness.add(evasiveness_area);
+        evasiveness_area.setBounds(0, 30, 100, 40);
+
+        evasiveness_label.setText("Evasiveness");
+        evasiveness_label.setFontSize(18.0F);
+        evasiveness.add(evasiveness_label);
+        evasiveness_label.setBounds(0, 10, 99, 20);
+
+        main.add(evasiveness);
+        evasiveness.setBounds(270, 80, 100, 70);
+
+        mobility.setBackground(new java.awt.Color(8, 18, 38));
+        mobility.setLayout(null);
+
+        mobility_area.setBackground(new java.awt.Color(217, 217, 217));
+        mobility_area.setRoundBottomLeft(10);
+        mobility_area.setRoundBottomRight(10);
+        mobility_area.setRoundTopLeft(10);
+        mobility_area.setRoundTopRight(10);
+
+        mobility_input.setBackground(new java.awt.Color(217, 217, 217));
+        mobility_input.setFont(name_label.getFont());
+        mobility_input.setForeground(new java.awt.Color(0, 0, 0));
+        mobility_input.setBorder(null);
+        mobility_input.setName("Mobility"); // NOI18N
+
+        javax.swing.GroupLayout mobility_areaLayout = new javax.swing.GroupLayout(mobility_area);
+        mobility_area.setLayout(mobility_areaLayout);
+        mobility_areaLayout.setHorizontalGroup(
+            mobility_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mobility_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mobility_input, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        mobility_areaLayout.setVerticalGroup(
+            mobility_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mobility_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mobility_input, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        mobility.add(mobility_area);
+        mobility_area.setBounds(0, 30, 100, 40);
+
+        mobility_label.setText("Mobility");
+        mobility_label.setFontSize(18.0F);
+        mobility.add(mobility_label);
+        mobility_label.setBounds(0, 10, 99, 20);
+
+        main.add(mobility);
+        mobility.setBounds(390, 80, 100, 70);
+
+        throw_game.setBackground(new java.awt.Color(8, 18, 38));
+        throw_game.setLayout(null);
+
+        throw_game_area.setBackground(new java.awt.Color(217, 217, 217));
+        throw_game_area.setRoundBottomLeft(10);
+        throw_game_area.setRoundBottomRight(10);
+        throw_game_area.setRoundTopLeft(10);
+        throw_game_area.setRoundTopRight(10);
+
+        throw_game_input.setBackground(new java.awt.Color(217, 217, 217));
+        throw_game_input.setFont(name_label.getFont());
+        throw_game_input.setForeground(new java.awt.Color(0, 0, 0));
+        throw_game_input.setBorder(null);
+        throw_game_input.setName("Throw Game"); // NOI18N
+
+        javax.swing.GroupLayout throw_game_areaLayout = new javax.swing.GroupLayout(throw_game_area);
+        throw_game_area.setLayout(throw_game_areaLayout);
+        throw_game_areaLayout.setHorizontalGroup(
+            throw_game_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(throw_game_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(throw_game_input, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        throw_game_areaLayout.setVerticalGroup(
+            throw_game_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(throw_game_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(throw_game_input, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        throw_game.add(throw_game_area);
+        throw_game_area.setBounds(0, 30, 100, 40);
+
+        throw_game_label.setText("Throw Game");
+        throw_game_label.setFontSize(18.0F);
+        throw_game.add(throw_game_label);
+        throw_game_label.setBounds(0, 10, 99, 20);
+
+        main.add(throw_game);
+        throw_game.setBounds(510, 80, 100, 70);
+
+        combo_damage.setBackground(new java.awt.Color(8, 18, 38));
+        combo_damage.setLayout(null);
+
+        combo_damage_area.setBackground(new java.awt.Color(217, 217, 217));
+        combo_damage_area.setRoundBottomLeft(10);
+        combo_damage_area.setRoundBottomRight(10);
+        combo_damage_area.setRoundTopLeft(10);
+        combo_damage_area.setRoundTopRight(10);
+
+        combo_damage_input.setBackground(new java.awt.Color(217, 217, 217));
+        combo_damage_input.setFont(name_label.getFont());
+        combo_damage_input.setForeground(new java.awt.Color(0, 0, 0));
+        combo_damage_input.setBorder(null);
+        combo_damage_input.setName("Combo Damage"); // NOI18N
+
+        javax.swing.GroupLayout combo_damage_areaLayout = new javax.swing.GroupLayout(combo_damage_area);
+        combo_damage_area.setLayout(combo_damage_areaLayout);
+        combo_damage_areaLayout.setHorizontalGroup(
+            combo_damage_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(combo_damage_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(combo_damage_input, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        combo_damage_areaLayout.setVerticalGroup(
+            combo_damage_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(combo_damage_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(combo_damage_input, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        combo_damage.add(combo_damage_area);
+        combo_damage_area.setBounds(0, 30, 120, 40);
+
+        combo_damage_label.setText("Combo Damage");
+        combo_damage_label.setFontSize(18.0F);
+        combo_damage.add(combo_damage_label);
+        combo_damage_label.setBounds(0, 10, 120, 20);
+
+        main.add(combo_damage);
+        combo_damage.setBounds(630, 80, 120, 70);
+
+        wall_carry.setBackground(new java.awt.Color(8, 18, 38));
+        wall_carry.setLayout(null);
+
+        wall_carry_area.setBackground(new java.awt.Color(217, 217, 217));
+        wall_carry_area.setRoundBottomLeft(10);
+        wall_carry_area.setRoundBottomRight(10);
+        wall_carry_area.setRoundTopLeft(10);
+        wall_carry_area.setRoundTopRight(10);
+
+        wall_carry_input.setBackground(new java.awt.Color(217, 217, 217));
+        wall_carry_input.setFont(name_label.getFont());
+        wall_carry_input.setForeground(new java.awt.Color(0, 0, 0));
+        wall_carry_input.setBorder(null);
+        wall_carry_input.setName("Wall Carry"); // NOI18N
+
+        javax.swing.GroupLayout wall_carry_areaLayout = new javax.swing.GroupLayout(wall_carry_area);
+        wall_carry_area.setLayout(wall_carry_areaLayout);
+        wall_carry_areaLayout.setHorizontalGroup(
+            wall_carry_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wall_carry_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(wall_carry_input, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        wall_carry_areaLayout.setVerticalGroup(
+            wall_carry_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(wall_carry_areaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(wall_carry_input, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        wall_carry.add(wall_carry_area);
+        wall_carry_area.setBounds(0, 30, 100, 40);
+
+        wall_carry_label.setText("Wall Carry");
+        wall_carry_label.setFontSize(18.0F);
+        wall_carry.add(wall_carry_label);
+        wall_carry_label.setBounds(0, 10, 100, 20);
+
+        main.add(wall_carry);
+        wall_carry.setBounds(770, 80, 100, 70);
+
+        difficulty.setBackground(new java.awt.Color(8, 18, 38));
+        difficulty.setLayout(null);
+
+        difficulty_label.setText("Difficulty");
+        difficulty_label.setFontSize(18.0F);
+        difficulty.add(difficulty_label);
+        difficulty_label.setBounds(0, 10, 110, 20);
+
+        difficulty_input.setBackground(new java.awt.Color(217, 217, 217));
+        difficulty_input.setFont(difficulty_label.getFont());
+        difficulty_input.setForeground(new java.awt.Color(0, 0, 0));
+        difficulty_input.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Difficulty", "Easy", "Medium", "Hard" }));
+        difficulty_input.setBorder(null);
+        difficulty_input.setFocusable(false);
+        difficulty_input.setPreferredSize(new java.awt.Dimension(140, 30));
+        difficulty_input.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                list_characterActionPerformed(evt);
+                difficulty_inputActionPerformed(evt);
             }
         });
-        main.add(list_character);
-        list_character.setBounds(50, 110, 170, 30);
+        difficulty.add(difficulty_input);
+        difficulty_input.setBounds(0, 30, 200, 40);
 
-        search.setBackground(new java.awt.Color(217, 217, 217));
-        search.setRoundBottomLeft(10);
-        search.setRoundBottomRight(10);
-        search.setRoundTopLeft(10);
-        search.setRoundTopRight(10);
-        search.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        main.add(difficulty);
+        difficulty.setBounds(50, 160, 200, 70);
 
-        search_placeholder.setForeground(new java.awt.Color(109, 109, 109));
-        search_placeholder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/search_icon.png"))); // NOI18N
-        search_placeholder.setText("Search Combo");
-        search_placeholder.setFontSize(18.0F);
-        search_placeholder.addMouseListener(new java.awt.event.MouseAdapter() {
+        tier.setBackground(new java.awt.Color(8, 18, 38));
+        tier.setLayout(null);
+
+        tier_label.setText("Tier");
+        tier_label.setFontSize(18.0F);
+        tier.add(tier_label);
+        tier_label.setBounds(0, 10, 110, 20);
+
+        tier_input.setBackground(new java.awt.Color(217, 217, 217));
+        tier_input.setFont(tier_label.getFont());
+        tier_input.setForeground(new java.awt.Color(0, 0, 0));
+        tier_input.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Tier", "S", "A", "B", "C", "D" }));
+        tier_input.setBorder(null);
+        tier_input.setFocusable(false);
+        tier_input.setPreferredSize(new java.awt.Dimension(140, 30));
+        tier_input.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tier_inputActionPerformed(evt);
+            }
+        });
+        tier.add(tier_input);
+        tier_input.setBounds(0, 30, 200, 40);
+
+        main.add(tier);
+        tier.setBounds(270, 160, 200, 70);
+
+        save_btn.setBackground(new java.awt.Color(52, 255, 67));
+        save_btn.setRoundBottomLeft(10);
+        save_btn.setRoundBottomRight(10);
+        save_btn.setRoundTopLeft(10);
+        save_btn.setRoundTopRight(10);
+        save_btn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                search_placeholderMouseClicked(evt);
+                save_btnMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                search_placeholderMouseEntered(evt);
+                save_btnMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                save_btnMouseExited(evt);
             }
         });
-        search.add(search_placeholder, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, -1, -1));
+        save_btn.setLayout(new java.awt.GridBagLayout());
 
-        search_input.setBackground(new java.awt.Color(217, 217, 217));
-        search_input.setFont(ropaLabel1.getFont());
-        search_input.setForeground(new java.awt.Color(0, 0, 0));
-        search_input.setBorder(null);
-        search_input.setHighlighter(null);
-        search_input.setPreferredSize(new java.awt.Dimension(960, 30));
-        search_input.setRequestFocusEnabled(false);
-        search_input.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                search_inputFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                search_inputFocusLost(evt);
-            }
-        });
-        search_input.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                search_inputKeyTyped(evt);
-            }
-        });
-        search.add(search_input, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 0, 850, 30));
+        save_label.setForeground(new java.awt.Color(0, 0, 0));
+        save_label.setText("SAVE");
+        save_label.setFontSize(26.0F);
+        save_btn.add(save_label, new java.awt.GridBagConstraints());
 
-        main.add(search);
-        search.setBounds(240, 110, 870, 30);
-
-        btn_search.setBackground(new java.awt.Color(52, 255, 67));
-        btn_search.setRoundBottomLeft(10);
-        btn_search.setRoundBottomRight(10);
-        btn_search.setRoundTopLeft(10);
-        btn_search.setRoundTopRight(10);
-        btn_search.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btn_searchMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btn_searchMouseEntered(evt);
-            }
-        });
-
-        search_label.setForeground(new java.awt.Color(0, 0, 0));
-        search_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/search_icon.png"))); // NOI18N
-        search_label.setText("Search");
-        search_label.setFontSize(16.0F);
-        btn_search.add(search_label);
-
-        main.add(btn_search);
-        btn_search.setBounds(1120, 110, 90, 30);
+        main.add(save_btn);
+        save_btn.setBounds(1090, 110, 130, 40);
 
         root.add(main);
 
@@ -355,49 +577,12 @@ public class MyCombo extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 863, Short.MAX_VALUE)
+            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void list_characterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list_characterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_list_characterActionPerformed
-
-    private void search_inputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_search_inputFocusGained
-        // TODO add your handling code here:
-        if (search_input.getText().isEmpty())
-            search_placeholder.setVisible(true);
-        else
-            search_placeholder.setVisible(false);
-    }//GEN-LAST:event_search_inputFocusGained
-
-    private void search_inputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_search_inputFocusLost
-        // TODO add your handling code here:
-        if (search_input.getText().isEmpty())
-            search_placeholder.setVisible(true);
-    }//GEN-LAST:event_search_inputFocusLost
-
-    private void search_placeholderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search_placeholderMouseClicked
-        // TODO add your handling code here:
-        search_input.setFocusable(true);
-    }//GEN-LAST:event_search_placeholderMouseClicked
-
-    private void search_placeholderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search_placeholderMouseEntered
-        // TODO add your handling code here:
-        search_placeholder.setCursor(search_input.getCursor());
-    }//GEN-LAST:event_search_placeholderMouseEntered
-
-    private void search_inputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_search_inputKeyTyped
-        // TODO add your handling code here:
-        String input = search_input.getText() + evt.getKeyChar();
-        if (input.isEmpty())
-            search_placeholder.setVisible(true);
-        else
-            search_placeholder.setVisible(false);
-    }//GEN-LAST:event_search_inputKeyTyped
 
     private void home_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseClicked
         // TODO add your handling code here:
@@ -408,36 +593,131 @@ public class MyCombo extends javax.swing.JFrame {
 
     private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
         // TODO add your handling code here:
-        home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_home_pathMouseEntered
 
-    private void add_comboMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_comboMouseClicked
+    private void guide_path2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path2MouseEntered
         // TODO add your handling code here:
-        AddCombo addCombo = new AddCombo();
-        addCombo.setVisible(true);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_guide_path2MouseEntered
+
+    private void guide_path2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path2MouseClicked
+        // TODO add your handling code here:
+        Guide guide = new Guide();
+        guide.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_add_comboMouseClicked
+    }//GEN-LAST:event_guide_path2MouseClicked
 
-    private void add_comboMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_comboMouseEntered
+    private void difficulty_inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_difficulty_inputActionPerformed
         // TODO add your handling code here:
-        add_combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_add_comboMouseEntered
+    }//GEN-LAST:event_difficulty_inputActionPerformed
 
-    private void btn_searchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_searchMouseEntered
+    private void tier_inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tier_inputActionPerformed
         // TODO add your handling code here:
-        btn_search.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_btn_searchMouseEntered
+    }//GEN-LAST:event_tier_inputActionPerformed
 
-    private void btn_searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_searchMouseClicked
+    private void save_btnMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_save_btnMouseEntered
         // TODO add your handling code here:
-        this.filter_character = list_character.getSelectedItem().toString().equals("All") ? "%%" : "%" + list_character.getSelectedItem().toString() + "%";
-        this.filter_name_move = "%" + search_input.getText() + "%";
-        combolist_data.removeAll();
-        total_data = 0;
-        setupDataMyCombo(filter_character, filter_name_move);
-        reloadPanel(combolist_data);
-        reloadPanel(root);
-    }//GEN-LAST:event_btn_searchMouseClicked
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_save_btnMouseEntered
+
+    private boolean validateNumberInput() {
+        JTextField[] numericFields = {
+            evasiveness_input,
+            mobility_input,
+            throw_game_input,
+            combo_damage_input,
+            wall_carry_input
+        };
+
+        for (JTextField field : numericFields) {
+            String value = field.getText();
+            try {
+                int intValue = Integer.parseInt(value);
+                if (intValue < 0 || intValue > 10) {
+                    throw new IllegalArgumentException("Number must be in range 0 to 10");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, field.getName() + " need to be number!");
+                return false;
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(this, field.getName() + " must in range 0 to 10!");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean validateSelectInput() {
+        if (difficulty_input.getSelectedItem().toString().equals("Select Difficulty")) {
+            JOptionPane.showMessageDialog(this, "Difficulty  must be selected!");
+            return false;
+        }
+        if (tier_input.getSelectedItem().toString().equals("Select Tier")) {
+            JOptionPane.showMessageDialog(this, "Tier  must be selected!");
+            return false;
+        }
+        return true;
+    }
+
+    private void save_btnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_save_btnMouseClicked
+        // TODO add your handling code here:
+        String[] input_data = {
+            name_input.getText(),
+            evasiveness_input.getText(),
+            mobility_input.getText(),
+            throw_game_input.getText(),
+            combo_damage_input.getText(),
+            wall_carry_input.getText(),
+            difficulty_input.getSelectedItem().toString(),
+            tier_input.getSelectedItem().toString()
+        };
+        if (validateNumberInput() && validateSelectInput()) {
+            Db db = new Db();
+            try {
+                db.connect();
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String formattedDateTime = currentDateTime.format(formatter);
+                String q = "UPDATE `character` SET `evasiveness` = ?, `mobility` = ?, `throw_game` = ?, `combo_damage` = ?, `wall_carry` = ?, `difficulty` = ?, `tier` = ?, `last_updated` = ? WHERE name = ?";
+                db.executeUpdate(q, input_data[1], input_data[2], input_data[3], input_data[4], input_data[5], input_data[6], input_data[7], formattedDateTime, input_data[0]);
+                character_table.setSelectedRowData(character_table.getSelectedRow(), 1, input_data[0]);
+                character_table.setSelectedRowData(character_table.getSelectedRow(), 2, input_data[6]);
+                character_table.setSelectedRowData(character_table.getSelectedRow(), 3, input_data[1]);
+                character_table.setSelectedRowData(character_table.getSelectedRow(), 4, input_data[2]);
+                character_table.setSelectedRowData(character_table.getSelectedRow(), 5, input_data[3]);
+                character_table.setSelectedRowData(character_table.getSelectedRow(), 6, input_data[4]);
+                character_table.setSelectedRowData(character_table.getSelectedRow(), 7, input_data[5]);
+                character_table.setSelectedRowData(character_table.getSelectedRow(), 8, input_data[7]);
+                JOptionPane.showMessageDialog(this, "Successfully update data");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Failed to update data");
+            } finally {
+                try {
+                    db.disconnect();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Failed to update data");
+                }
+            }
+        }
+    }//GEN-LAST:event_save_btnMouseClicked
+
+    private void save_btnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_save_btnMouseExited
+        // TODO add your handling code here:
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_save_btnMouseExited
+
+    private void guide_path2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path2MouseExited
+        // TODO add your handling code here:
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_guide_path2MouseExited
+
+    private void home_pathMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseExited
+        // TODO add your handling code here:
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_home_pathMouseExited
 
     /**
      * @param args the command line arguments
@@ -456,14 +736,30 @@ public class MyCombo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MyCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditTier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MyCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditTier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MyCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditTier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MyCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditTier.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -484,29 +780,49 @@ public class MyCombo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if (Session.getId() == null) {
-                    Login login = new Login();
-                    login.setVisible(true);
-                } else {
-                    new MyCombo().setVisible(true);
-                }
+                new EditTier().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private utils.helper.RoundedPanel add_combo;
-    private utils.helper.RoundedPanel btn_search;
-    private javax.swing.JPanel combolist_data;
+    private utils.helper.EditTierTable character_table;
+    private javax.swing.JPanel combo_damage;
+    private utils.helper.RoundedPanel combo_damage_area;
+    private javax.swing.JTextField combo_damage_input;
+    private utils.helper.RopaLabel combo_damage_label;
+    private javax.swing.JPanel difficulty;
+    private javax.swing.JComboBox<String> difficulty_input;
+    private utils.helper.RopaLabel difficulty_label;
+    private javax.swing.JPanel evasiveness;
+    private utils.helper.RoundedPanel evasiveness_area;
+    private javax.swing.JTextField evasiveness_input;
+    private utils.helper.RopaLabel evasiveness_label;
     private utils.helper.RopaLabel guide_path1;
+    private utils.helper.RopaLabel guide_path2;
     private utils.helper.RopaLabel home_path;
-    private javax.swing.JComboBox<String> list_character;
     private javax.swing.JPanel main;
+    private javax.swing.JPanel mobility;
+    private utils.helper.RoundedPanel mobility_area;
+    private javax.swing.JTextField mobility_input;
+    private utils.helper.RopaLabel mobility_label;
+    private javax.swing.JPanel name;
+    private utils.helper.RoundedPanel name_area;
+    private utils.helper.RopaLabel name_input;
+    private utils.helper.RopaLabel name_label;
     private javax.swing.JPanel root;
-    private utils.helper.RopaLabel ropaLabel1;
-    private utils.helper.RoundedPanel search;
-    private javax.swing.JTextField search_input;
-    private utils.helper.RopaLabel search_label;
-    private utils.helper.RopaLabel search_placeholder;
+    private utils.helper.RoundedPanel save_btn;
+    private utils.helper.RopaLabel save_label;
+    private javax.swing.JPanel throw_game;
+    private utils.helper.RoundedPanel throw_game_area;
+    private javax.swing.JTextField throw_game_input;
+    private utils.helper.RopaLabel throw_game_label;
+    private javax.swing.JPanel tier;
+    private javax.swing.JComboBox<String> tier_input;
+    private utils.helper.RopaLabel tier_label;
+    private javax.swing.JPanel wall_carry;
+    private utils.helper.RoundedPanel wall_carry_area;
+    private javax.swing.JTextField wall_carry_input;
+    private utils.helper.RopaLabel wall_carry_label;
     // End of variables declaration//GEN-END:variables
 }

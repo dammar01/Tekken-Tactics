@@ -199,6 +199,8 @@ public class Guide extends javax.swing.JFrame {
         home_path = new utils.helper.RopaLabel();
         ropaLabel1 = new utils.helper.RopaLabel();
         last_update = new utils.helper.RopaLabel();
+        edit_tier = new utils.helper.RoundedPanel();
+        ropaLabel2 = new utils.helper.RopaLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -416,6 +418,29 @@ public class Guide extends javax.swing.JFrame {
         main.add(last_update);
         last_update.setBounds(908, 50, 330, 22);
 
+        edit_tier.setBackground(new java.awt.Color(123, 15, 58));
+        edit_tier.setRoundBottomLeft(10);
+        edit_tier.setRoundBottomRight(10);
+        edit_tier.setRoundTopLeft(10);
+        edit_tier.setRoundTopRight(10);
+        edit_tier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                edit_tierMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                edit_tierMouseEntered(evt);
+            }
+        });
+        edit_tier.setLayout(new java.awt.GridBagLayout());
+
+        ropaLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ropaLabel2.setText("Edit Tier");
+        ropaLabel2.setFontSize(20.0F);
+        edit_tier.add(ropaLabel2, new java.awt.GridBagConstraints());
+
+        main.add(edit_tier);
+        edit_tier.setBounds(1109, 90, 130, 30);
+
         root.add(main);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -448,6 +473,18 @@ public class Guide extends javax.swing.JFrame {
         // TODO add your handling code here:
         home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_home_pathMouseEntered
+
+    private void edit_tierMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_edit_tierMouseEntered
+        // TODO add your handling code here:
+        edit_tier.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_edit_tierMouseEntered
+
+    private void edit_tierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_edit_tierMouseClicked
+        // TODO add your handling code here:
+        EditTier edit_tier = new EditTier();
+        edit_tier.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_edit_tierMouseClicked
 
     /**
      * @param args the command line arguments
@@ -497,6 +534,7 @@ public class Guide extends javax.swing.JFrame {
     private javax.swing.JPanel d_tier;
     private javax.swing.JPanel d_tier_character;
     private utils.helper.RopaItalicLabel d_tier_title;
+    private utils.helper.RoundedPanel edit_tier;
     private javax.swing.JPanel gray_box;
     private javax.swing.JPanel green_box;
     private utils.helper.RopaLabel home_path;
@@ -506,6 +544,7 @@ public class Guide extends javax.swing.JFrame {
     private javax.swing.JPanel red_box;
     private javax.swing.JPanel root;
     private utils.helper.RopaLabel ropaLabel1;
+    private utils.helper.RopaLabel ropaLabel2;
     private javax.swing.JPanel s_tier;
     private javax.swing.JPanel s_tier_character;
     private utils.helper.RopaItalicLabel s_tier_title;
