@@ -8,7 +8,9 @@ import myCombo.*;
 import combolist.*;
 import guide.*;
 import home.Home;
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFrame;
@@ -17,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import utils.helper.ComboListData;
 import utils.helper.Db;
+import utils.helper.RopaLabelArea;
 import utils.helper.ScrollBar;
 
 /**
@@ -36,24 +39,23 @@ public class About extends javax.swing.JFrame {
     public About() {
         initComponents();
         Db db = new Db();
+        RopaLabelArea text_area = new RopaLabelArea();
+        text_area.setPreferredSize(new Dimension(1160, 650));
+        text_area.setBounds(50, 140, 1160, 650);
+        text_area.setBackground(new Color(8, 18, 38));
         try {
             db.connect();
-            String selectQuery = "SELECT * FROM `help`";
+            String selectQuery = "SELECT * FROM `help` WHERE `tipe` = 'About'";
             ResultSet resultSet = db.executeQuery(selectQuery);
-            String title = "";
+            String content = "";
             while (resultSet.next()) {
-                title = resultSet.getString("tipe");
-                String tipe = resultSet.getString("tipe");
-                String content = resultSet.getString("content");
-                content = content.replace("¬†¬†¬†¬†¬†¬†", "          ");
-                content = content.replace("‚Ä®", "\n");
-                int line = resultSet.getInt("line");
-                int is_new_line = resultSet.getInt("is_new_line");
-                int is_title = resultSet.getInt("is_title");
-                ropaLabelArea1.setText(content);
+                String tmp = resultSet.getString("content");
+                tmp = tmp.replace("¬†¬†¬†¬†¬†¬†", "      ");
+                tmp += resultSet.getBoolean("is_new_line") ? "\n" : "";
+                content += tmp + "\n";
             }
-            ropaLabel1.setText(title);
-            
+            text_area.setText(content);
+            main.add(text_area);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -86,13 +88,12 @@ public class About extends javax.swing.JFrame {
         home_path = new utils.helper.RopaLabel();
         about_path = new utils.helper.RopaLabel();
         help_path = new utils.helper.RopaLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        ropaLabelArea1 = new utils.helper.RopaLabelArea();
-        ropaLabel1 = new utils.helper.RopaLabel();
+        title = new utils.helper.RopaLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
         setMinimumSize(new java.awt.Dimension(1281, 650));
+        setPreferredSize(new java.awt.Dimension(1281, 650));
         setResizable(false);
 
         root.setMinimumSize(new java.awt.Dimension(1281, 650));
@@ -125,26 +126,20 @@ public class About extends javax.swing.JFrame {
 
         help_path.setText("/ Help");
         help_path.setFontSize(20.0F);
+        help_path.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                help_pathMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                help_pathMouseEntered(evt);
+            }
+        });
         main.add(help_path);
-        help_path.setBounds(100, 50, 110, 22);
+        help_path.setBounds(100, 50, 50, 22);
 
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-
-        ropaLabelArea1.setBackground(new java.awt.Color(8, 18, 38));
-        ropaLabelArea1.setColumns(20);
-        ropaLabelArea1.setRows(5);
-        ropaLabelArea1.setText("");
-        ropaLabelArea1.setCaretColor(new java.awt.Color(8, 18, 38));
-        jScrollPane1.setViewportView(ropaLabelArea1);
-
-        main.add(jScrollPane1);
-        jScrollPane1.setBounds(50, 140, 1180, 690);
-
-        ropaLabel1.setText("Title");
-        main.add(ropaLabel1);
-        ropaLabel1.setBounds(50, 90, 290, 27);
+        title.setText("About");
+        main.add(title);
+        title.setBounds(50, 90, 60, 27);
 
         root.add(main);
 
@@ -176,6 +171,18 @@ public class About extends javax.swing.JFrame {
         // TODO add your handling code here:
         home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_home_pathMouseEntered
+
+    private void help_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_help_pathMouseEntered
+        // TODO add your handling code here:
+        help_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_help_pathMouseEntered
+
+    private void help_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_help_pathMouseClicked
+        // TODO add your handling code here:
+        Help help = new Help();
+        help.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_help_pathMouseClicked
 
     /**
      * @param args the command line arguments
@@ -247,10 +254,8 @@ public class About extends javax.swing.JFrame {
     private utils.helper.RopaLabel about_path;
     private utils.helper.RopaLabel help_path;
     private utils.helper.RopaLabel home_path;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel main;
     private javax.swing.JPanel root;
-    private utils.helper.RopaLabel ropaLabel1;
-    private utils.helper.RopaLabelArea ropaLabelArea1;
+    private utils.helper.RopaLabel title;
     // End of variables declaration//GEN-END:variables
 }

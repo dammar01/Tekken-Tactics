@@ -21,7 +21,7 @@ public class MyAccount extends javax.swing.JFrame {
      * Creates new form Home
      */
     public MyAccount() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
         nickname.setText(Session.getUsername());
     }

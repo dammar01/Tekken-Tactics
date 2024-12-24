@@ -5,11 +5,9 @@ import java.io.InputStream;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.util.List;
-import java.util.function.Consumer;
-import javax.swing.border.AbstractBorder;
 import javax.swing.border.MatteBorder;
 
-public class EditTierTable extends JPanel {
+public class CrudFaqTable extends JPanel {
 
     private JTable table;
     private JScrollPane scrollPane;
@@ -24,15 +22,9 @@ public class EditTierTable extends JPanel {
     // Setup columns of the table
     public void setupColumn() {
         // Set fixed column widths
-        setColumnWidth(table, 0, 140);
-        setColumnWidth(table, 1, 130);
-        setColumnWidth(table, 2, 130);
-        setColumnWidth(table, 3, 130);
-        setColumnWidth(table, 4, 130);
-        setColumnWidth(table, 5, 130);
-        setColumnWidth(table, 6, 130);
-        setColumnWidth(table, 7, 130);
-        setColumnWidth(table, 8, 130);
+        setColumnWidth(table, 0, 0);
+        setColumnWidth(table, 1, 280);
+        setColumnWidth(table, 2, 800);
         table.setDragEnabled(false);
         table.setCellSelectionEnabled(true);
         table.setColumnSelectionAllowed(false);
@@ -49,26 +41,25 @@ public class EditTierTable extends JPanel {
         header.setFocusable(false);
 
         CustomCellRenderer customColumn = new CustomCellRenderer();
-        for (int i = 1; i < table.getColumnCount(); i++) {
+        for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(customColumn);
         }
     }
 
     // Constructor to initialize the table
-    public EditTierTable() {
+    public CrudFaqTable() {
         setBackground(new Color(66, 21, 50));
         setLayout(new BorderLayout());
         this.font = loadFont("/utils/font/RopaSans-Regular.ttf", 16f);
 
         // Column names and initial empty data
-        String[] columnNames = {"Image", "Name", "Difficulty", "Evasiveness", "Mobility", "Throw Game", "Combo Damage", "Wall Carry", "Tier"};
+        String[] columnNames = {"", "Title", "Content"};
         Object[][] data = {};
 
         // Create custom table model and set it to the table
-        DefaultTableModel model = new SingleImageTableModel(data, columnNames);
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
         this.table = new JTable(model);
-        this.table.getColumnModel().getColumn(0).setCellRenderer(new SingleImageRenderer());
-        this.table.setPreferredScrollableViewportSize(new Dimension(1180, 100));
+        this.table.setPreferredScrollableViewportSize(new Dimension(1090, 100));
         this.scrollPane = new ScrollBar(this.table);
         this.table.setRowHeight(140);
         add(scrollPane, BorderLayout.CENTER);
@@ -91,15 +82,23 @@ public class EditTierTable extends JPanel {
 
     // Set data for the table
     public void setData(Object[][] data) {
-        String[] columnNames = {"Image", "Name", "Difficulty", "Evasiveness", "Mobility", "Throw Game", "Combo Damage", "Wall Carry", "Tier"};
-        SingleImageTableModel model = new SingleImageTableModel(data, columnNames);
+        String[] columnNames = {"", "Title", "Content"};
+        DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         this.table.setModel(model);
-        this.table.getColumnModel().getColumn(0).setCellRenderer(new SingleImageRenderer());
         this.setupColumn();
     }
-    
-    public void setSelecedRow(int row){
-        this.table.setRowSelectionInterval(row, row);
+
+    public void setSelecedRow(int row) {
+        if (row != -1) {
+            this.table.setRowSelectionInterval(row, row);
+        } else {
+            table.clearSelection();
+        }
     }
 
     public ListSelectionModel getSelectionModel() {
@@ -110,11 +109,16 @@ public class EditTierTable extends JPanel {
         return this.table.getSelectedRow();
     }
 
-    public void setSelectedRowData(int row, int column, String new_val){
+    public void setSelectedRowData(int row, int column, String new_val) {
         TableModel model = this.table.getModel();
         model.setValueAt(new_val, row, column);
     }
     
+    public void removeSelectedRowData(int row) {
+        DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+        model.removeRow(row);
+    }
+
     public Object[] getSelectedRowData(int rowIndex) {
         Object[] rowData = new Object[table.getColumnCount()];
         for (int i = 0; i < table.getColumnCount(); i++) {
@@ -187,9 +191,8 @@ public class EditTierTable extends JPanel {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             textArea.setText(value != null ? value.toString() : "");
-            textArea.setSize(table.getColumnModel().getColumn(column).getWidth(), Short.MAX_VALUE);
-
-            // Adjust height based on the content
+            textArea.setSize(table.getColumnModel().getColumn(column).getWidth() - 40, table.getRowHeight());
+            textArea.setPreferredSize(new Dimension(table.getColumnModel().getColumn(column).getWidth() - 40, table.getRowHeight()));
             int preferredHeight = textArea.getPreferredSize().height;
             table.setRowHeight(row, Math.max(preferredHeight + 30, table.getRowHeight()));
             textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
@@ -198,58 +201,9 @@ public class EditTierTable extends JPanel {
             } else {
                 textArea.setBackground(new Color(66, 21, 50));
             }
+            textArea.revalidate();
+            textArea.repaint();
             return textArea;
-        }
-    }
-
-    // Custom TableModel to handle multi-image columns
-    private static class SingleImageTableModel extends DefaultTableModel {
-
-        public SingleImageTableModel(Object[][] data, String[] columnNames) {
-            super(data, columnNames);
-        }
-
-        @Override
-        public Class<?> getColumnClass(int columnIndex) {
-            // Set column 0 to handle List<ImageIcon> as its value type
-            if (columnIndex == 0) {
-                return List.class;
-            }
-            return String.class;
-        }
-
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false; // Disable editing
-        }
-    }
-
-    private static class SingleImageRenderer extends DefaultTableCellRenderer {
-
-        @Override
-        public Component getTableCellRendererComponent(
-                JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-            // If the value is a list of ImageIcons
-            if (value instanceof ImageIcon) {
-                JPanel panel = new JPanel();
-                if (isSelected) {
-                    panel.setBackground(new Color(202, 28, 100)); 
-                } else {
-                    panel.setBackground(new Color(66, 21, 50)); 
-                }
-                panel.setOpaque(true);
-                panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-
-                JLabel label = new JLabel((ImageIcon) value);
-                label.setHorizontalAlignment(SwingConstants.CENTER);
-                panel.add(label);
-                panel.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
-                return panel;
-            }
-            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
-            return this;
         }
     }
 }

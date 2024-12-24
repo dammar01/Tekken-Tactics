@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.sql.SQLException;
@@ -35,17 +36,22 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import utils.helper.RopaLabel;
+import utils.helper.RopaLabelArea;
 import utils.helper.RoundedPanel;
+import utils.helper.Session;
 
 /**
  *
  * @author Dammar
  */
 public class Faq extends javax.swing.JFrame {
-
+    private int maxHeight = 650;
 
     public Faq() {
         initComponents();
+        loadDataFromDatabase();
+        root.setPreferredSize(new Dimension(root.getPreferredSize().width, maxHeight));
+        main.setPreferredSize(new Dimension(main.getPreferredSize().width, maxHeight));
 
         ScrollBar scrollPane = new ScrollBar(root);
         scrollPane.setBorder(null);
@@ -53,9 +59,10 @@ public class Faq extends javax.swing.JFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         scrollPane.setBounds(0, 0, main.getWidth(), 650);
         add(scrollPane);
-
-        loadDataFromDatabase();
-
+//        if (!Session.isAdmin()){
+//            btn_edit.setVisible(false);
+//        }        
+        
     }
 
     private void loadDataFromDatabase() {
@@ -66,14 +73,14 @@ public class Faq extends javax.swing.JFrame {
             ResultSet resultSet = statement.executeQuery(query);
 
             jPanelContainer.setLayout(new BoxLayout(jPanelContainer, BoxLayout.Y_AXIS));
-
+            int i = 1;
             while (resultSet.next()) {
                 String title = resultSet.getString("title");
                 String content = resultSet.getString("content");
 
                 // Panel individu untuk setiap data
                 RoundedPanel panelCard = new RoundedPanel();
-                panelCard.setLayout(new GridLayout(2, 1));
+                panelCard.setLayout(new FlowLayout(FlowLayout.LEFT));
                 panelCard.setBackground(new Color(123, 15, 58));
 
                 panelCard.setRoundBottomLeft(20);
@@ -87,11 +94,18 @@ public class Faq extends javax.swing.JFrame {
                 RopaLabel lblTitle = new RopaLabel(title);
                 lblTitle.setForeground(Color.WHITE);
                 lblTitle.setFontSize(20);
+                lblTitle.setPreferredSize(new Dimension(1080 - 40, 24));
 
                 // Label content
-                RopaLabel lblContent = new RopaLabel("<html>" + content + "</html>");
+                // RopaLabel lblContent = new RopaLabel("<html>" + content + "</html>");
+                // lblContent.setForeground(Color.WHITE);
+                // lblContent.setFontSize(14);
+                RopaLabelArea lblContent = new RopaLabelArea();
+                lblContent.setText(content);
+                lblContent.setBackground(new Color(123, 15, 58));
                 lblContent.setForeground(Color.WHITE);
-                lblContent.setFontSize(14);
+                lblContent.setFontSize(14f);
+                lblContent.setPreferredSize(new Dimension(1080 - 40, 180));
 
                 // Tambahkan komponen ke panel
                 panelCard.add(lblTitle);
@@ -100,12 +114,15 @@ public class Faq extends javax.swing.JFrame {
                 // Tambahkan panelCard ke jPanelContainer
                 jPanelContainer.add(panelCard);
                 jPanelContainer.add(Box.createRigidArea(new Dimension(0, 10))); // Jarak antar card
-
+                jPanelContainer.setPreferredSize(new Dimension(1080, (180 + 24 + 20 + 10) * i));
+                jPanelContainer.setBounds(90, 180, 1080, (180 + 24 + 20 + 10) * i);
+                i++;
             }
 
             // Refresh tampilan JPanel
             jPanelContainer.revalidate();
             jPanelContainer.repaint();
+            maxHeight = (180 + 24 + 20 + 10) * i;
             statement.close();
             connection.close();
 
@@ -128,6 +145,8 @@ public class Faq extends javax.swing.JFrame {
         ropaLabel1 = new utils.helper.RopaLabel();
         ropaLabel2 = new utils.helper.RopaLabel();
         jPanelContainer = new javax.swing.JPanel();
+        btn_edit = new utils.helper.RoundedPanel();
+        label_edit = new utils.helper.RopaLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -135,7 +154,7 @@ public class Faq extends javax.swing.JFrame {
         setResizable(false);
 
         root.setMinimumSize(new java.awt.Dimension(1281, 650));
-        root.setPreferredSize(new java.awt.Dimension(1281, 1700));
+        root.setPreferredSize(new java.awt.Dimension(1281, 650));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
@@ -199,7 +218,7 @@ public class Faq extends javax.swing.JFrame {
 
         ropaLabel2.setText("FAQ");
         main.add(ropaLabel2);
-        ropaLabel2.setBounds(100, 130, 99, 27);
+        ropaLabel2.setBounds(90, 130, 99, 27);
 
         jPanelContainer.setBackground(new java.awt.Color(8, 18, 38));
         jPanelContainer.setToolTipText("");
@@ -207,8 +226,32 @@ public class Faq extends javax.swing.JFrame {
         jPanelContainer.setPreferredSize(new java.awt.Dimension(40, 40));
         jPanelContainer.setLayout(new javax.swing.BoxLayout(jPanelContainer, javax.swing.BoxLayout.LINE_AXIS));
         main.add(jPanelContainer);
-        jPanelContainer.setBounds(100, 180, 1080, 700);
+        jPanelContainer.setBounds(90, 180, 1080, 200);
         jPanelContainer.getAccessibleContext().setAccessibleName("");
+
+        btn_edit.setBackground(new java.awt.Color(240, 148, 11));
+        btn_edit.setForeground(new java.awt.Color(0, 0, 0));
+        btn_edit.setRoundBottomLeft(10);
+        btn_edit.setRoundBottomRight(10);
+        btn_edit.setRoundTopLeft(10);
+        btn_edit.setRoundTopRight(10);
+        btn_edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_editMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_editMouseEntered(evt);
+            }
+        });
+        btn_edit.setLayout(new java.awt.GridBagLayout());
+
+        label_edit.setForeground(new java.awt.Color(0, 0, 0));
+        label_edit.setText("Manage");
+        label_edit.setFontSize(20.0F);
+        btn_edit.add(label_edit, new java.awt.GridBagConstraints());
+
+        main.add(btn_edit);
+        btn_edit.setBounds(920, 50, 117, 33);
 
         root.add(main);
 
@@ -217,7 +260,7 @@ public class Faq extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 6, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(root, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -265,6 +308,19 @@ public class Faq extends javax.swing.JFrame {
         home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_home_pathMouseEntered
 
+    private void btn_editMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_editMouseEntered
+        // TODO add your handling code here:
+        btn_edit.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+    }//GEN-LAST:event_btn_editMouseEntered
+
+    private void btn_editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_editMouseClicked
+        // TODO add your handling code here:
+        CrudFaq crudFaq = new CrudFaq();
+        crudFaq.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_editMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -311,8 +367,10 @@ public class Faq extends javax.swing.JFrame {
     private utils.helper.RopaLabel FAQ_path;
     private utils.helper.RopaLabel Help_path;
     private utils.helper.RoundedPanel back;
+    private utils.helper.RoundedPanel btn_edit;
     private utils.helper.RopaLabel home_path;
     private javax.swing.JPanel jPanelContainer;
+    private utils.helper.RopaLabel label_edit;
     private javax.swing.JPanel main;
     private javax.swing.JPanel root;
     private utils.helper.RopaLabel ropaLabel1;

@@ -250,8 +250,8 @@ public class ComboListData extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ComboListData parent = (ComboListData) e.getComponent().getParent().getParent();
-//                int user_id = Session.getId();
-                int user_id = 1;
+                int user_id = Session.getId();
+//                int user_id = 1;
                 Db db = new Db();
                 try {
                     db.connect();

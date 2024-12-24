@@ -19,7 +19,6 @@ public class Help extends javax.swing.JFrame {
      * Creates new form Home
      */
     public Help() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
     }
 
@@ -170,6 +169,14 @@ public class Help extends javax.swing.JFrame {
         about.setRoundBottomRight(50);
         about.setRoundTopLeft(50);
         about.setRoundTopRight(50);
+        about.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                aboutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                aboutMouseEntered(evt);
+            }
+        });
         about.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ropaLabel4.setText("About");
@@ -339,6 +346,18 @@ public class Help extends javax.swing.JFrame {
         // TODO add your handling code here:
         faq.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_faqMouseEntered
+
+    private void aboutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutMouseEntered
+        // TODO add your handling code here:
+        about.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_aboutMouseEntered
+
+    private void aboutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aboutMouseClicked
+        // TODO add your handling code here:
+        About about = new About();
+        about.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_aboutMouseClicked
 
     /**
      * @param args the command line arguments
