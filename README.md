@@ -45,7 +45,7 @@ Tekken Tactics is a Java-based desktop application designed to help Tekken enthu
   - Java Swing for GUI.
 
 ## Contributions
-This application was developed by [Your Name] as part of a Visual Programming coursework project. Contributions and suggestions are welcome for future updates.
+This application was developed by [Dammar Syaputra](https://github.com/dammar01), [Muhammad Haris](https://github.com/muharriss), [Haikal Bagas Putra](https://github.com/ImDeshi), and Andika as part of a Visual Programming coursework project. Contributions and suggestions are welcome for future updates.
 
 ## License
 Tekken Tactics is a personal project and is not intended for commercial use. All rights reserved.
