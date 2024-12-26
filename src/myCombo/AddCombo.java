@@ -65,6 +65,9 @@ public class AddCombo extends javax.swing.JFrame {
                 notation.setPreferredSize(new Dimension(old_notation_rect.width, old_notation_rect.height));
                 notation.setBounds(old_notation_rect.x, old_notation_rect.y, old_notation_rect.width,
                         old_notation_rect.height + 74);
+                
+                root.setPreferredSize(new Dimension(root.getPreferredSize().width, root.getPreferredSize().height + 74));
+                reloadPanel(root);
                 reloadPanel(notation);
                 reloadPanel(notation_data);
             }
@@ -94,6 +97,9 @@ public class AddCombo extends javax.swing.JFrame {
                 notation.setPreferredSize(new Dimension(old_notation_rect.width, old_notation_rect.height));
                 notation.setBounds(old_notation_rect.x, old_notation_rect.y, old_notation_rect.width,
                         old_notation_rect.height - 74);
+                
+                root.setPreferredSize(new Dimension(root.getPreferredSize().width, root.getPreferredSize().height - 74));
+                reloadPanel(root);
                 reloadPanel(notation);
                 reloadPanel(notation_data);
             }

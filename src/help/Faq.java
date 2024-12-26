@@ -59,9 +59,9 @@ public class Faq extends javax.swing.JFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         scrollPane.setBounds(0, 0, main.getWidth(), 650);
         add(scrollPane);
-//        if (!Session.isAdmin()){
-//            btn_edit.setVisible(false);
-//        }        
+        if (!Session.isAdmin()){
+            btn_edit.setVisible(false);
+        }
         
     }
 

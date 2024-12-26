@@ -146,7 +146,7 @@ public class Help extends javax.swing.JFrame {
 
         pHelp.add(roundedPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 449, 46));
 
-        myAccount.setBackground(new java.awt.Color(202, 28, 77));
+        myAccount.setBackground(new java.awt.Color(147, 1, 57));
         myAccount.setPreferredSize(new java.awt.Dimension(280, 280));
         myAccount.setRoundBottomLeft(50);
         myAccount.setRoundBottomRight(50);
@@ -154,6 +154,7 @@ public class Help extends javax.swing.JFrame {
         myAccount.setRoundTopRight(50);
         myAccount.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        ropaLabel3.setForeground(new java.awt.Color(153, 153, 153));
         ropaLabel3.setText("My Account");
         ropaLabel3.setFontSize(19.0F);
         myAccount.add(ropaLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 64, 100, -1));
@@ -188,7 +189,7 @@ public class Help extends javax.swing.JFrame {
 
         pHelp.add(about, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 150, 150));
 
-        guide.setBackground(new java.awt.Color(202, 28, 77));
+        guide.setBackground(new java.awt.Color(147, 1, 57));
         guide.setPreferredSize(new java.awt.Dimension(280, 280));
         guide.setRoundBottomLeft(50);
         guide.setRoundBottomRight(50);
@@ -196,6 +197,7 @@ public class Help extends javax.swing.JFrame {
         guide.setRoundTopRight(50);
         guide.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        ropaLabel5.setForeground(new java.awt.Color(153, 153, 153));
         ropaLabel5.setText("Guide");
         ropaLabel5.setFontSize(19.0F);
         guide.add(ropaLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 50, 50, 50));
@@ -205,7 +207,7 @@ public class Help extends javax.swing.JFrame {
 
         pHelp.add(guide, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, 150, 150));
 
-        announcement.setBackground(new java.awt.Color(202, 28, 77));
+        announcement.setBackground(new java.awt.Color(147, 1, 57));
         announcement.setPreferredSize(new java.awt.Dimension(280, 280));
         announcement.setRoundBottomLeft(50);
         announcement.setRoundBottomRight(50);
@@ -213,6 +215,7 @@ public class Help extends javax.swing.JFrame {
         announcement.setRoundTopRight(50);
         announcement.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        ropaLabel7.setForeground(new java.awt.Color(153, 153, 153));
         ropaLabel7.setText("Announcement");
         ropaLabel7.setFontSize(19.0F);
         announcement.add(ropaLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 120, 50));
@@ -222,7 +225,7 @@ public class Help extends javax.swing.JFrame {
 
         pHelp.add(announcement, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, 150, 150));
 
-        feedback.setBackground(new java.awt.Color(202, 28, 77));
+        feedback.setBackground(new java.awt.Color(147, 1, 57));
         feedback.setPreferredSize(new java.awt.Dimension(280, 280));
         feedback.setRoundBottomLeft(50);
         feedback.setRoundBottomRight(50);
@@ -230,6 +233,7 @@ public class Help extends javax.swing.JFrame {
         feedback.setRoundTopRight(50);
         feedback.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        ropaLabel8.setForeground(new java.awt.Color(153, 153, 153));
         ropaLabel8.setText("Feedback");
         ropaLabel8.setFontSize(19.0F);
         feedback.add(ropaLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 80, 50));

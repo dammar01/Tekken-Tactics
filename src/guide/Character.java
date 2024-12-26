@@ -8,14 +8,19 @@ import home.Home;
 import java.sql.ResultSet;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import utils.helper.Db;
 import utils.helper.ScrollBar;
+import utils.helper.Session;
 
 /**
  *
@@ -23,12 +28,17 @@ import utils.helper.ScrollBar;
  */
 public class Character extends javax.swing.JFrame {
 
+    private HashMap<String, String> this_data = new HashMap<>();
+    private int row_selected = -1;
+
     /**
      * Creates new form Guide
      */
     private List<String> convertArray(String string_data) {
         String cleanedData = string_data.replace("[", "").replace("]", "");
-        if (cleanedData.contains("\"")) cleanedData.replace("\"", "");
+        if (cleanedData.contains("\"")) {
+            cleanedData.replace("\"", "");
+        }
         String[] array = cleanedData.split(",\\s*");
         List<String> list = new ArrayList<>(Arrays.asList(array));
         return list;
@@ -42,9 +52,125 @@ public class Character extends javax.swing.JFrame {
         newArray[original.length] = newRow;
         return newArray;
     }
+    private void removeData(int row){
+        int id = movesheetTable1.getSelectedRowId(row);
+        Db db = new Db();
+        try{
+            db.connect();
+            String q = "DELETE FROM `movesheet` WHERE `id` = ?";
+            db.executeUpdate(q, id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void activateBtn() {
+        btn_edit.setBackground(new Color(240, 148, 11));
+        btn_del.setBackground(new Color(251, 59, 87));
+        label_del.setForeground(Color.white);
+    }
+
+    private void disableBtn() {
+        btn_edit.setBackground(new Color(78, 57, 30));
+        btn_del.setBackground(new Color(42, 17, 44));
+        label_del.setForeground(new Color(187, 187, 187));
+    }
+
+    private void setupEventEdit() {
+        btn_edit.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (row_selected != -1) {
+                    btn_edit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_edit.setCursor(Cursor.getDefaultCursor());
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (row_selected != -1) {
+                    int id = movesheetTable1.getSelectedRowId(row_selected);
+                    ManageMovesheet manage_movesheet = new ManageMovesheet(this_data, id);
+                    manage_movesheet.setVisible(true);
+                    dispose();
+                }
+            }
+        });
+    }
+
+    private void setupEventDelete() {
+        btn_del.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (row_selected != -1) {
+                    btn_del.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btn_del.setCursor(Cursor.getDefaultCursor());
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (row_selected != -1) {
+                    int response = JOptionPane.showConfirmDialog(
+                            null,
+                            "Are you sure to delete this data?",
+                            "Confirmation",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE
+                    );
+
+                    if (response == JOptionPane.YES_OPTION) {
+                        removeData(row_selected);
+                        movesheetTable1.removeSelectedRowData(row_selected);
+                        disableBtn();
+                        row_selected = -1;
+                        JOptionPane.showMessageDialog(root, "Delete data successful!");
+                    }
+                }
+            }
+        });
+    }
+
+    private void tableOnSelect() {
+        ListSelectionModel selectionModel = movesheetTable1.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        selectionModel.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = movesheetTable1.getSelectedRow();
+                if (selectedRow != -1) {
+                    row_selected = selectedRow;
+                    activateBtn();
+                }
+            }
+        });
+    }
 
     public Character() throws SQLException {
         initComponents();
+        this_data.put("id", "7");
+        this_data.put("name", "Dragunov");
+        this_data.put("code", "dragunov");
+        if (Session.isAdmin()) {
+            tableOnSelect();
+            setupEventEdit();
+            setupEventDelete();
+        } else {
+            movesheet.remove(btn_manage);
+        }
 
         Db db = new Db();
         db.connect();
@@ -55,9 +181,17 @@ public class Character extends javax.swing.JFrame {
             ArrayList<ImageIcon> img_movesheet = new ArrayList<>();
             List<String> notation_data = convertArray(raw_movesheet.getString("notation"));
             for (String item : notation_data) {
-                img_movesheet.add(new ImageIcon(getClass().getResource("/image/button/32x32/" + item + ".png")));
+                ImageIcon img = new ImageIcon(getClass().getResource("/image/button/32x32/default.png"));
+                try {
+                    item = item.replace("\"", "");
+                    img = new ImageIcon(getClass().getResource("/image/button/32x32/" + item + ".png"));
+                } catch (NullPointerException e) {
+                    System.out.println("Notation " + item + " not found");
+                }
+                img_movesheet.add(img);
             }
             Object[] new_data = {
+                raw_movesheet.getString("id"),
                 img_movesheet,
                 raw_movesheet.getString("name_move"),
                 raw_movesheet.getString("damage"),
@@ -79,6 +213,16 @@ public class Character extends javax.swing.JFrame {
 
     public Character(HashMap<String, String> raw) throws SQLException {
         initComponents();
+        if (Session.isAdmin()) {
+            tableOnSelect();
+            setupEventEdit();
+            setupEventDelete();
+        } else {
+            movesheet.remove(btn_manage);
+        }
+        this_data.put("id", raw.get("id"));
+        this_data.put("code", raw.get("code"));
+        this_data.put("name", raw.get("name"));
 
         Db db = new Db();
         db.connect();
@@ -120,9 +264,17 @@ public class Character extends javax.swing.JFrame {
             ArrayList<ImageIcon> img_movesheet = new ArrayList<>();
             List<String> notation_data = convertArray(raw_movesheet.getString("notation"));
             for (String item : notation_data) {
-                img_movesheet.add(new ImageIcon(getClass().getResource("/image/button/32x32/" + item + ".png")));
+                ImageIcon img = new ImageIcon(getClass().getResource("/image/button/32x32/default.png"));
+                try {
+                    item = item.replace("\"", "");
+                    img = new ImageIcon(getClass().getResource("/image/button/32x32/" + item + ".png"));
+                } catch (NullPointerException e) {
+                    System.out.println("Notation " + item + " not found");
+                }
+                img_movesheet.add(img);
             }
             Object[] new_data = {
+                raw_movesheet.getString("id"),
                 img_movesheet,
                 raw_movesheet.getString("name_move"),
                 raw_movesheet.getString("damage"),
@@ -150,6 +302,7 @@ public class Character extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         root = new javax.swing.JPanel();
         main = new javax.swing.JPanel();
@@ -181,6 +334,13 @@ public class Character extends javax.swing.JFrame {
         movesheet = new utils.helper.RoundedPanel();
         movesheet_title = new utils.helper.RopaLabel();
         movesheetTable1 = new utils.helper.MovesheetTable();
+        btn_manage = new javax.swing.JPanel();
+        btn_add = new utils.helper.RoundedPanel();
+        label_add = new utils.helper.RopaLabel();
+        btn_edit = new utils.helper.RoundedPanel();
+        label_edit = new utils.helper.RopaLabel();
+        btn_del = new utils.helper.RoundedPanel();
+        label_del = new utils.helper.RopaLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -363,29 +523,84 @@ public class Character extends javax.swing.JFrame {
         movesheet.setRoundBottomRight(20);
         movesheet.setRoundTopLeft(20);
         movesheet.setRoundTopRight(20);
+        movesheet.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        movesheet_title.setText("| Move sheet");
+        movesheet_title.setText("| Movesheet");
+        movesheet.add(movesheet_title, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 17, 190, -1));
+        movesheet.add(movesheetTable1, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 62, -1, 355));
 
-        javax.swing.GroupLayout movesheetLayout = new javax.swing.GroupLayout(movesheet);
-        movesheet.setLayout(movesheetLayout);
-        movesheetLayout.setHorizontalGroup(
-            movesheetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(movesheetLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(movesheetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(movesheetTable1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(movesheet_title, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
-        movesheetLayout.setVerticalGroup(
-            movesheetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(movesheetLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(movesheet_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(movesheetTable1, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
-        );
+        btn_manage.setBackground(new java.awt.Color(66, 21, 50));
+        btn_manage.setLayout(new java.awt.GridBagLayout());
+
+        btn_add.setBackground(new java.awt.Color(52, 255, 67));
+        btn_add.setRoundBottomLeft(10);
+        btn_add.setRoundBottomRight(10);
+        btn_add.setRoundTopLeft(10);
+        btn_add.setRoundTopRight(10);
+        btn_add.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_addMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn_addMouseEntered(evt);
+            }
+        });
+
+        label_add.setForeground(new java.awt.Color(0, 0, 0));
+        label_add.setText("Add");
+        label_add.setFontSize(18.0F);
+        btn_add.add(label_add);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 43;
+        gridBagConstraints.ipady = -1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(35, 0, 35, 0);
+        btn_manage.add(btn_add, gridBagConstraints);
+
+        btn_edit.setBackground(new java.awt.Color(78, 57, 30));
+        btn_edit.setRoundBottomLeft(10);
+        btn_edit.setRoundBottomRight(10);
+        btn_edit.setRoundTopLeft(10);
+        btn_edit.setRoundTopRight(10);
+
+        label_edit.setForeground(new java.awt.Color(0, 0, 0));
+        label_edit.setText("Edit");
+        label_edit.setFontSize(18.0F);
+        btn_edit.add(label_edit);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 42;
+        gridBagConstraints.ipady = -1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(35, 10, 35, 0);
+        btn_manage.add(btn_edit, gridBagConstraints);
+
+        btn_del.setBackground(new java.awt.Color(42, 17, 44));
+        btn_del.setRoundBottomLeft(10);
+        btn_del.setRoundBottomRight(10);
+        btn_del.setRoundTopLeft(10);
+        btn_del.setRoundTopRight(10);
+
+        label_del.setForeground(new java.awt.Color(102, 102, 102));
+        label_del.setText("Delete");
+        label_del.setFontSize(18.0F);
+        btn_del.add(label_del);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 25;
+        gridBagConstraints.ipady = -1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(35, 10, 35, 0);
+        btn_manage.add(btn_del, gridBagConstraints);
+
+        movesheet.add(btn_manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 20, -1, 40));
 
         main.add(movesheet);
         movesheet.setBounds(80, 460, 1100, 450);
@@ -445,6 +660,18 @@ public class Character extends javax.swing.JFrame {
         home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_home_pathMouseEntered
 
+    private void btn_addMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_addMouseEntered
+        // TODO add your handling code here:
+        evt.getComponent().setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_btn_addMouseEntered
+
+    private void btn_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_addMouseClicked
+        // TODO add your handling code here:
+        ManageMovesheet manage_movesheet = new ManageMovesheet(this_data);
+        manage_movesheet.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_addMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -487,6 +714,10 @@ public class Character extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private utils.helper.RoundedPanel back;
+    private utils.helper.RoundedPanel btn_add;
+    private utils.helper.RoundedPanel btn_del;
+    private utils.helper.RoundedPanel btn_edit;
+    private javax.swing.JPanel btn_manage;
     private utils.helper.CharacterItem characterItem1;
     private utils.helper.RoundedPanel character_abilites;
     private utils.helper.RopaLabel character_abilites_title;
@@ -501,6 +732,9 @@ public class Character extends javax.swing.JFrame {
     private utils.helper.RopaLabel guide_path;
     private utils.helper.RopaLabel guide_path1;
     private utils.helper.RopaLabel home_path;
+    private utils.helper.RopaLabel label_add;
+    private utils.helper.RopaLabel label_del;
+    private utils.helper.RopaLabel label_edit;
     private javax.swing.JPanel main;
     private javax.swing.JPanel mobility;
     private utils.helper.RopaItalicLabel mobility_title;

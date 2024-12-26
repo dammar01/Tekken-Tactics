@@ -23,14 +23,15 @@ public class MovesheetTable extends JPanel {
     // Setup columns of the table
     public void setupColumn() {
         // Set fixed column widths
-        setColumnWidth(table, 0, 200);
+        setColumnWidth(table, 0, 0);
         setColumnWidth(table, 1, 200);
-        setColumnWidth(table, 2, 80);
-        setColumnWidth(table, 3, 100);
+        setColumnWidth(table, 2, 200);
+        setColumnWidth(table, 3, 80);
         setColumnWidth(table, 4, 100);
-        setColumnWidth(table, 5, 356);
+        setColumnWidth(table, 5, 100);
+        setColumnWidth(table, 6, 356);
         table.setDragEnabled(false);
-        table.setCellSelectionEnabled(false);
+        table.setCellSelectionEnabled(true);
         table.setColumnSelectionAllowed(false);
         table.setBackground(new Color(66, 21, 50));
         table.setForeground(Color.white);
@@ -45,7 +46,7 @@ public class MovesheetTable extends JPanel {
         header.setFocusable(false);
 
         CustomCellRenderer customColumn = new CustomCellRenderer();
-        for (int i = 1; i < table.getColumnCount(); i++) {
+        for (int i = 2; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(customColumn);
         }
     }
@@ -57,13 +58,13 @@ public class MovesheetTable extends JPanel {
         this.font = loadFont("/utils/font/RopaSans-Regular.ttf", 16f);
 
         // Column names and initial empty data
-        String[] columnNames = {"Moveset", "Name move", "Damage", "Frame startup", "Hit properties", "Notes"};
+        String[] columnNames = {"id", "Moveset", "Name move", "Damage", "Frame startup", "Hit properties", "Notes"};
         Object[][] data = {};
 
         // Create custom table model and set it to the table
         DefaultTableModel model = new MultiImageTableModel(data, columnNames);
         this.table = new JTable(model);
-        this.table.getColumnModel().getColumn(0).setCellRenderer(new MultiImageRenderer());
+        this.table.getColumnModel().getColumn(1).setCellRenderer(new MultiImageRenderer());
         this.table.setPreferredScrollableViewportSize(new Dimension(1036, 100));
         this.scrollPane = new ScrollBar(this.table);
         add(scrollPane, BorderLayout.CENTER);
@@ -106,12 +107,42 @@ public class MovesheetTable extends JPanel {
 
     // Set data for the table
     public void setData(Object[][] data) {
-        String[] columnNames = {"Moveset", "Name move", "Damage", "Frame startup", "Hit properties", "Notes"};
+        String[] columnNames = {"id", "Moveset", "Name move", "Damage", "Frame startup", "Hit properties", "Notes"};
         MultiImageTableModel model = new MultiImageTableModel(data, columnNames);
         this.table.setModel(model);
-        this.table.getColumnModel().getColumn(0).setCellRenderer(new MultiImageRenderer());
+        this.table.getColumnModel().getColumn(1).setCellRenderer(new MultiImageRenderer());
         this.adjustRowHeights();
         this.setupColumn();
+    }
+    
+    public void removeSelectedRowData(int row) {
+        DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+        model.removeRow(row);
+    }
+
+    public ListSelectionModel getSelectionModel() {
+        return this.table.getSelectionModel();
+    }
+
+    public int getSelectedRow() {
+        return this.table.getSelectedRow();
+    }
+
+    public Integer getSelectedRowId(int rowIndex) {
+        if (rowIndex < 0 || rowIndex >= table.getRowCount()) {
+            throw new IllegalArgumentException("Row index out of bounds.");
+        }
+
+        Object value = table.getValueAt(rowIndex, 0);
+        if (value == null) {
+            throw new NullPointerException("The value at the specified row and column is null.");
+        }
+
+        try {
+            return Integer.valueOf(value.toString());
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("The value cannot be converted to an Integer.");
+        }
     }
 
     public class CustomHeaderRenderer extends DefaultTableCellRenderer {
@@ -179,11 +210,17 @@ public class MovesheetTable extends JPanel {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             textArea.setText(value != null ? value.toString() : "");
             textArea.setSize(table.getColumnModel().getColumn(column).getWidth(), Short.MAX_VALUE);
-
             // Adjust height based on the content
             int preferredHeight = textArea.getPreferredSize().height;
             table.setRowHeight(row, Math.max(preferredHeight + 30, table.getRowHeight()));
             textArea.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
+            if (isSelected) {
+                textArea.setBackground(new Color(202, 28, 100));
+            } else {
+                textArea.setBackground(new Color(66, 21, 50));
+            }
+            textArea.revalidate();
+            textArea.repaint();
             return textArea;
         }
     }
@@ -198,7 +235,7 @@ public class MovesheetTable extends JPanel {
         @Override
         public Class<?> getColumnClass(int columnIndex) {
             // Set column 0 to handle List<ImageIcon> as its value type
-            if (columnIndex == 0) {
+            if (columnIndex == 1) {
                 return List.class;
             }
             return String.class;
@@ -232,6 +269,14 @@ public class MovesheetTable extends JPanel {
                     panel.add(label);
                 }
                 panel.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
+
+                if (isSelected) {
+                    panel.setBackground(new Color(202, 28, 100));
+                } else {
+                    panel.setBackground(new Color(66, 21, 50));
+                }
+                panel.revalidate();
+                panel.repaint();
                 return panel;
             }
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);

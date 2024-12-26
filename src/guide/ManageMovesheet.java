@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package myCombo;
+package guide;
 
+import myCombo.*;
 import auth.Login;
 import home.Home;
 import java.awt.Cursor;
@@ -14,7 +15,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,12 +35,22 @@ import utils.helper.Session;
  *
  * @author Dammar
  */
-public class AddCombo extends javax.swing.JFrame {
+public class ManageMovesheet extends javax.swing.JFrame {
 
     /**
      * Creates new form Guide
      */
+    private HashMap<String, String> character_data = new HashMap<>();
     private LinkedList<String> notation_list = new LinkedList<>();
+    private int id = -1;
+
+    private String[] convertArray(String string_data) {
+        String cleanedData = string_data.replace("[", "").replace("]", "");
+        if (cleanedData.contains("\"")) {
+            cleanedData = cleanedData.replace("\"", "");
+        }
+        return cleanedData.split(",\\s*");
+    }
 
     private void reloadPanel(JPanel panel) {
         panel.revalidate();
@@ -65,8 +81,48 @@ public class AddCombo extends javax.swing.JFrame {
                 notation.setPreferredSize(new Dimension(old_notation_rect.width, old_notation_rect.height));
                 notation.setBounds(old_notation_rect.x, old_notation_rect.y, old_notation_rect.width,
                         old_notation_rect.height + 74);
+                root.setPreferredSize(new Dimension(root.getPreferredSize().width, root.getPreferredSize().height + 74));
+                reloadPanel(root);
                 reloadPanel(notation);
                 reloadPanel(notation_data);
+
+            }
+        }
+        JLabel label = new JLabel("");
+        label.setIcon(source.getIcon());
+        notation_input.add(label);
+        notation_input.revalidate();
+        notation_input.repaint();
+    }
+
+    private void addNotation(JLabel source) {
+        int componentCount = notation_input.getComponentCount();
+        Rectangle max_size = notation_input.getBounds();
+        File image = new File(source.getIcon().toString());
+        String file_name = image.getName().replace("%5e", "^");
+
+        this.notation_list.add(file_name.substring(0, file_name.length() - 4));
+        if (componentCount > 0) {
+            JLabel lastComponent = (JLabel) notation_input.getComponent(componentCount - 1);
+            if (lastComponent.getBounds().x + lastComponent.getIcon().getIconWidth()
+                    + source.getIcon().getIconWidth() > max_size.width) {
+                max_size.height += 74;
+                notation_input.setPreferredSize(new Dimension(max_size.width, max_size.height));
+                notation_input.setBounds(max_size);
+
+                Rectangle old_notation_data_rect = notation_data.getBounds();
+                notation_data.setBounds(old_notation_data_rect.x, old_notation_data_rect.y + 74,
+                        old_notation_data_rect.width, old_notation_data_rect.height);
+
+                Rectangle old_notation_rect = notation.getBounds();
+                notation.setPreferredSize(new Dimension(old_notation_rect.width, old_notation_rect.height));
+                notation.setBounds(old_notation_rect.x, old_notation_rect.y, old_notation_rect.width,
+                        old_notation_rect.height + 74);
+                root.setPreferredSize(new Dimension(root.getPreferredSize().width, root.getPreferredSize().height + 74));
+                reloadPanel(root);
+                reloadPanel(notation);
+                reloadPanel(notation_data);
+
             }
         }
         JLabel label = new JLabel("");
@@ -94,6 +150,9 @@ public class AddCombo extends javax.swing.JFrame {
                 notation.setPreferredSize(new Dimension(old_notation_rect.width, old_notation_rect.height));
                 notation.setBounds(old_notation_rect.x, old_notation_rect.y, old_notation_rect.width,
                         old_notation_rect.height - 74);
+
+                root.setPreferredSize(new Dimension(root.getPreferredSize().width, root.getPreferredSize().height - 74));
+                reloadPanel(root);
                 reloadPanel(notation);
                 reloadPanel(notation_data);
             }
@@ -113,24 +172,59 @@ public class AddCombo extends javax.swing.JFrame {
     }
 
     private void resetInput() {
+        input_damage.setText("");
+        input_frame_start.setText("");
+        input_hit_properties.setSelectedItem("Select Hit Properties");
+        input_name_move.setText("");
+        input_notes.setText("");
         clearAllNotations();
-        version_input.setText("");
-        input_character.setSelectedIndex(0);
-        total_damages_input.setText("");
-        total_hits_input.setText("");
     }
 
-    private void setupCharacterInput() {
+    private void insertData(HashMap<String, String> data) {
         Db db = new Db();
         try {
             db.connect();
-            String selectQuery = "SELECT * FROM `character` WHERE `tier` != '-' ORDER BY `id`";
-            ResultSet resultSet = db.executeQuery(selectQuery);
-            input_character.addItem("Select character");
-            while (resultSet.next()) {
-                input_character.addItem(resultSet.getString("name"));
+            String q = "INSERT INTO `movesheet` (`character_id`, `notation`, `name_move`, `damage`, `frame_startup`, `hit_properties`, `notes`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            db.executeUpdate(
+                    q,
+                    character_data.get("id"),
+                    data.get("notation"),
+                    data.get("name_move"),
+                    data.get("damage"),
+                    data.get("frame_startup"),
+                    data.get("hit_properties"),
+                    data.get("notes")
+            );
+            JOptionPane.showMessageDialog(this, "Add data successful!");
+            resetInput();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            input_character.setSelectedIndex(0);
+        }
+    }
+
+    private void updateData(HashMap<String, String> data) {
+        Db db = new Db();
+        try {
+            db.connect();
+            String q = "UPDATE `movesheet` SET `notation` = ?, `name_move` = ?, `damage` = ?, `frame_startup` = ?, `hit_properties` = ?, `notes` = ? WHERE id = ?";
+            db.executeUpdate(
+                    q,
+                    data.get("notation"),
+                    data.get("name_move"),
+                    data.get("damage"),
+                    data.get("frame_startup"),
+                    data.get("hit_properties"),
+                    data.get("notes"),
+                    id
+            );
+            JOptionPane.showMessageDialog(this, "Update data successful!");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -142,8 +236,8 @@ public class AddCombo extends javax.swing.JFrame {
         }
     }
 
-    private void changeScrollBar() {
-        input_character.setUI(new BasicComboBoxUI() {
+    private void changeScrollBar(JComboBox combo_box) {
+        combo_box.setUI(new BasicComboBoxUI() {
             @Override
             protected ComboPopup createPopup() {
                 return new BasicComboPopup(comboBox) {
@@ -157,19 +251,94 @@ public class AddCombo extends javax.swing.JFrame {
         });
     }
 
-    public AddCombo() {
-        // setExtendedState(JFrame.MAXIMIZED_BOTH);
-        System.out.println("Session ID: " + Session.getId());
-        if (Session.getId() == null) {
-            Login login = new Login();
-            login.setVisible(true);
-            this.dispose();
-            return;
+    private void fillInput() {
+        Db db = new Db();
+        try {
+            db.connect();
+            String q = "SELECT * FROM `movesheet` WHERE id = ? LIMIT 1";
+            ResultSet res = db.executeQuery(q, id);
+            while (res.next()) {
+                input_damage.setText(res.getString("damage"));
+                input_frame_start.setText(res.getString("frame_startup"));
+                input_hit_properties.setSelectedItem(res.getString("hit_properties"));
+                input_name_move.setText(res.getString("name_move"));
+                input_notes.setText(res.getString("notes"));
+                String[] notation = convertArray(res.getString("notation"));
+                for (String nota : notation) {
+                    JLabel label = new JLabel();
+                    ImageIcon img = new ImageIcon(getClass().getResource("/image/button/64x64/default.png"));
+                    try {
+                        img = new ImageIcon(getClass().getResource("/image/button/64x64/" + nota + ".png"));
+                    } catch (NullPointerException e) {
+                        System.out.println("Notation " + nota + " not found");
+                    }
+                    label.setIcon(img);
+                    addNotation(label);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public ManageMovesheet() {
+        character_data.clear();
         initComponents();
-        setupCharacterInput();
-        changeScrollBar();
+        changeScrollBar(input_hit_properties);
+
+        character_data.put("id", "34");
+        character_data.put("name", "Yoshimitsu");
+        character_data.put("code", "yoshimitsu");
+
         reloadPanel(root);
+        ScrollBar scrollPane = new ScrollBar(root);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBar(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.setBounds(0, 0, main.getWidth(), 650);
+        add(scrollPane);
+    }
+
+    public ManageMovesheet(HashMap<String, String> char_data) {
+        character_data.clear();
+        initComponents();
+        changeScrollBar(input_hit_properties);
+
+        character_data.put("id", char_data.get("id"));
+        character_data.put("name", char_data.get("name"));
+        character_data.put("code", char_data.get("code"));
+
+        reloadPanel(root);
+        character_path.setText("/ " + char_data.get("name"));
+
+        ScrollBar scrollPane = new ScrollBar(root);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBar(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.setBounds(0, 0, main.getWidth(), 650);
+        add(scrollPane);
+    }
+
+    public ManageMovesheet(HashMap<String, String> char_data, int id) {
+        this.id = id;
+        character_data.clear();
+        initComponents();
+        fillInput();
+        changeScrollBar(input_hit_properties);
+
+        character_data.put("id", char_data.get("id"));
+        character_data.put("name", char_data.get("name"));
+        character_data.put("code", char_data.get("code"));
+
+        reloadPanel(root);
+        character_path.setText("/ " + char_data.get("name"));
+
         ScrollBar scrollPane = new ScrollBar(root);
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBar(null);
@@ -191,25 +360,23 @@ public class AddCombo extends javax.swing.JFrame {
         root = new javax.swing.JPanel();
         main = new javax.swing.JPanel();
         home_path = new utils.helper.RopaLabel();
+        manage_movesheet_path = new utils.helper.RopaLabel();
+        character_path = new utils.helper.RopaLabel();
         guide_path1 = new utils.helper.RopaLabel();
-        add_combo = new utils.helper.RopaLabel();
+        container_name_move = new javax.swing.JPanel();
+        area_name_move = new utils.helper.RoundedPanel();
+        input_name_move = new javax.swing.JTextField();
+        label_name_move = new utils.helper.RopaLabel();
+        container_damage = new javax.swing.JPanel();
+        area_damage = new utils.helper.RoundedPanel();
+        input_damage = new javax.swing.JTextField();
+        label_damage = new utils.helper.RopaLabel();
+        container_frame_start = new javax.swing.JPanel();
+        area_frame_start = new utils.helper.RoundedPanel();
+        input_frame_start = new javax.swing.JTextField();
+        label_frame_start = new utils.helper.RopaLabel();
         back = new utils.helper.RoundedPanel();
         ropaLabel1 = new utils.helper.RopaLabel();
-        version = new javax.swing.JPanel();
-        version_area = new utils.helper.RoundedPanel();
-        version_input = new javax.swing.JTextField();
-        version_label = new utils.helper.RopaLabel();
-        total_hits = new javax.swing.JPanel();
-        total_hits_area = new utils.helper.RoundedPanel();
-        total_hits_input = new javax.swing.JTextField();
-        total_hits_label = new utils.helper.RopaLabel();
-        total_damages = new javax.swing.JPanel();
-        total_damages_area = new utils.helper.RoundedPanel();
-        total_damages_input = new javax.swing.JTextField();
-        total_damages_label = new utils.helper.RopaLabel();
-        character = new javax.swing.JPanel();
-        character_label = new utils.helper.RopaLabel();
-        input_character = new javax.swing.JComboBox<>();
         save = new utils.helper.RoundedPanel();
         save_label = new utils.helper.RopaLabel();
         backspace = new utils.helper.RoundedPanel();
@@ -285,20 +452,27 @@ public class AddCombo extends javax.swing.JFrame {
         btn_ddash = new javax.swing.JLabel();
         btn_iwr = new javax.swing.JLabel();
         btn_iws = new javax.swing.JLabel();
+        container_hit_properties = new javax.swing.JPanel();
+        label_hit_properties = new utils.helper.RopaLabel();
+        input_hit_properties = new javax.swing.JComboBox<>();
+        container_notes = new javax.swing.JPanel();
+        label_notes = new utils.helper.RopaLabel();
+        area_notes = new utils.helper.RoundedPanel();
+        input_notes = new utils.helper.TextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-        setPreferredSize(new java.awt.Dimension(1300, 650));
+        setPreferredSize(new java.awt.Dimension(1287, 650));
         setResizable(false);
 
         root.setMinimumSize(new java.awt.Dimension(1287, 650));
-        root.setPreferredSize(new java.awt.Dimension(1281, 931));
+        root.setPreferredSize(new java.awt.Dimension(1281, 1099));
         root.setLayout(new javax.swing.BoxLayout(root, javax.swing.BoxLayout.LINE_AXIS));
 
         main.setBackground(new java.awt.Color(8, 18, 38));
         main.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         main.setMinimumSize(new java.awt.Dimension(0, 0));
-        main.setPreferredSize(new java.awt.Dimension(1290, 650));
+        main.setPreferredSize(new java.awt.Dimension(1290, 1099));
         main.setLayout(null);
 
         home_path.setText("Home /");
@@ -314,23 +488,165 @@ public class AddCombo extends javax.swing.JFrame {
         main.add(home_path);
         home_path.setBounds(50, 50, 60, 22);
 
-        guide_path1.setText("/ Add Combo");
-        guide_path1.setFontSize(20.0F);
-        main.add(guide_path1);
-        guide_path1.setBounds(190, 50, 100, 22);
+        manage_movesheet_path.setText("/ Manage Movesheet");
+        manage_movesheet_path.setFontSize(20.0F);
+        main.add(manage_movesheet_path);
+        manage_movesheet_path.setBounds(260, 50, 160, 22);
 
-        add_combo.setText("  My Combo");
-        add_combo.setFontSize(20.0F);
-        add_combo.addMouseListener(new java.awt.event.MouseAdapter() {
+        character_path.setText("/ Yoshimitsu");
+        character_path.setFontSize(20.0F);
+        character_path.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                add_comboMouseClicked(evt);
+                character_pathMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                add_comboMouseEntered(evt);
+                character_pathMouseEntered(evt);
             }
         });
-        main.add(add_combo);
-        add_combo.setBounds(100, 50, 100, 22);
+        main.add(character_path);
+        character_path.setBounds(160, 50, 110, 22);
+
+        guide_path1.setText("  Guide");
+        guide_path1.setFontSize(20.0F);
+        guide_path1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                guide_path1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                guide_path1MouseEntered(evt);
+            }
+        });
+        main.add(guide_path1);
+        guide_path1.setBounds(100, 50, 60, 22);
+
+        container_name_move.setBackground(new java.awt.Color(8, 18, 38));
+        container_name_move.setLayout(null);
+
+        area_name_move.setBackground(new java.awt.Color(217, 217, 217));
+        area_name_move.setRoundBottomLeft(10);
+        area_name_move.setRoundBottomRight(10);
+        area_name_move.setRoundTopLeft(10);
+        area_name_move.setRoundTopRight(10);
+
+        input_name_move.setBackground(new java.awt.Color(217, 217, 217));
+        input_name_move.setFont(label_name_move.getFont());
+        input_name_move.setForeground(new java.awt.Color(0, 0, 0));
+        input_name_move.setBorder(null);
+        input_name_move.setName("Evasiveness"); // NOI18N
+
+        javax.swing.GroupLayout area_name_moveLayout = new javax.swing.GroupLayout(area_name_move);
+        area_name_move.setLayout(area_name_moveLayout);
+        area_name_moveLayout.setHorizontalGroup(
+            area_name_moveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(area_name_moveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(input_name_move, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        area_name_moveLayout.setVerticalGroup(
+            area_name_moveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(area_name_moveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(input_name_move, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        container_name_move.add(area_name_move);
+        area_name_move.setBounds(0, 30, 260, 40);
+
+        label_name_move.setText("Name Move");
+        label_name_move.setFontSize(18.0F);
+        container_name_move.add(label_name_move);
+        label_name_move.setBounds(0, 10, 99, 20);
+
+        main.add(container_name_move);
+        container_name_move.setBounds(50, 110, 260, 70);
+
+        container_damage.setBackground(new java.awt.Color(8, 18, 38));
+        container_damage.setLayout(null);
+
+        area_damage.setBackground(new java.awt.Color(217, 217, 217));
+        area_damage.setRoundBottomLeft(10);
+        area_damage.setRoundBottomRight(10);
+        area_damage.setRoundTopLeft(10);
+        area_damage.setRoundTopRight(10);
+
+        input_damage.setBackground(new java.awt.Color(217, 217, 217));
+        input_damage.setFont(label_damage.getFont());
+        input_damage.setForeground(new java.awt.Color(0, 0, 0));
+        input_damage.setBorder(null);
+        input_damage.setName("Evasiveness"); // NOI18N
+
+        javax.swing.GroupLayout area_damageLayout = new javax.swing.GroupLayout(area_damage);
+        area_damage.setLayout(area_damageLayout);
+        area_damageLayout.setHorizontalGroup(
+            area_damageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(area_damageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(input_damage, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        area_damageLayout.setVerticalGroup(
+            area_damageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(area_damageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(input_damage, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        container_damage.add(area_damage);
+        area_damage.setBounds(0, 30, 100, 40);
+
+        label_damage.setText("Damage");
+        label_damage.setFontSize(18.0F);
+        container_damage.add(label_damage);
+        label_damage.setBounds(0, 10, 99, 20);
+
+        main.add(container_damage);
+        container_damage.setBounds(330, 110, 100, 70);
+
+        container_frame_start.setBackground(new java.awt.Color(8, 18, 38));
+        container_frame_start.setLayout(null);
+
+        area_frame_start.setBackground(new java.awt.Color(217, 217, 217));
+        area_frame_start.setRoundBottomLeft(10);
+        area_frame_start.setRoundBottomRight(10);
+        area_frame_start.setRoundTopLeft(10);
+        area_frame_start.setRoundTopRight(10);
+
+        input_frame_start.setBackground(new java.awt.Color(217, 217, 217));
+        input_frame_start.setFont(label_frame_start.getFont());
+        input_frame_start.setForeground(new java.awt.Color(0, 0, 0));
+        input_frame_start.setBorder(null);
+        input_frame_start.setName("Evasiveness"); // NOI18N
+
+        javax.swing.GroupLayout area_frame_startLayout = new javax.swing.GroupLayout(area_frame_start);
+        area_frame_start.setLayout(area_frame_startLayout);
+        area_frame_startLayout.setHorizontalGroup(
+            area_frame_startLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(area_frame_startLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(input_frame_start, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        area_frame_startLayout.setVerticalGroup(
+            area_frame_startLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(area_frame_startLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(input_frame_start, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        container_frame_start.add(area_frame_start);
+        area_frame_start.setBounds(0, 30, 100, 40);
+
+        label_frame_start.setText("Frame Start");
+        label_frame_start.setFontSize(18.0F);
+        container_frame_start.add(label_frame_start);
+        label_frame_start.setBounds(0, 10, 99, 20);
+
+        main.add(container_frame_start);
+        container_frame_start.setBounds(450, 110, 100, 70);
 
         back.setBackground(new java.awt.Color(123, 15, 58));
         back.setRoundBottomLeft(10);
@@ -354,156 +670,6 @@ public class AddCombo extends javax.swing.JFrame {
         main.add(back);
         back.setBounds(1080, 50, 130, 33);
 
-        version.setBackground(new java.awt.Color(8, 18, 38));
-        version.setLayout(null);
-
-        version_area.setBackground(new java.awt.Color(217, 217, 217));
-        version_area.setFont(ropaLabel1.getFont());
-        version_area.setRoundBottomLeft(10);
-        version_area.setRoundBottomRight(10);
-        version_area.setRoundTopLeft(10);
-        version_area.setRoundTopRight(10);
-
-        version_input.setBackground(new java.awt.Color(217, 217, 217));
-        version_input.setFont(ropaLabel1.getFont());
-        version_input.setBorder(null);
-
-        javax.swing.GroupLayout version_areaLayout = new javax.swing.GroupLayout(version_area);
-        version_area.setLayout(version_areaLayout);
-        version_areaLayout.setHorizontalGroup(
-            version_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(version_areaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(version_input, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        version_areaLayout.setVerticalGroup(
-            version_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(version_areaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(version_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        version.add(version_area);
-        version_area.setBounds(0, 30, 120, 50);
-
-        version_label.setText("Version");
-        version_label.setFontSize(18.0F);
-        version.add(version_label);
-        version_label.setBounds(0, 10, 99, 20);
-
-        main.add(version);
-        version.setBounds(50, 140, 120, 80);
-
-        total_hits.setBackground(new java.awt.Color(8, 18, 38));
-        total_hits.setLayout(null);
-
-        total_hits_area.setBackground(new java.awt.Color(217, 217, 217));
-        total_hits_area.setFont(ropaLabel1.getFont());
-        total_hits_area.setRoundBottomLeft(10);
-        total_hits_area.setRoundBottomRight(10);
-        total_hits_area.setRoundTopLeft(10);
-        total_hits_area.setRoundTopRight(10);
-
-        total_hits_input.setBackground(new java.awt.Color(217, 217, 217));
-        total_hits_input.setFont(ropaLabel1.getFont());
-        total_hits_input.setBorder(null);
-
-        javax.swing.GroupLayout total_hits_areaLayout = new javax.swing.GroupLayout(total_hits_area);
-        total_hits_area.setLayout(total_hits_areaLayout);
-        total_hits_areaLayout.setHorizontalGroup(
-            total_hits_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(total_hits_areaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(total_hits_input, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        total_hits_areaLayout.setVerticalGroup(
-            total_hits_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(total_hits_areaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(total_hits_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        total_hits.add(total_hits_area);
-        total_hits_area.setBounds(0, 30, 150, 50);
-
-        total_hits_label.setText("Total Hits");
-        total_hits_label.setFontSize(18.0F);
-        total_hits.add(total_hits_label);
-        total_hits_label.setBounds(0, 10, 99, 20);
-
-        main.add(total_hits);
-        total_hits.setBounds(190, 140, 150, 80);
-
-        total_damages.setBackground(new java.awt.Color(8, 18, 38));
-        total_damages.setLayout(null);
-
-        total_damages_area.setBackground(new java.awt.Color(217, 217, 217));
-        total_damages_area.setFont(ropaLabel1.getFont());
-        total_damages_area.setRoundBottomLeft(10);
-        total_damages_area.setRoundBottomRight(10);
-        total_damages_area.setRoundTopLeft(10);
-        total_damages_area.setRoundTopRight(10);
-
-        total_damages_input.setBackground(new java.awt.Color(217, 217, 217));
-        total_damages_input.setFont(ropaLabel1.getFont());
-        total_damages_input.setBorder(null);
-
-        javax.swing.GroupLayout total_damages_areaLayout = new javax.swing.GroupLayout(total_damages_area);
-        total_damages_area.setLayout(total_damages_areaLayout);
-        total_damages_areaLayout.setHorizontalGroup(
-            total_damages_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(total_damages_areaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(total_damages_input, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        total_damages_areaLayout.setVerticalGroup(
-            total_damages_areaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(total_damages_areaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(total_damages_input, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        total_damages.add(total_damages_area);
-        total_damages_area.setBounds(0, 30, 150, 50);
-
-        total_damages_label.setText("Total Damages");
-        total_damages_label.setFontSize(18.0F);
-        total_damages.add(total_damages_label);
-        total_damages_label.setBounds(0, 10, 110, 20);
-
-        main.add(total_damages);
-        total_damages.setBounds(360, 140, 150, 80);
-
-        character.setBackground(new java.awt.Color(8, 18, 38));
-        character.setLayout(null);
-
-        character_label.setText("Character");
-        character_label.setFontSize(18.0F);
-        character.add(character_label);
-        character_label.setBounds(0, 10, 110, 20);
-
-        input_character.setBackground(new java.awt.Color(217, 217, 217));
-        input_character.setFont(ropaLabel1.getFont());
-        input_character.setBorder(null);
-        input_character.setFocusable(false);
-        input_character.setPreferredSize(new java.awt.Dimension(140, 30));
-        input_character.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                input_characterActionPerformed(evt);
-            }
-        });
-        character.add(input_character);
-        input_character.setBounds(0, 30, 180, 50);
-
-        main.add(character);
-        character.setBounds(530, 140, 180, 80);
-
         save.setBackground(new java.awt.Color(52, 255, 67));
         save.setRoundBottomLeft(10);
         save.setRoundBottomRight(10);
@@ -525,7 +691,7 @@ public class AddCombo extends javax.swing.JFrame {
         save.add(save_label, new java.awt.GridBagConstraints());
 
         main.add(save);
-        save.setBounds(730, 150, 150, 70);
+        save.setBounds(960, 340, 150, 70);
 
         backspace.setBackground(new java.awt.Color(123, 15, 58));
         backspace.setRoundBottomLeft(10);
@@ -548,7 +714,7 @@ public class AddCombo extends javax.swing.JFrame {
         backspace.add(backspace_label, new java.awt.GridBagConstraints());
 
         main.add(backspace);
-        backspace.setBounds(900, 150, 90, 70);
+        backspace.setBounds(1130, 340, 90, 70);
 
         notation.setBackground(new java.awt.Color(8, 18, 38));
         notation.setLayout(null);
@@ -568,7 +734,7 @@ public class AddCombo extends javax.swing.JFrame {
         notation_input.setBounds(0, 30, 1160, 80);
 
         main.add(notation);
-        notation.setBounds(50, 250, 1160, 120);
+        notation.setBounds(50, 420, 1160, 120);
 
         notation_data.setBackground(new java.awt.Color(8, 18, 38));
         notation_data.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 20));
@@ -1311,7 +1477,72 @@ public class AddCombo extends javax.swing.JFrame {
         notation_data.add(btn_iws);
 
         main.add(notation_data);
-        notation_data.setBounds(30, 370, 1180, 540);
+        notation_data.setBounds(30, 540, 1180, 540);
+
+        container_hit_properties.setBackground(new java.awt.Color(8, 18, 38));
+        container_hit_properties.setLayout(null);
+
+        label_hit_properties.setText("Hit Properties");
+        label_hit_properties.setFontSize(18.0F);
+        container_hit_properties.add(label_hit_properties);
+        label_hit_properties.setBounds(0, 10, 110, 20);
+
+        input_hit_properties.setBackground(new java.awt.Color(217, 217, 217));
+        input_hit_properties.setFont(label_hit_properties.getFont());
+        input_hit_properties.setForeground(new java.awt.Color(0, 0, 0));
+        input_hit_properties.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Hit Properties", "High", "Mid", "Low" }));
+        input_hit_properties.setBorder(null);
+        input_hit_properties.setFocusable(false);
+        input_hit_properties.setPreferredSize(new java.awt.Dimension(140, 30));
+        input_hit_properties.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_hit_propertiesActionPerformed(evt);
+            }
+        });
+        container_hit_properties.add(input_hit_properties);
+        input_hit_properties.setBounds(0, 30, 200, 40);
+
+        main.add(container_hit_properties);
+        container_hit_properties.setBounds(570, 110, 200, 70);
+
+        container_notes.setBackground(new java.awt.Color(8, 18, 38));
+        container_notes.setLayout(null);
+
+        label_notes.setText("Notes");
+        label_notes.setFontSize(18.0F);
+        container_notes.add(label_notes);
+        label_notes.setBounds(0, 0, 99, 20);
+
+        area_notes.setBackground(new java.awt.Color(217, 217, 217));
+        area_notes.setRoundBottomLeft(10);
+        area_notes.setRoundBottomRight(10);
+        area_notes.setRoundTopLeft(10);
+        area_notes.setRoundTopRight(10);
+
+        input_notes.setBackground(new java.awt.Color(217, 217, 217));
+        input_notes.setForeground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout area_notesLayout = new javax.swing.GroupLayout(area_notes);
+        area_notes.setLayout(area_notesLayout);
+        area_notesLayout.setHorizontalGroup(
+            area_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(area_notesLayout.createSequentialGroup()
+                .addComponent(input_notes, javax.swing.GroupLayout.PREFERRED_SIZE, 860, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        area_notesLayout.setVerticalGroup(
+            area_notesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(area_notesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(input_notes, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        container_notes.add(area_notes);
+        area_notes.setBounds(0, 20, 860, 190);
+
+        main.add(container_notes);
+        container_notes.setBounds(50, 200, 860, 210);
 
         root.add(main);
 
@@ -1332,70 +1563,79 @@ public class AddCombo extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void input_characterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_characterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_input_characterActionPerformed
-
-    private int getCharacterId(Db db, String char_name) throws SQLException {
-        if (char_name == null || char_name.isEmpty()) {
-            throw new IllegalArgumentException("Character name cannot be null or empty.");
+    private boolean validateInput() {
+        if (input_name_move.getText() == ""
+                || input_damage.getText() == ""
+                || notation_list.size() == 0
+                || input_frame_start.getText() == ""
+                || input_hit_properties.getSelectedItem() == "Select Hit Properties") {
+            JOptionPane.showMessageDialog(this, "Please fill all the input field!");
+            return false;
         }
-        String q = "SELECT id FROM `character` WHERE `name` = ? LIMIT 1";
-        ResultSet res = db.executeQuery(q, char_name);
-        int char_id = -1;
-        if (res.next()) {
-            char_id = res.getInt("id");
-        }
-        return char_id;
+        return true;
     }
     private void saveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveMouseClicked
         // TODO add your handling code here:
-        String version = version_input.getText();
-        String character_name = input_character.getSelectedItem().toString();
-
-        if (version.equals("") || total_hits.equals("") || character_name.equals("Select character") || notation_list.size() == 0) {
-            JOptionPane.showMessageDialog(this, "Please fill all input !");
-            return;
-        }
-        Integer total_hits = 0;
-        Integer total_damage = 0;
-        try {
-            total_hits = Integer.parseInt(total_hits_input.getText());
-            total_damage = Integer.parseInt(total_damages_input.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Total hit or Total damage invalid (must a number) !");
-            return;
-        }
-
-        Db db = new Db();
-        String query = "INSERT INTO `my_combo` (user_id, character_id, notation, version, total_damage, total_hits, is_favorite, date_created) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try {
-            db.connect();
-            int character_id = getCharacterId(db, character_name);
-            LocalDateTime currentDateTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String now = currentDateTime.format(formatter);
-            if (character_id == -1) {
-                return;
-            }
-            int res = db.executeUpdate(query, Session.getId(), character_id, notation_list.toString(), version, total_damage, total_hits, 0, now);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to add data");
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to add data");
-        } finally {
-            try {
-                JOptionPane.showMessageDialog(this, "Add data successfully !");
-                resetInput();
-                db.disconnect();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Failed to add data");
+        if (validateInput()) {
+            HashMap data = new HashMap<>();
+            data.put("notation", notation_list.toString());
+            data.put("name_move", input_name_move.getText());
+            data.put("damage", input_damage.getText());
+            data.put("frame_startup", input_frame_start.getText());
+            data.put("hit_properties", input_hit_properties.getSelectedItem());
+            data.put("notes", input_notes.getText());
+            if (id == -1) {
+                insertData(data);
+            } else {
+                updateData(data);
             }
         }
     }//GEN-LAST:event_saveMouseClicked
+
+    private void guide_path1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path1MouseClicked
+        // TODO add your handling code here:
+        Guide guide = new Guide();
+        guide.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_guide_path1MouseClicked
+
+    private void guide_path1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_guide_path1MouseEntered
+        // TODO add your handling code here:
+        evt.getComponent().setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_guide_path1MouseEntered
+
+    private void input_hit_propertiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_hit_propertiesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_input_hit_propertiesActionPerformed
+
+    private void character_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_character_pathMouseEntered
+        // TODO add your handling code here:
+        evt.getComponent().setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }//GEN-LAST:event_character_pathMouseEntered
+
+    private void character_pathMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_character_pathMouseClicked
+        // TODO add your handling code here:
+        Character character;
+        try {
+            character = new Character(character_data);
+            character.setVisible(true);
+            this.dispose();
+        } catch (SQLException ex) {
+            System.out.println(ex.getCause());
+        }
+    }//GEN-LAST:event_character_pathMouseClicked
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        Character character;
+        try {
+            character = new Character(character_data);
+            character.setVisible(true);
+            this.dispose();
+        } catch (SQLException ex) {
+            System.out.println(ex.getCause());
+        }
+    }//GEN-LAST:event_backMouseClicked
 
     private void saveMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_saveMouseEntered
         // TODO add your handling code here:
@@ -1757,13 +1997,6 @@ public class AddCombo extends javax.swing.JFrame {
         delNotation();
     }// GEN-LAST:event_backspaceMouseClicked
 
-    private void backMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_backMouseClicked
-        // TODO add your handling code here:
-        MyCombo myCombo = new MyCombo();
-        myCombo.setVisible(true);
-        this.dispose();
-    }// GEN-LAST:event_backMouseClicked
-
     private void backMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_backMouseEntered
         // TODO add your handling code here:
         back.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -1782,16 +2015,9 @@ public class AddCombo extends javax.swing.JFrame {
 
     }// GEN-LAST:event_home_pathMouseClicked
 
-    private void add_comboMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_add_comboMouseClicked
-        // TODO add your handling code here:
-        MyCombo myCombo = new MyCombo();
-        myCombo.setVisible(true);
-        this.dispose();
-    }// GEN-LAST:event_add_comboMouseClicked
-
     private void add_comboMouseEntered(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_add_comboMouseEntered
         // TODO add your handling code here:
-        add_combo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        character_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }// GEN-LAST:event_add_comboMouseEntered
 
     private void btn_3MousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_btn_3MousePressed
@@ -2140,14 +2366,46 @@ public class AddCombo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageMovesheet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageMovesheet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageMovesheet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddCombo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageMovesheet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
+        // </editor-fold>
         // </editor-fold>
         // </editor-fold>
         // </editor-fold>
@@ -2184,19 +2442,24 @@ public class AddCombo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                if (Session.getId() == null) {
-                    Login login = new Login();
-                    login.setVisible(true);
-                } else {
-                    AddCombo addCombo = new AddCombo();
-                    addCombo.setVisible(true);
-                }
+//                if (Session.getId() == null) {
+//                    Login login = new Login();
+//                    login.setVisible(true);
+//                } else {
+//                    ManageMovesheet manage_movesheet = new ManageMovesheet();
+//                    manage_movesheet.setVisible(true);
+//                }
+                ManageMovesheet manage_movesheet = new ManageMovesheet();
+                manage_movesheet.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private utils.helper.RopaLabel add_combo;
+    private utils.helper.RoundedPanel area_damage;
+    private utils.helper.RoundedPanel area_frame_start;
+    private utils.helper.RoundedPanel area_name_move;
+    private utils.helper.RoundedPanel area_notes;
     private utils.helper.RoundedPanel back;
     private utils.helper.RoundedPanel backspace;
     private utils.helper.RopaLabel backspace_label;
@@ -2267,12 +2530,26 @@ public class AddCombo extends javax.swing.JFrame {
     private javax.swing.JLabel btn_wbo;
     private javax.swing.JLabel btn_wr;
     private javax.swing.JLabel btn_ws;
-    private javax.swing.JPanel character;
-    private utils.helper.RopaLabel character_label;
+    private utils.helper.RopaLabel character_path;
+    private javax.swing.JPanel container_damage;
+    private javax.swing.JPanel container_frame_start;
+    private javax.swing.JPanel container_hit_properties;
+    private javax.swing.JPanel container_name_move;
+    private javax.swing.JPanel container_notes;
     private utils.helper.RopaLabel guide_path1;
     private utils.helper.RopaLabel home_path;
-    private javax.swing.JComboBox<String> input_character;
+    private javax.swing.JTextField input_damage;
+    private javax.swing.JTextField input_frame_start;
+    private javax.swing.JComboBox<String> input_hit_properties;
+    private javax.swing.JTextField input_name_move;
+    private utils.helper.TextArea input_notes;
+    private utils.helper.RopaLabel label_damage;
+    private utils.helper.RopaLabel label_frame_start;
+    private utils.helper.RopaLabel label_hit_properties;
+    private utils.helper.RopaLabel label_name_move;
+    private utils.helper.RopaLabel label_notes;
     private javax.swing.JPanel main;
+    private utils.helper.RopaLabel manage_movesheet_path;
     private javax.swing.JPanel notation;
     private javax.swing.JPanel notation_data;
     private utils.helper.RoundedPanel notation_input;
@@ -2281,17 +2558,5 @@ public class AddCombo extends javax.swing.JFrame {
     private utils.helper.RopaLabel ropaLabel1;
     private utils.helper.RoundedPanel save;
     private utils.helper.RopaLabel save_label;
-    private javax.swing.JPanel total_damages;
-    private utils.helper.RoundedPanel total_damages_area;
-    private javax.swing.JTextField total_damages_input;
-    private utils.helper.RopaLabel total_damages_label;
-    private javax.swing.JPanel total_hits;
-    private utils.helper.RoundedPanel total_hits_area;
-    private javax.swing.JTextField total_hits_input;
-    private utils.helper.RopaLabel total_hits_label;
-    private javax.swing.JPanel version;
-    private utils.helper.RoundedPanel version_area;
-    private javax.swing.JTextField version_input;
-    private utils.helper.RopaLabel version_label;
     // End of variables declaration//GEN-END:variables
 }

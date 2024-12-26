@@ -261,7 +261,7 @@
             <Container class="utils.helper.RoundedPanel" name="myAccount">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="4d" green="1c" red="ca" type="rgb"/>
+                  <Color blue="39" green="1" red="93" type="rgb"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[280, 280]"/>
@@ -283,6 +283,9 @@
               <SubComponents>
                 <Component class="utils.helper.RopaLabel" name="ropaLabel3">
                   <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="99" green="99" red="99" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="My Account"/>
                     <Property name="fontSize" type="float" value="19.0"/>
                   </Properties>
@@ -361,7 +364,7 @@
             <Container class="utils.helper.RoundedPanel" name="guide">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="4d" green="1c" red="ca" type="rgb"/>
+                  <Color blue="39" green="1" red="93" type="rgb"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[280, 280]"/>
@@ -383,6 +386,9 @@
               <SubComponents>
                 <Component class="utils.helper.RopaLabel" name="ropaLabel5">
                   <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="99" green="99" red="99" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Guide"/>
                     <Property name="fontSize" type="float" value="19.0"/>
                   </Properties>
@@ -409,7 +415,7 @@
             <Container class="utils.helper.RoundedPanel" name="announcement">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="4d" green="1c" red="ca" type="rgb"/>
+                  <Color blue="39" green="1" red="93" type="rgb"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[280, 280]"/>
@@ -431,6 +437,9 @@
               <SubComponents>
                 <Component class="utils.helper.RopaLabel" name="ropaLabel7">
                   <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="99" green="99" red="99" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Announcement"/>
                     <Property name="fontSize" type="float" value="19.0"/>
                   </Properties>
@@ -457,7 +466,7 @@
             <Container class="utils.helper.RoundedPanel" name="feedback">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="4d" green="1c" red="ca" type="rgb"/>
+                  <Color blue="39" green="1" red="93" type="rgb"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[280, 280]"/>
@@ -479,6 +488,9 @@
               <SubComponents>
                 <Component class="utils.helper.RopaLabel" name="ropaLabel8">
                   <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="99" green="99" red="99" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Feedback"/>
                     <Property name="fontSize" type="float" value="19.0"/>
                   </Properties>

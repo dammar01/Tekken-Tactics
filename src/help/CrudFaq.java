@@ -445,7 +445,7 @@ public class CrudFaq extends javax.swing.JFrame {
         area_contentLayout.setHorizontalGroup(
             area_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(area_contentLayout.createSequentialGroup()
-                .addComponent(input_content, javax.swing.GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE)
+                .addComponent(input_content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         area_contentLayout.setVerticalGroup(
