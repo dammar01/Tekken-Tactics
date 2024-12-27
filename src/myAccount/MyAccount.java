@@ -8,8 +8,11 @@ import editProfile.Edit_profile;
 import home.Home;
 import javax.swing.*;
 import java.awt.Cursor;
+import java.sql.SQLException;
 import myCombo.MyCombo;
+import utils.helper.Db;
 import utils.helper.Session;
+import java.sql.ResultSet;
 
 /**
  *
@@ -20,6 +23,39 @@ public class MyAccount extends javax.swing.JFrame {
     /**
      * Creates new form Home
      */
+    private void getFavoriteData() {
+        Db db = new Db();
+        try {
+            db.connect();
+            int user_id = Session.getId();
+            String q = "SELECT \n"
+                    + "    fc.id AS favorite_id,\n"
+                    + "    c.name AS character_name,\n"
+                    + "    cl.name_move\n"
+                    + "FROM \n"
+                    + "    favorite_combo fc\n"
+                    + "JOIN \n"
+                    + "    combo_list cl ON fc.combo_id = cl.id\n"
+                    + "JOIN \n"
+                    + "    character c ON cl.character_id = c.id\n"
+                    + "WHERE \n"
+                    + "    fc.user_id = :user_id\n"
+                    + "LIMIT 1;";
+            ResultSet res_combo = db.executeQuery(q, user_id);
+            while (res_combo.next()) {
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public MyAccount() {
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
@@ -43,23 +79,9 @@ public class MyAccount extends javax.swing.JFrame {
         ropaLabel5 = new utils.helper.RopaLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        roundedPanel1 = new utils.helper.RoundedPanel();
-        jLabel4 = new javax.swing.JLabel();
-        ropaLabel1 = new utils.helper.RopaLabel();
-        roundedPanel2 = new utils.helper.RoundedPanel();
-        jLabel5 = new javax.swing.JLabel();
-        ropaLabel2 = new utils.helper.RopaLabel();
-        roundedPanel3 = new utils.helper.RoundedPanel();
-        jLabel7 = new javax.swing.JLabel();
-        ropaLabel3 = new utils.helper.RopaLabel();
-        roundedPanel4 = new utils.helper.RoundedPanel();
-        jLabel8 = new javax.swing.JLabel();
-        ropaLabel4 = new utils.helper.RopaLabel();
         nickname = new utils.helper.RopaLabel();
         MyAccount_path = new utils.helper.RopaLabel();
         home_path = new utils.helper.RopaLabel();
-        ropaLabel7 = new utils.helper.RopaLabel();
-        ropaLabel8 = new utils.helper.RopaLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -98,7 +120,7 @@ public class MyAccount extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/My_account.png"))); // NOI18N
         myCombo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 110, 80));
 
-        main.add(myCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 440, 280, 150));
+        main.add(myCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 350, 280, 150));
 
         editProfile.setBackground(new java.awt.Color(123, 15, 58));
         editProfile.setPreferredSize(new java.awt.Dimension(280, 280));
@@ -128,158 +150,14 @@ public class MyAccount extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/edit_profile.png"))); // NOI18N
         editProfile.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
 
-        main.add(editProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 440, 290, 150));
+        main.add(editProfile, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 350, 290, 150));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/character/128x128/dragunov_circle.png"))); // NOI18N
-        main.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 40, -1, -1));
-
-        roundedPanel1.setBackground(new java.awt.Color(123, 15, 58));
-        roundedPanel1.setRoundBottomLeft(20);
-        roundedPanel1.setRoundBottomRight(20);
-        roundedPanel1.setRoundTopLeft(20);
-        roundedPanel1.setRoundTopRight(20);
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/tiny_drogunov(1).png"))); // NOI18N
-
-        ropaLabel1.setText("Dragunov");
-        ropaLabel1.setFontSize(20.0F);
-
-        javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
-        roundedPanel1.setLayout(roundedPanel1Layout);
-        roundedPanel1Layout.setHorizontalGroup(
-            roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(ropaLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(115, Short.MAX_VALUE))
-        );
-        roundedPanel1Layout.setVerticalGroup(
-            roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel1Layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addGroup(roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ropaLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        main.add(roundedPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, 290, 50));
-
-        roundedPanel2.setBackground(new java.awt.Color(123, 15, 58));
-        roundedPanel2.setRoundBottomLeft(20);
-        roundedPanel2.setRoundBottomRight(20);
-        roundedPanel2.setRoundTopLeft(20);
-        roundedPanel2.setRoundTopRight(20);
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/tiny_drogunov(1).png"))); // NOI18N
-
-        ropaLabel2.setText("Dragunov");
-        ropaLabel2.setFontSize(20.0F);
-
-        javax.swing.GroupLayout roundedPanel2Layout = new javax.swing.GroupLayout(roundedPanel2);
-        roundedPanel2.setLayout(roundedPanel2Layout);
-        roundedPanel2Layout.setHorizontalGroup(
-            roundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
-                .addComponent(ropaLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
-        );
-        roundedPanel2Layout.setVerticalGroup(
-            roundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(roundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ropaLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(roundedPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel5)))
-                .addContainerGap())
-        );
-
-        main.add(roundedPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 330, -1, -1));
-
-        roundedPanel3.setBackground(new java.awt.Color(123, 15, 58));
-        roundedPanel3.setRoundBottomLeft(20);
-        roundedPanel3.setRoundBottomRight(20);
-        roundedPanel3.setRoundTopLeft(20);
-        roundedPanel3.setRoundTopRight(20);
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/tiny_drogunov(1).png"))); // NOI18N
-
-        ropaLabel3.setText("General Combo (Multiple Launcher)");
-        ropaLabel3.setFontSize(14.0F);
-
-        javax.swing.GroupLayout roundedPanel3Layout = new javax.swing.GroupLayout(roundedPanel3);
-        roundedPanel3.setLayout(roundedPanel3Layout);
-        roundedPanel3Layout.setHorizontalGroup(
-            roundedPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(ropaLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
-        roundedPanel3Layout.setVerticalGroup(
-            roundedPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel3Layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addGroup(roundedPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel3Layout.createSequentialGroup()
-                        .addComponent(ropaLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))))
-        );
-
-        main.add(roundedPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 270, 290, -1));
-
-        roundedPanel4.setBackground(new java.awt.Color(123, 15, 58));
-        roundedPanel4.setRoundBottomLeft(20);
-        roundedPanel4.setRoundBottomRight(20);
-        roundedPanel4.setRoundTopLeft(20);
-        roundedPanel4.setRoundTopRight(20);
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icon/normal/tiny_drogunov(1).png"))); // NOI18N
-
-        ropaLabel4.setText("General Combo (Multiple Launcher)");
-        ropaLabel4.setFontSize(14.0F);
-
-        javax.swing.GroupLayout roundedPanel4Layout = new javax.swing.GroupLayout(roundedPanel4);
-        roundedPanel4.setLayout(roundedPanel4Layout);
-        roundedPanel4Layout.setHorizontalGroup(
-            roundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(ropaLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
-        roundedPanel4Layout.setVerticalGroup(
-            roundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel4Layout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addGroup(roundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel4Layout.createSequentialGroup()
-                        .addComponent(ropaLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(14, 14, 14))))
-        );
-
-        main.add(roundedPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 330, -1, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/character/128x128/profile.png"))); // NOI18N
+        main.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 100, -1, -1));
 
         nickname.setText("Nickname");
         nickname.setFontSize(23.0F);
-        main.add(nickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 180, -1, -1));
+        main.add(nickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, -1, -1));
 
         MyAccount_path.setText("/ My Account");
         MyAccount_path.setFontSize(20.0F);
@@ -304,14 +182,6 @@ public class MyAccount extends javax.swing.JFrame {
             }
         });
         main.add(home_path, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
-
-        ropaLabel7.setText("Favorite Combo");
-        ropaLabel7.setFontSize(22.0F);
-        main.add(ropaLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 230, -1, -1));
-
-        ropaLabel8.setText("Favorite Character");
-        ropaLabel8.setFontSize(22.0F);
-        main.add(ropaLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, -1, -1));
 
         jMenu2.setText("Account");
 
@@ -366,8 +236,8 @@ public class MyAccount extends javax.swing.JFrame {
         Edit_profile edit_profile = new Edit_profile();
         edit_profile.setVisible(true);
         this.dispose();
-                
-                
+
+
     }//GEN-LAST:event_editProfileMouseClicked
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -392,7 +262,7 @@ public class MyAccount extends javax.swing.JFrame {
 
     private void home_pathMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home_pathMouseEntered
         // TODO add your handling code here:
-         home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        home_path.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_home_pathMouseEntered
 
     private void editProfileMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editProfileMouseEntered
@@ -485,10 +355,6 @@ public class MyAccount extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
@@ -497,17 +363,7 @@ public class MyAccount extends javax.swing.JFrame {
     private javax.swing.JPanel main;
     private utils.helper.RoundedPanel myCombo;
     private utils.helper.RopaLabel nickname;
-    private utils.helper.RopaLabel ropaLabel1;
-    private utils.helper.RopaLabel ropaLabel2;
-    private utils.helper.RopaLabel ropaLabel3;
-    private utils.helper.RopaLabel ropaLabel4;
     private utils.helper.RopaLabel ropaLabel5;
     private utils.helper.RopaLabel ropaLabel6;
-    private utils.helper.RopaLabel ropaLabel7;
-    private utils.helper.RopaLabel ropaLabel8;
-    private utils.helper.RoundedPanel roundedPanel1;
-    private utils.helper.RoundedPanel roundedPanel2;
-    private utils.helper.RoundedPanel roundedPanel3;
-    private utils.helper.RoundedPanel roundedPanel4;
     // End of variables declaration//GEN-END:variables
 }
