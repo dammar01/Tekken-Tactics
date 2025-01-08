@@ -4,6 +4,7 @@
  */
 package home;
 
+import auth.Login;
 import combolist.ComboList;
 import guide.Guide;
 import help.Help;
@@ -11,6 +12,7 @@ import java.awt.Cursor;
 import javax.swing.*;
 import myAccount.MyAccount;
 import myCombo.MyCombo;
+import utils.helper.Session;
 
 /**
  *
@@ -290,7 +292,12 @@ public class Home extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Home().setVisible(true);
+                if (Session.getId() == null) {
+                    Login login = new Login();
+                    login.setVisible(true);
+                } else {
+                    new Home().setVisible(true);
+                }
             }
         });
     }

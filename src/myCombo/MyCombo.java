@@ -88,30 +88,31 @@ public class MyCombo extends javax.swing.JFrame {
         try {
             db.connect();
             String selectQuery = "SELECT \n"
-                    + "    `combo_list`.*, \n"
-                    + "    `favorite_combo`.`id` IS NOT NULL AS `is_favorite`, \n"
-                    + "    `user`.`username`, \n"
-                    + "    `character`.`name` AS `character_name`, \n"
-                    + "    `character`.`code` AS `character_code`\n"
+                    + "    cl.*, \n"
+                    + "    fc.id IS NOT NULL AS is_favorite,\n"
+                    + "    u.username, \n"
+                    + "    c.name AS character_name, \n"
+                    + "    c.code AS character_code\n"
                     + "FROM \n"
-                    + "    `combo_list`\n"
+                    + "    combo_list cl\n"
                     + "LEFT JOIN \n"
-                    + "    `favorite_combo` \n"
-                    + "    ON `combo_list`.`id` = `favorite_combo`.`combo_id` \n"
-                    + "    AND `favorite_combo`.`user_id` = ?\n"
+                    + "    favorite_combo fc \n"
+                    + "    ON cl.id = fc.combo_id \n"
+                    + "    AND fc.user_id = ? \n"
                     + "INNER JOIN \n"
-                    + "    `user` \n"
-                    + "    ON `combo_list`.`user_id` = `user`.`id`\n"
+                    + "    user u \n"
+                    + "    ON cl.user_id = u.id\n"
                     + "INNER JOIN \n"
-                    + "    `character` \n"
-                    + "    ON `combo_list`.`character_id` = `character`.`id`\n"
+                    + "    `character` c \n"
+                    + "    ON cl.character_id = c.id\n"
                     + "WHERE \n"
-                    + "    `combo_list`.`user_id` = ?\n"
-                    + "    AND `character`.`name` LIKE ?\n"
-                    + "    AND `combo_list`.`name_move` LIKE ?\n"
+                    + "    (cl.user_id = ?  \n"
+                    + "    OR fc.user_id = ?) \n"
+                    + "    AND c.name LIKE ? \n"
+                    + "    AND cl.name_move LIKE ? \n"
                     + "ORDER BY \n"
-                    + "    `combo_list`.`id`;";
-            ResultSet resultSet = db.executeQuery(selectQuery, user_id, user_id, character_name, name_move);
+                    + "    cl.id;";
+            ResultSet resultSet = db.executeQuery(selectQuery, user_id, user_id, user_id, character_name, name_move);
             while (resultSet.next()) {
                 total_data++;
                 MyComboData item = new MyComboData(
@@ -140,7 +141,7 @@ public class MyCombo extends javax.swing.JFrame {
             e.printStackTrace();
         } finally {
             try {
-                if (total_data == 0){
+                if (total_data == 0) {
                     JOptionPane.showMessageDialog(this, "Not found any data");
                 }
                 reloadPanel(combolist_data);

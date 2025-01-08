@@ -2442,15 +2442,15 @@ public class ManageMovesheet extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                if (Session.getId() == null) {
-//                    Login login = new Login();
-//                    login.setVisible(true);
-//                } else {
-//                    ManageMovesheet manage_movesheet = new ManageMovesheet();
-//                    manage_movesheet.setVisible(true);
-//                }
-                ManageMovesheet manage_movesheet = new ManageMovesheet();
-                manage_movesheet.setVisible(true);
+                if (Session.getId() == null) {
+                    Login login = new Login();
+                    login.setVisible(true);
+                } else {
+                    ManageMovesheet manage_movesheet = new ManageMovesheet();
+                    manage_movesheet.setVisible(true);
+                }
+//                ManageMovesheet manage_movesheet = new ManageMovesheet();
+//                manage_movesheet.setVisible(true);
             }
         });
     }
