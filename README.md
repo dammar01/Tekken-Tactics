@@ -50,8 +50,10 @@ Tekken Tactics is a Java-based desktop application designed to help Tekken enthu
 
 ## Installation
 
-1. Use NetBeans IDE to open and run the project.
-2. For database access, please contact me for further details.
+1. Clone the repository,
+2. Open and add project to your Netbeans IDE 21,
+3. Clean and build the project,
+4. Run the project.
 
 ## Contributions
 
