@@ -53,7 +53,10 @@ Tekken Tactics is a Java-based desktop application designed to help Tekken enthu
 1. Clone the repository,
 2. Open and add project to your Netbeans IDE 21,
 3. Clean and build the project,
-4. Run the project.
+4. Activate your database localhost,
+5. Create new database from your localhost, name it "tekken_tactics",
+6. Open database "tekken_tactics" and import the sql from [tekken_tactics.sql](./tekken_tactics.sql),
+7. Run the project.
 
 ## Contributions
 
